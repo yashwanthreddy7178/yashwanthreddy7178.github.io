@@ -1,41 +1,38 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+/**
+ * This script uses environment variables to safely configure email sending settings,
+ * protecting sensitive information like SMTP credentials.
+ */
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'yashwanthreddy7178@gmail.com';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+require 'vendor/autoload.php';
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = $_POST['subject'];
+$mail = new PHPMailer(true);
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $contact->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+try {
+    // SMTP server settings
+    $mail->isSMTP();
+    $mail->Host       = $_ENV['SMTP_HOST'];
+    $mail->SMTPAuth   = true;
+    $mail->Username   = $_ENV['SMTP_USER'];
+    $mail->Password   = $_ENV['SMTP_PASS'];
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = $_ENV['SMTP_PORT'];
 
-  $contact->add_message( $_POST['name'], 'From');
-  $contact->add_message( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['message'], 'Message', 10);
+    // Sender and recipient settings
+    $mail->setFrom($_POST['email'], $_POST['name']); // Ensure to sanitize these inputs
+    $mail->addAddress($_ENV['RECEIVING_EMAIL_ADDRESS']); // Ensure this is a valid email address
 
-  echo $contact->send();
+    // Email content
+    $mail->isHTML(true); // Set email format to HTML
+    $mail->Subject = $_POST['subject']; // Ensure to sanitize this input
+    $mail->Body    = $_POST['message']; // Ensure to sanitize this input
+
+    $mail->send();
+    echo 'Message has been sent';
+} catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
 ?>
