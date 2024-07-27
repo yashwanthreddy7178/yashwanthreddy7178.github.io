@@ -1,0 +1,38 @@
+name: PHP Application Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4' # or the PHP version you are using
+
+    - name: Install dependencies
+      run: composer install
+
+    - name: Run PHP application
+      env:
+        SMTP_USER: ${{ secrets.SMTP_USER }}
+        SMTP_PASS: ${{ secrets.SMTP_PASS }}
+        RECEIVING_EMAIL_ADDRESS: ${{ secrets.RECEIVING_EMAIL_ADDRESS }}
+      run: php path_to_your_script.php # Update this path to your script
+
+    - name: Verify contact form
+      run: php path_to_your_contact_form_script.php # Update this path to your contact form script
+      env:
+        SMTP_USER: ${{ secrets.SMTP_USER }}
+        SMTP_PASS: ${{ secrets.SMTP_PASS }}
+        RECEIVING_EMAIL_ADDRESS: ${{ secrets.RECEIVING_EMAIL_ADDRESS }}

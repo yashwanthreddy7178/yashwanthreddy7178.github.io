@@ -1,30 +1,32 @@
 <?php
-$name = $_POST["name"];
-$email = $_POST["email"];
-$subject = $_POST["subject"];
-$message = $_POST["message"];
 
-/**
- * Protecting sensitive information like SMTP credentials.
- */
-
-require 'vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Dotenv\Dotenv;
 
+require_once __DIR__ . '/../vendor/autoload.php';
 
+require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/Exception.php';
+require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/SMTP.php';
 
+// Load environment variables
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
+// passing true in constructor enables exceptions in PHPMailer
 $mail = new PHPMailer(true);
 
 try {
-    // SMTP server settings
+    // Server settings
+    $mail->SMTPDebug = 0; // for detailed debug output
     $mail->isSMTP();
-    $mail->SMTPAuth   = true;
-    $mail->Host       = $_ENV['SMTP_HOST'];
-    $mail->Username   = $_ENV['SMTP_USER'];
-    $mail->Password   = $_ENV['SMTP_PASS'];
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port       = 587;
+    $mail->Port = 587;
+    $mail->Username = getenv('SMTP_USER');
+    $mail->Password = getenv('SMTP_PASS');
 
     // Sanitize inputs
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
@@ -33,8 +35,9 @@ try {
     $message = htmlspecialchars($_POST['message'], ENT_QUOTES, 'UTF-8');
 
     // Sender and recipient settings
-    $mail->setFrom($email, $name);
-    $mail->addAddress($_ENV['RECEIVING_EMAIL_ADDRESS']); // Ensure this is a valid email address
+    $mail->setFrom(getenv('SMTP_USER'), 'Your Website'); // Use your SMTP email here
+    $mail->addReplyTo($email, $name); // Set the user's email as the reply-to address
+    $mail->addAddress(getenv('RECEIVING_EMAIL_ADDRESS'), 'yashwanth'); // Ensure this is a valid email address
 
     // Email content
     $mail->isHTML(true); // Set email format to HTML
@@ -44,7 +47,5 @@ try {
     $mail->send();
     echo 'Message has been sent';
 } catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    echo 'Message could not be sent. Mailer Error: ' . $mail->ErrorInfo;
 }
-?>
-?>
