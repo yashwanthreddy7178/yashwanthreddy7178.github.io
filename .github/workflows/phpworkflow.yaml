@@ -28,11 +28,4 @@ jobs:
         SMTP_USER: ${{ secrets.SMTP_USER }}
         SMTP_PASS: ${{ secrets.SMTP_PASS }}
         RECEIVING_EMAIL_ADDRESS: ${{ secrets.RECEIVING_EMAIL_ADDRESS }}
-      run: php path_to_your_script.php # Update this path to your script
-
-    - name: Verify contact form
-      run: php path_to_your_contact_form_script.php # Update this path to your contact form script
-      env:
-        SMTP_USER: ${{ secrets.SMTP_USER }}
-        SMTP_PASS: ${{ secrets.SMTP_PASS }}
-        RECEIVING_EMAIL_ADDRESS: ${{ secrets.RECEIVING_EMAIL_ADDRESS }}
+      run: php forms/contact.php # Update this path to your script
