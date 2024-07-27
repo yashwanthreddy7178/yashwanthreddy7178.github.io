@@ -11,8 +11,8 @@ require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/SMTP.php';
 
 // Load environment variables
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+// $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+// $dotenv->load();
 
 // passing true in constructor enables exceptions in PHPMailer
 $mail = new PHPMailer(true);
