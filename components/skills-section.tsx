@@ -52,13 +52,13 @@ export default function SkillsSection() {
                     <TabsTrigger value="development">Development</TabsTrigger>
                   </TabsList>
                   <TabsContent value="overview" className="pt-2">
-                    <div className="flex flex-col items-center justify-center lg:flex-row">
+                    <div className="flex flex-col items-center justify-center space-y-8 lg:flex-row lg:space-x-8 lg:space-y-0">
                       <div className="w-full lg:w-1/2">
                         <SkillsRadarChart />
                       </div>
-                      <div className="mt-8 w-full lg:mt-0 lg:w-1/2">
+                      <div className="w-full lg:w-1/2">
                         <h3 className="mb-6 text-xl font-bold">Core Competencies</h3>
-                        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3">
+                        <div className="grid gap-4 sm:grid-cols-2">
                           <SkillItem
                             name="Data Science & Analysis"
                             logo={

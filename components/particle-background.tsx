@@ -1,7 +1,7 @@
 "use client"
 
-import { useCallback, useEffect, useRef } from "react"
 import { useTheme } from "next-themes"
+import { useCallback, useEffect, useRef } from "react"
 
 interface Particle {
   x: number
@@ -16,7 +16,7 @@ interface ParticleBackgroundProps {
   intensity?: "high" | "medium" | "low"
 }
 
-export default function ParticleBackground({ intensity = "medium" }: ParticleBackgroundProps) {
+export default function ParticleBackground({ intensity = "high" }: ParticleBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { theme } = useTheme()
   const particlesRef = useRef<Particle[]>([])

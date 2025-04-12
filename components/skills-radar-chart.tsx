@@ -1,17 +1,18 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { useTheme } from "next-themes"
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from "recharts"
 import { useMediaQuery } from "@/hooks/use-media-query"
+import { useTheme } from "next-themes"
+import { useEffect, useState } from "react"
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer } from "recharts"
 
 const skillsData = [
   { subject: "Data Science", A: 90 },
-  { subject: "Data Engineering", A: 85 },
-  { subject: "MLOps", A: 80 },
+  
+  { subject: ".       MLOps", A: 80 },
   { subject: "AI/ML", A: 85 },
+  { subject: "Data Engineering", A: 85 },
   { subject: "DevOps", A: 80 },
-  { subject: "Development", A: 60 },
+  { subject: "Development", A: 75 },
 ]
 
 export function SkillsRadarChart() {
@@ -24,17 +25,26 @@ export function SkillsRadarChart() {
   }, [theme])
 
   return (
-    <div className="h-[350px] w-full">
+    <div className="h-[450px] w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <RadarChart cx="50%" cy="50%" outerRadius={isMobile ? "70%" : "80%"} data={skillsData}>
+        <RadarChart 
+          cx="50%" 
+          cy="45%" 
+          outerRadius={isMobile ? "65%" : "75%"} 
+          data={skillsData}
+          margin={{ top: 20, right: 30, bottom: 60, left: 30 }}
+        >
           <PolarGrid stroke={theme === "dark" ? "#444" : "#ddd"} />
           <PolarAngleAxis
             dataKey="subject"
             tick={{
               fill: theme === "dark" ? "#ccc" : "#333",
-              fontSize: isMobile ? 10 : 12,
-              dy: isMobile ? 3 : 0,
+              fontSize: isMobile ? 11 : 13,
             }}
+            tickFormatter={(value) => `${value}`}
+            tickLine={false}
+            axisLine={false}
+            dy={16}
           />
           <PolarRadiusAxis
             angle={30}
