@@ -1,10 +1,10 @@
 "use client"
+import ParticleBackground from "@/components/particle-background"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { useScrollToSection } from "@/hooks/use-scroll-to-section"
 import { motion } from "framer-motion"
 import { ArrowRight, Code, Database, Download, LineChart } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import ParticleBackground from "@/components/particle-background"
-import { useScrollToSection } from "@/hooks/use-scroll-to-section"
 
 export default function HeroSection() {
   const scrollToSection = useScrollToSection()
@@ -80,7 +80,7 @@ export default function HeroSection() {
               <div className="mb-1 flex items-center justify-center">
                 <Database className="mr-2 h-5 w-5 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold">1.5+</h3>
+              <h3 className="text-2xl font-bold">2+</h3>
               <p className="text-sm text-muted-foreground">Years Experience</p>
             </div>
             <div className="text-center">

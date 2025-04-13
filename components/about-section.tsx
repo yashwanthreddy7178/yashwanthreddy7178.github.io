@@ -1,11 +1,11 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import Image from "next/image"
-import { Timeline } from "@/components/timeline"
 import ParticleBackground from "@/components/particle-background"
+import { Timeline } from "@/components/timeline"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { motion } from "framer-motion"
+import Image from "next/image"
 
 export default function AboutSection() {
   return (
@@ -25,7 +25,7 @@ export default function AboutSection() {
             </Badge>
             <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">My Journey</h2>
             <p className="mx-auto max-w-2xl text-muted-foreground">
-              From technical support to full-stack data development, my path has been driven by a passion for solving
+              From Electrical Engineer to full-stack data development, my path has been driven by a passion for solving
               complex problems with data and code.
             </p>
           </motion.div>
@@ -41,7 +41,7 @@ export default function AboutSection() {
                 <CardContent className="p-0">
                   <div className="aspect-square w-full overflow-hidden">
                     <Image
-                      src="/placeholder.svg?height=600&width=600"
+                      src="/images/profile.jpg"
                       alt="Yashwanth Reddy Boddireddy"
                       width={600}
                       height={600}
@@ -62,18 +62,13 @@ export default function AboutSection() {
               <h3 className="mb-4 text-2xl font-bold">Yashwanth Reddy Boddireddy</h3>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  Starting in technical support, I discovered my passion for solving complex problems and working with
-                  data. This led me to pursue development skills, focusing on the intersection of data science and
-                  full-stack development.
+                  At the intersection of AI innovation and data science, I transform complex problems into impactful solutions that drive measurable business outcomes.
                 </p>
                 <p>
-                  Over the past 1.5 years, I've dedicated myself to mastering both frontend and backend technologies,
-                  with a special focus on data visualization, analysis, and building interactive applications that make
-                  data accessible and actionable.
+                  Software Engineer specializing in AI applications and machine learning, helping organizations leverage data for competitive advantage. With experience at Accenture and Headstarter AI, I focus on developing intelligent systems that enhance user experiences.
                 </p>
                 <p>
-                  My unique background gives me a holistic perspective on technical challenges, allowing me to bridge
-                  the gap between user needs and technical implementation.
+                  I combine technical expertise with business acumen, following a systematic approach: understanding requirements, designing data-driven architectures, and implementing scalable solutions with measurable results.
                 </p>
               </div>
             </motion.div>

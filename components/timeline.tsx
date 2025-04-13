@@ -1,9 +1,9 @@
 "use client"
 
-import type React from "react"
-import { motion } from "framer-motion"
-import { CheckCircle2, Code, Database, Headphones, LineChart, Rocket } from "lucide-react"
 import ParticleBackground from "@/components/particle-background"
+import { motion } from "framer-motion"
+import { CheckCircle2, GraduationCap, Rocket, Shield } from "lucide-react"
+import type React from "react"
 
 interface TimelineItem {
   date: string
@@ -15,44 +15,35 @@ interface TimelineItem {
 
 const timelineData: TimelineItem[] = [
   {
-    date: "2021",
-    title: "Technical Support Specialist",
-    description:
-      "Started my career providing technical support, troubleshooting complex issues and developing a deep understanding of user needs.",
-    icon: <Headphones className="h-6 w-6" />,
-    skills: ["Problem Solving", "Customer Support", "Technical Documentation"],
+    date: "Expected May 2025",
+    title: "Master of Science in Data Science, Statistics @ New Jersey Institute of Technology (NJIT), Newark, NJ",
+    description: `<ul">
+    </ul>`,
+    icon: <GraduationCap className="h-6 w-6" />,
+    skills: ["Data Science", "Statistics", "Machine Learning", "Deep Learning", "Software Engineering"],
   },
   {
-    date: "2022",
-    title: "Data Analysis Journey",
-    description:
-      "Began learning data analysis tools and techniques, applying them to support tickets to identify patterns and improve service.",
-    icon: <LineChart className="h-6 w-6" />,
-    skills: ["SQL", "Excel", "Data Visualization", "Python Basics"],
-  },
-  {
-    date: "2022-2023",
-    title: "Frontend Development",
-    description:
-      "Expanded my skills to include frontend development, focusing on creating intuitive interfaces for data presentation.",
-    icon: <Code className="h-6 w-6" />,
-    skills: ["HTML/CSS", "JavaScript", "React", "Data Visualization Libraries"],
-  },
-  {
-    date: "2023",
-    title: "Backend & Database Skills",
-    description:
-      "Developed backend skills to create complete applications, with a focus on efficient data processing and storage.",
-    icon: <Database className="h-6 w-6" />,
-    skills: ["Node.js", "Express", "MongoDB", "PostgreSQL", "API Development"],
-  },
-  {
-    date: "Present",
-    title: "Full-Stack Data Developer",
-    description:
-      "Currently working as a full-stack developer with a specialization in data-driven applications and visualizations.",
+    date: "07/2024 – 09/2024",
+    title: "Software Engineering Fellow @ Headstarter AI",
+    description: `<ul class="list-disc pl-4 space-y-1">
+      <li>Built 5+ AI apps and APIs using NextJS, OpenAI, Pinecone and Stripe API</li>
+      <li>Successfully led 4+ engineering fellows to deliver projects from design to deployment</li>
+      <li>Enhanced team productivity through effective leadership and collaboration</li>
+    </ul>`,
     icon: <Rocket className="h-6 w-6" />,
-    skills: ["Full-Stack Development", "Data Science", "Cloud Services", "CI/CD"],
+    skills: ["NextJS", "OpenAI", "Pinecone", "Stripe API", "Team Leadership"],
+  },
+  {
+    date: "01/2022 – 09/2023",
+    title: "Associate Software Engineer @ Accenture",
+    description: `<ul class="list-disc pl-4 space-y-1">
+      <li>Utilized Regular Expressions and Google's internal tools to improve Gemini's response quality by 80%</li>
+      <li>Blocked inappropriate content through advanced content moderation techniques</li>
+      <li>Achieved 95% reduction in undesirable content</li>
+      <li>Enhanced user experience and platform integrity through systematic improvements</li>
+    </ul>`,
+    icon: <Shield className="h-6 w-6" />,
+    skills: ["Regular Expressions", "Content Moderation", "Quality Improvement", "User Experience"],
   },
 ]
 
@@ -84,7 +75,7 @@ export function Timeline() {
             {/* Content */}
             <div
               className={`ml-12 w-full md:ml-0 md:w-[calc(50%-2rem)] ${
-                index % 2 === 0 ? "md:mr-8 md:text-right" : "md:ml-8"
+                index % 2 === 0 ? "md:mr-8" : "md:ml-8"
               }`}
             >
               <div className="rounded-lg border bg-card/90 backdrop-blur-sm p-4 shadow-sm">
@@ -92,7 +83,9 @@ export function Timeline() {
                   {item.date}
                 </span>
                 <h4 className="mt-2 text-lg font-bold">{item.title}</h4>
-                <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>
+                <div className="mt-2 text-sm text-muted-foreground prose prose-sm max-w-none"
+                  dangerouslySetInnerHTML={{ __html: item.description }}
+                ></div>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {item.skills.map((skill, skillIndex) => (
                     <div key={skillIndex} className="flex items-center text-xs text-muted-foreground">
