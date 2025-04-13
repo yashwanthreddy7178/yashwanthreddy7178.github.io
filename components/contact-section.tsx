@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { motion } from "framer-motion"
-import { Calendar, Github, Linkedin, Mail } from "lucide-react"
+import { Calendar, Github, Linkedin, Mail, Twitter } from "lucide-react"
 import { useRef, useState } from "react"
 
 export default function ContactSection() {
@@ -89,10 +89,10 @@ export default function ContactSection() {
                     <div>
                       <p className="text-sm font-medium">Email</p>
                       <a
-                        href="mailto:hello@example.com"
+                        href="mailto:yashwanthreddy7178@gmail.com"
                         className="text-sm text-muted-foreground hover:text-primary transition-colors"
                       >
-                        hello@example.com
+                        yashwanthreddy7178@gmail.com
                       </a>
                     </div>
                   </div>
@@ -112,21 +112,21 @@ export default function ContactSection() {
                     <p className="mb-4 text-sm font-medium">Connect with me</p>
                     <div className="flex gap-4">
                       <Button variant="outline" size="icon" asChild>
-                        <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                        <a href="https://github.com/yashwanthreddy7178" target="_blank" rel="noopener noreferrer">
                           <Github className="h-4 w-4" />
                           <span className="sr-only">GitHub</span>
                         </a>
                       </Button>
                       <Button variant="outline" size="icon" asChild>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.linkedin.com/in/yashwanth-reddy-boddireddy" target="_blank" rel="noopener noreferrer">
                           <Linkedin className="h-4 w-4" />
                           <span className="sr-only">LinkedIn</span>
                         </a>
                       </Button>
                       <Button variant="outline" size="icon" asChild>
-                        <a href="mailto:hello@example.com">
-                          <Mail className="h-4 w-4" />
-                          <span className="sr-only">Email</span>
+                        <a href="https://twitter.com/yashwanth9100">
+                          <Twitter className="h-4 w-4" />
+                          <span className="sr-only">Twitter</span>
                         </a>
                       </Button>
                     </div>

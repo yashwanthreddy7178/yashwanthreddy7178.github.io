@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react"
-import { motion } from "framer-motion"
+import { DashboardDemo } from "@/components/dashboard-demo"
+import ParticleBackground from "@/components/particle-background"
+import { ProjectCard } from "@/components/project-card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ProjectCard } from "@/components/project-card"
-import { DashboardDemo } from "@/components/dashboard-demo"
-import ParticleBackground from "@/components/particle-background"
+import { motion } from "framer-motion"
+import { useState } from "react"
 
 export default function ProjectsSection() {
   const [activeTab, setActiveTab] = useState("all")
@@ -106,6 +106,33 @@ export default function ProjectsSection() {
                     githubUrl="#"
                     category="dashboard"
                   />
+                  <ProjectCard
+                    title="AI Mock Interviewer"
+                    description="Next.js-based AI Interviewer using GPT-4 with speech recognition and analytics dashboard for interview performance tracking."
+                    tags={["Next.js", "OpenAI GPT-4", "Speech Recognition", "Analytics"]}
+                    image="/placeholder.svg?height=400&width=600"
+                    demoUrl="#"
+                    githubUrl="#"
+                    category="fullstack"
+                  />
+                  <ProjectCard
+                    title="T20 World Cup Cricket Analytics"
+                    description="Power BI dashboard for T20 player selection with 90% match-winning probability using data-driven analysis."
+                    tags={["Power BI", "Python", "Pandas", "Data Analysis"]}
+                    image="/placeholder.svg?height=400&width=600"
+                    demoUrl="#"
+                    githubUrl="#"
+                    category="data"
+                  />
+                  <ProjectCard
+                    title="Wine Quality Prediction"
+                    description="MLOps-based wine quality prediction system with 97% accuracy, featuring MLflow integration and AWS deployment."
+                    tags={["MLOps", "MLflow", "AWS", "CI/CD"]}
+                    image="/placeholder.svg?height=400&width=600"
+                    demoUrl="#"
+                    githubUrl="#"
+                    category="data"
+                  />
                 </div>
                 <div className="flex justify-center">
                   <Button variant="outline" size="lg">
@@ -158,6 +185,15 @@ export default function ProjectsSection() {
                     githubUrl="#"
                     category="fullstack"
                   />
+                  <ProjectCard
+                    title="AI Mock Interviewer"
+                    description="Next.js-based AI Interviewer using GPT-4 with speech recognition and analytics dashboard for interview performance tracking."
+                    tags={["Next.js", "OpenAI GPT-4", "Speech Recognition", "Analytics"]}
+                    image="/placeholder.svg?height=400&width=600"
+                    demoUrl="#"
+                    githubUrl="#"
+                    category="fullstack"
+                  />
                 </div>
               </TabsContent>
 
@@ -176,6 +212,24 @@ export default function ProjectsSection() {
                     title="Customer Segmentation Tool"
                     description="Data analysis tool that segments customers based on purchasing behavior and demographics."
                     tags={["Python", "Clustering", "Tableau", "SQL"]}
+                    image="/placeholder.svg?height=400&width=600"
+                    demoUrl="#"
+                    githubUrl="#"
+                    category="data"
+                  />
+                  <ProjectCard
+                    title="T20 World Cup Cricket Analytics"
+                    description="Power BI dashboard for T20 player selection with 90% match-winning probability using data-driven analysis."
+                    tags={["Power BI", "Python", "Pandas", "Data Analysis"]}
+                    image="/placeholder.svg?height=400&width=600"
+                    demoUrl="#"
+                    githubUrl="#"
+                    category="data"
+                  />
+                  <ProjectCard
+                    title="Wine Quality Prediction"
+                    description="MLOps-based wine quality prediction system with 97% accuracy, featuring MLflow integration and AWS deployment."
+                    tags={["MLOps", "MLflow", "AWS", "CI/CD"]}
                     image="/placeholder.svg?height=400&width=600"
                     demoUrl="#"
                     githubUrl="#"
