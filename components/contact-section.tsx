@@ -20,36 +20,26 @@ export default function ContactSection() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    const formData = new FormData(e.currentTarget)
-    const data = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      message: formData.get("message"),
-    }
-
     try {
-      const response = await fetch("/api/contact", {
+      const formData = new FormData(e.currentTarget)
+      const response = await fetch("https://formspree.io/f/mblookpq", {
         method: "POST",
+        body: formData,
         headers: {
-          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify(data),
       })
 
       const result = await response.json()
 
-      if (result.success) {
+      if (response.ok) {
         toast({
           title: "Message sent!",
-          description: result.message,
+          description: "Thank you for your message. I'll get back to you soon.",
         })
         formRef.current?.reset()
       } else {
-        toast({
-          title: "Error",
-          description: result.message,
-          variant: "destructive",
-        })
+        throw new Error(result.error)
       }
     } catch (error) {
       toast({
