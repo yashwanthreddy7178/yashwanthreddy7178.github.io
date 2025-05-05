@@ -1,6 +1,5 @@
 "use client"
 
-import { submitContactForm } from "@/actions/contact-form"
 import ParticleBackground from "@/components/particle-background"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -17,11 +16,27 @@ export default function ContactSection() {
   const formRef = useRef<HTMLFormElement>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
     setIsSubmitting(true)
 
+    const formData = new FormData(e.currentTarget)
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+    }
+
     try {
-      const result = await submitContactForm(formData)
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+
+      const result = await response.json()
 
       if (result.success) {
         toast({
@@ -149,7 +164,7 @@ export default function ContactSection() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <form ref={formRef} action={handleSubmit} className="space-y-4">
+                  <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
                       <label
                         htmlFor="name"
