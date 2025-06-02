@@ -23,6 +23,21 @@ const timelineData: TimelineItem[] = [
     skills: ["Data Science", "Statistics", "Machine Learning", "Deep Learning", "Software Engineering"],
   },
   {
+    date: "07/2024 – Present",
+    title: "Web Resource Data Scientist @ VMware",
+    description: `<ul class="list-disc pl-4 space-y-1">
+      <li>Partnered with product and engineering teams to identify and frame 10+ high-impact business problems across SaaS product telemetry and cloud infrastructure, leading to a 15% improvement in customer retention via targeted insights</li>
+      <li>Designed and automated data pipelines using PySpark and SQL to ingest and process ~3 TB of telemetry and log data daily from VMware's vSphere and NSX platforms, reducing data availability latency from 12 hours to under 2 hours</li>
+      <li>Built and deployed machine learning models (e.g., random forest, logistic regression, anomaly detection) to predict VM resource exhaustion and detect anomalous user behavior, increasing proactive alert accuracy by 28%</li>
+      <li>Engineered 100+ features from product usage logs, cloud performance metrics, and customer support data, and conducted hyperparameter tuning using MLflow and Optuna to improve F1-score by 22% across models</li>
+      <li>Delivered containerized ML inference services (Flask + Docker) deployed via Jenkins and Kubernetes, reducing model deployment cycles from 5 days to under 1 day and enabling real-time scoring for 50K+ daily API calls</li>
+      <li>Monitored deployed models for concept drift and performance decay using Grafana and Prometheus dashboards; retrained models monthly using scheduled Airflow workflows, maintaining <5% prediction error across quarters</li>
+      <li>Created interactive dashboards and reports in Tableau and Power BI to visualize model predictions and business KPIs, which were used weekly by senior leadership to guide roadmap and operational decisions</li>
+    </ul>`,
+    icon: <Rocket className="h-6 w-6" />,
+    skills: ["PySpark", "SQL", "Machine Learning", "Docker", "Kubernetes", "MLflow", "Airflow", "Tableau", "Power BI"],
+  },
+  {
     date: "07/2024 – 09/2024",
     title: "Software Engineering Fellow @ Headstarter AI",
     description: `<ul class="list-disc pl-4 space-y-1">
@@ -34,16 +49,19 @@ const timelineData: TimelineItem[] = [
     skills: ["NextJS", "OpenAI", "Pinecone", "Stripe API", "Team Leadership"],
   },
   {
-    date: "01/2022 – 09/2023",
-    title: "Associate Software Engineer @ Accenture",
+    date: "10/2021 – 08/2023",
+    title: "Sr. Data Scientist @ Accenture",
     description: `<ul class="list-disc pl-4 space-y-1">
-      <li>Utilized Regular Expressions and Google's internal tools to improve Gemini's response quality by 80%</li>
-      <li>Blocked inappropriate content through advanced content moderation techniques</li>
-      <li>Achieved 95% reduction in undesirable content</li>
-      <li>Enhanced user experience and platform integrity through systematic improvements</li>
+      <li>Led a cross-functional initiative to design and launch a recommendation engine for personalized content across HBO Max, resulting in a 19% increase in average user session duration and a 12% boost in monthly active users (MAU) within the first quarter of deployment</li>
+      <li>Architected and deployed a real-time churn prediction system using ensemble models (LightGBM, XGBoost) on a Spark-based pipeline, enabling targeted retention campaigns that reduced churn by 8.5% YoY in key demographic segments</li>
+      <li>Directed the end-to-end experimentation pipeline, including A/B testing frameworks and causal inference techniques (e.g., uplift modeling, propensity scoring), to evaluate content previews and marketing placements across digital platforms — increasing click-through rates by 2%</li>
+      <li>Managed large-scale data acquisition and enrichment pipelines using Airflow and AWS Glue to process over 5 TB of daily user interaction logs, integrating data from third-party ad platforms, streaming analytics, and CRM tools for unified audience profiling</li>
+      <li>Developed NLP-based models (topic modeling, sentiment analysis) on viewer feedback and closed-caption text to inform editorial decisions and improve trailer targeting, contributing to a 30% lift in trailer-to-watch conversion for new releases</li>
+      <li>Collaborated with product, engineering, and data governance teams to define data standards and deploy modular, reusable ML components using Databricks and MLflow, cutting model delivery timelines by 30% across business units</li>
+      <li>Mentored a team of 3 junior data scientists and analysts, conducting regular peer code reviews, technical deep dives, and knowledge-sharing sessions to elevate team productivity and ensure reproducibility and scalability in deployed solutions</li>
     </ul>`,
     icon: <Shield className="h-6 w-6" />,
-    skills: ["Regular Expressions", "Content Moderation", "Quality Improvement", "User Experience"],
+    skills: ["Machine Learning", "Spark", "AWS", "NLP", "Databricks", "MLflow", "Team Leadership", "A/B Testing"],
   },
 ]
 

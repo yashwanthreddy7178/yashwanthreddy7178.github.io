@@ -9,7 +9,7 @@ import Image from "next/image"
 
 export default function AboutSection() {
   return (
-    <section id="about" className="relative w-full bg-muted/30 py-20">
+    <section id="about" className="relative w-full bg-muted/30 py-12 sm:py-20">
       <ParticleBackground />
       <div className="container relative z-10 px-4">
         <div className="mx-auto max-w-4xl">
@@ -18,13 +18,13 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="mb-12 text-center"
+            className="mb-8 sm:mb-12 text-center"
           >
-            <Badge variant="outline" className="mb-2 border-primary/20 px-4 py-1 text-sm font-medium text-primary">
+            <Badge variant="outline" className="mb-2 border-primary/20 px-3 sm:px-4 py-1 text-sm font-medium text-primary">
               About Me
             </Badge>
-            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">My Journey</h2>
-            <p className="mx-auto max-w-2xl text-muted-foreground">
+            <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">My Journey</h2>
+            <p className="mx-auto max-w-2xl text-sm sm:text-base text-muted-foreground">
               From Electrical Engineer to full-stack data development, my path has been driven by a passion for solving
               complex problems with data and code.
             </p>
@@ -74,16 +74,9 @@ export default function AboutSection() {
             </motion.div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="mt-16"
-          >
-            <h3 className="mb-8 text-center text-2xl font-bold">Professional Timeline</h3>
+          <div className="mt-8 sm:mt-12">
             <Timeline />
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

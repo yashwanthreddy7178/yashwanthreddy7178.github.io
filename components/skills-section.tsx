@@ -15,7 +15,7 @@ export default function SkillsSection() {
   const isMobile = useMediaQuery("(max-width: 640px)")
 
   return (
-    <section id="skills" className="relative w-full py-20">
+    <section id="skills" className="relative w-full py-12 sm:py-20">
       <ParticleBackground />
       <div className="container relative z-10 px-4">
         <div className="mx-auto max-w-4xl">
@@ -24,13 +24,13 @@ export default function SkillsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="mb-12 text-center"
+            className="mb-8 sm:mb-12 text-center"
           >
-            <Badge variant="outline" className="mb-2 border-primary/20 px-4 py-1 text-sm font-medium text-primary">
+            <Badge variant="outline" className="mb-2 border-primary/20 px-3 sm:px-4 py-1 text-sm font-medium text-primary">
               Skills & Expertise
             </Badge>
-            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Technical Proficiency</h2>
-            <p className="mx-auto max-w-2xl text-muted-foreground">
+            <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Technical Proficiency</h2>
+            <p className="mx-auto max-w-2xl text-sm sm:text-base text-muted-foreground">
               A comprehensive overview of my technical skills in data science, engineering, MLOps, and development
               technologies.
             </p>
@@ -45,20 +45,20 @@ export default function SkillsSection() {
             <Card>
               <CardContent className="p-4 sm:p-6">
                 <Tabs defaultValue="overview" className="w-full">
-                  <TabsList className="mb-6 grid w-full grid-cols-2 sm:grid-cols-4">
+                  <TabsList className="mb-4 sm:mb-6 grid w-full grid-cols-2 sm:grid-cols-4">
                     <TabsTrigger value="overview">Overview</TabsTrigger>
                     <TabsTrigger value="data">Data Science</TabsTrigger>
                     <TabsTrigger value="devops">DevOps</TabsTrigger>
                     <TabsTrigger value="development">Development</TabsTrigger>
                   </TabsList>
                   <TabsContent value="overview" className="pt-2">
-                    <div className="flex flex-col items-center justify-center space-y-8 lg:flex-row lg:space-x-8 lg:space-y-0">
+                    <div className="flex flex-col items-center justify-center space-y-6 sm:space-y-8 lg:flex-row lg:space-x-8 lg:space-y-0">
                       <div className="w-full lg:w-1/2">
                         <SkillsRadarChart />
                       </div>
                       <div className="w-full lg:w-1/2">
-                        <h3 className="mb-6 text-xl font-bold">Core Competencies</h3>
-                        <div className="grid gap-4 sm:grid-cols-2">
+                        <h3 className="mb-4 sm:mb-6 text-lg sm:text-xl font-bold">Core Competencies</h3>
+                        <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
                           <SkillItem
                             name="Data Science & Analysis"
                             logo={
@@ -70,7 +70,7 @@ export default function SkillsSection() {
                                 strokeWidth="2"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                className="h-10 w-10 text-primary"
+                                className="h-8 w-8 sm:h-10 sm:w-10 text-primary"
                               >
                                 <path d="M3 3v18h18" />
                                 <path d="m19 9-5 5-4-4-3 3" />
@@ -88,7 +88,7 @@ export default function SkillsSection() {
                                 strokeWidth="2"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                className="h-10 w-10 text-primary"
+                                className="h-8 w-8 sm:h-10 sm:w-10 text-primary"
                               >
                                 <ellipse cx="12" cy="5" rx="9" ry="3" />
                                 <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
@@ -107,7 +107,7 @@ export default function SkillsSection() {
                                 strokeWidth="2"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                className="h-10 w-10 text-primary"
+                                className="h-8 w-8 sm:h-10 sm:w-10 text-primary"
                               >
                                 <rect width="18" height="18" x="3" y="3" rx="2" />
                                 <path d="M3 9h18" />
@@ -130,7 +130,7 @@ export default function SkillsSection() {
                                 strokeWidth="2"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                className="h-10 w-10 text-primary"
+                                className="h-8 w-8 sm:h-10 sm:w-10 text-primary"
                               >
                                 <path d="M12 2v8" />
                                 <path d="m4.93 10.93 1.41 1.41" />
@@ -154,7 +154,7 @@ export default function SkillsSection() {
                                 strokeWidth="2"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                className="h-10 w-10 text-primary"
+                                className="h-8 w-8 sm:h-10 sm:w-10 text-primary"
                               >
                                 <polyline points="16 18 22 12 16 6" />
                                 <polyline points="8 6 2 12 8 18" />
@@ -172,7 +172,7 @@ export default function SkillsSection() {
                                 strokeWidth="2"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                className="h-10 w-10 text-primary"
+                                className="h-8 w-8 sm:h-10 sm:w-10 text-primary"
                               >
                                 <path d="M18 10h-4V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v6H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2z" />
                               </svg>

@@ -25,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
       </head>
       <body className={inter.className} suppressHydrationWarning>
@@ -33,7 +34,7 @@ export default function RootLayout({
             <WelcomeAnimation />
             <div className="flex min-h-screen flex-col">
               <Navbar />
-              <main className="flex-1">{children}</main>
+              <main className="flex-1 w-full overflow-x-hidden">{children}</main>
               <Footer />
               <Toaster />
             </div>

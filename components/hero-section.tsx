@@ -12,16 +12,16 @@ export default function HeroSection() {
   return (
     <section id="home" className="relative flex min-h-screen w-full items-center justify-center overflow-hidden pt-16">
       <ParticleBackground intensity="high" />
-      <div className="container relative z-10 px-4 py-16">
+      <div className="container relative z-10 px-4 py-12 sm:py-16">
         <div className="mx-auto max-w-4xl text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <Badge variant="outline" className="mb-4 border-primary/20 px-4 py-1 text-sm font-medium text-primary">
+            <Badge variant="outline" className="mb-3 sm:mb-4 border-primary/20 px-3 sm:px-4 py-1 text-sm font-medium text-primary">
               Full-Stack Data Developer
             </Badge>
           </motion.div>
 
           <motion.h1
-            className="mb-2 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl"
+            className="mb-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
@@ -30,7 +30,7 @@ export default function HeroSection() {
           </motion.h1>
 
           <motion.h2
-            className="mb-6 text-2xl font-bold tracking-tight text-muted-foreground sm:text-3xl"
+            className="mb-4 sm:mb-6 text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-muted-foreground"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
@@ -43,7 +43,7 @@ export default function HeroSection() {
           </motion.h2>
 
           <motion.p
-            className="mb-8 text-lg text-muted-foreground md:text-xl"
+            className="mb-6 sm:mb-8 text-base sm:text-lg md:text-xl text-muted-foreground"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -52,7 +52,7 @@ export default function HeroSection() {
           </motion.p>
 
           <motion.div
-            className="mb-12 flex flex-wrap items-center justify-center gap-4"
+            className="mb-8 sm:mb-12 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
@@ -71,31 +71,31 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.div
-            className="flex flex-wrap items-center justify-center gap-8 md:gap-16"
+            className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 md:gap-16"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <div className="text-center">
               <div className="mb-1 flex items-center justify-center">
-                <Database className="mr-2 h-5 w-5 text-primary" />
+                <Database className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold">2+</h3>
-              <p className="text-sm text-muted-foreground">Years Experience</p>
+              <h3 className="text-xl sm:text-2xl font-bold">2+</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">Years Experience</p>
             </div>
             <div className="text-center">
               <div className="mb-1 flex items-center justify-center">
-                <Code className="mr-2 h-5 w-5 text-primary" />
+                <Code className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold">15+</h3>
-              <p className="text-sm text-muted-foreground">Projects Completed</p>
+              <h3 className="text-xl sm:text-2xl font-bold">15+</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">Projects Completed</p>
             </div>
             <div className="text-center">
               <div className="mb-1 flex items-center justify-center">
-                <LineChart className="mr-2 h-5 w-5 text-primary" />
+                <LineChart className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold">10+</h3>
-              <p className="text-sm text-muted-foreground">Technologies Mastered</p>
+              <h3 className="text-xl sm:text-2xl font-bold">10+</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">Technologies Mastered</p>
             </div>
           </motion.div>
         </div>

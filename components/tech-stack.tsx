@@ -1,8 +1,7 @@
 "use client"
 
-import { SkillItem } from "@/components/skill-item"
+import { Progress } from "@/components/ui/progress"
 import { useEffect, useState } from "react"
-import * as si from "simple-icons"
 
 interface TechStackProps {
   title: string
@@ -41,46 +40,27 @@ export function TechStack({ title, description, technologies }: TechStackProps) 
   }, [technologies])
 
   return (
-    <div>
-      <h3 className="mb-2 text-xl font-bold">{title}</h3>
-      <p className="mb-6 text-muted-foreground">{description}</p>
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {technologies.map((tech, index) => {
-          // If custom SVG is provided, use it directly
-          if (tech.customSvg && svgContents[tech.customSvg]) {
-            return (
-              <SkillItem
-                key={index}
-                name={tech.name}
-                iconPath={svgContents[tech.customSvg]}
-                iconColor={tech.customColor || "#000000"}
-              />
-            )
-          }
-
-          // Otherwise try to use simple-icons
-          if (tech.icon) {
-            const iconKey = `si${tech.icon.charAt(0).toUpperCase()}${tech.icon.slice(1)}` as keyof typeof si
-            const icon = si[iconKey] as any
-            
-            if (!icon) {
-              console.warn(`Icon not found for ${tech.icon}`)
-              return null
-            }
-            
-            const svg = `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#${icon.hex}" d="${icon.path}"/></svg>`
-            return (
-              <SkillItem
-                key={index}
-                name={tech.name}
-                iconPath={svg}
-                iconColor={`#${icon.hex}`}
-              />
-            )
-          }
-
-          return null
-        })}
+    <div className="space-y-4 sm:space-y-6">
+      <h3 className="text-lg sm:text-xl font-bold">{title}</h3>
+      <p className="text-muted-foreground">{description}</p>
+      <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
+        {technologies.map((tech) => (
+          <div
+            key={tech.name}
+            className="flex items-center space-x-3 sm:space-x-4 rounded-lg border p-3 sm:p-4"
+          >
+            <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-md bg-primary/10">
+              {tech.icon}
+            </div>
+            <div className="flex-1 space-y-1">
+              <div className="flex items-center justify-between">
+                <p className="text-sm sm:text-base font-medium">{tech.name}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">{tech.proficiency}%</p>
+              </div>
+              <Progress value={tech.proficiency} className="h-1.5 sm:h-2" />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )
