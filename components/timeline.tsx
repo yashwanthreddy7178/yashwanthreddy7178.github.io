@@ -49,7 +49,7 @@ const timelineData: TimelineItem[] = [
     skills: ["NextJS", "OpenAI", "Pinecone", "Stripe API", "Team Leadership"],
   },
   {
-    date: "10/2021 – 08/2023",
+    date: "10/2020 – 08/2023",
     title: "Sr. Data Scientist @ Accenture",
     description: `<ul class="list-disc pl-4 space-y-1">
       <li>Led a cross-functional initiative to design and launch a recommendation engine for personalized content across HBO Max, resulting in a 19% increase in average user session duration and a 12% boost in monthly active users (MAU) within the first quarter of deployment</li>
