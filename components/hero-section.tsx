@@ -80,7 +80,7 @@ export default function HeroSection() {
               <div className="mb-1 flex items-center justify-center">
                 <Database className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold">2+</h3>
+              <h3 className="text-xl sm:text-2xl font-bold">4+</h3>
               <p className="text-xs sm:text-sm text-muted-foreground">Years Experience</p>
             </div>
             <div className="text-center">

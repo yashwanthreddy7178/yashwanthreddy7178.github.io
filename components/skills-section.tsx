@@ -45,9 +45,10 @@ export default function SkillsSection() {
             <Card>
               <CardContent className="p-4 sm:p-6">
                 <Tabs defaultValue="overview" className="w-full">
-                  <TabsList className="mb-4 sm:mb-6 grid w-full grid-cols-2 sm:grid-cols-4">
+                  <TabsList className="mb-4 sm:mb-6 grid w-full grid-cols-2 sm:grid-cols-5">
                     <TabsTrigger value="overview">Overview</TabsTrigger>
                     <TabsTrigger value="data">Data Science</TabsTrigger>
+                    <TabsTrigger value="ai">AI & ML</TabsTrigger>
                     <TabsTrigger value="devops">DevOps</TabsTrigger>
                     <TabsTrigger value="development">Development</TabsTrigger>
                   </TabsList>
@@ -189,12 +190,12 @@ export default function SkillsSection() {
                       technologies={[
                         {
                           name: "Python",
-                          icon: "python",
+                          customSvg: "/icons/python-svgrepo-com.svg",
                           proficiency: 90
                         },
                         {
                           name: "R",
-                          icon: "r",
+                          customSvg: "/icons/r-programming-language-icon.svg",
                           proficiency: 85
                         },
                         {
@@ -209,32 +210,22 @@ export default function SkillsSection() {
                         },
                         {
                           name: "Jupyter",
-                          icon: "jupyter",
+                          customSvg: "/icons/jupyter-svgrepo-com.svg",
                           proficiency: 90
                         },
                         {
                           name: "Pandas",
-                          icon: "pandas",
+                          customSvg: "/icons/pandas-svgrepo-com.svg",
                           proficiency: 90
                         },
                         {
                           name: "NumPy",
-                          icon: "numpy",
+                          customSvg: "/icons/numpy-svgrepo-com.svg",
                           proficiency: 85
                         },
                         {
-                          name: "Scikit-learn",
-                          icon: "scikitlearn",
-                          proficiency: 85
-                        },
-                        {
-                          name: "TensorFlow",
-                          icon: "tensorflow",
-                          proficiency: 80
-                        },
-                        {
-                          name: "PyTorch",
-                          icon: "pytorch",
+                          name: "Matplotlib",
+                          customImage: "/icons/matplotlib.png",
                           proficiency: 80
                         },
                         {
@@ -246,6 +237,69 @@ export default function SkillsSection() {
                           name: "Hadoop",
                           customSvg: "/icons/hadoop-svgrepo-com.svg",
                           proficiency: 80
+                        },
+                        {
+                          name: "Snowflake",
+                          customSvg: "/icons/snowflake-svgrepo-com.svg",
+                          proficiency: 75
+                        },
+                        {
+                          name: "dbt",
+                          customSvg: "/icons/dbt-svgrepo-com.svg",
+                          proficiency: 70
+                        }
+                      ]}
+                    />
+                  </TabsContent>
+                  <TabsContent value="ai" className="pt-2">
+                    <TechStack
+                      title="AI & Machine Learning Technologies"
+                      description="Advanced AI, ML, and deep learning frameworks and tools I work with."
+                      technologies={[
+                        {
+                          name: "TensorFlow",
+                          customSvg: "/icons/tensorflow-svgrepo-com.svg",
+                          proficiency: 80
+                        },
+                        {
+                          name: "PyTorch",
+                          customSvg: "/icons/pytorch-svgrepo-com.svg",
+                          proficiency: 80
+                        },
+                        {
+                          name: "Scikit-learn",
+                          customSvg: "/icons/scikitlearn-svgrepo-com.svg",
+                          proficiency: 85
+                        },
+                        {
+                          name: "Keras",
+                          customSvg: "/icons/keras.svg",
+                          proficiency: 75
+                        },
+                        {
+                          name: "Hugging Face",
+                          customSvg: "/icons/huggingface.svg",
+                          proficiency: 70
+                        },
+                        {
+                          name: "LangChain",
+                          customSvg: "/icons/langchain.svg",
+                          proficiency: 65
+                        },
+                        {
+                          name: "OpenAI",
+                          customSvg: "/icons/openai-svgrepo-com.svg",
+                          proficiency: 70
+                        },
+                        {
+                          name: "Databricks",
+                          customSvg: "/icons/databricks-svgrepo-com.svg",
+                          proficiency: 75
+                        },
+                        {
+                          name: "MLflow",
+                          customImage: "/icons/mlflow.png",
+                          proficiency: 85
                         }
                       ]}
                     />
@@ -257,7 +311,7 @@ export default function SkillsSection() {
                       technologies={[
                         {
                           name: "Docker",
-                          icon: "docker",
+                          customSvg: "/icons/docker-svgrepo-com.svg",
                           proficiency: 85
                         },
                         {
@@ -277,28 +331,33 @@ export default function SkillsSection() {
                         },
                         {
                           name: "Kubernetes",
-                          icon: "kubernetes",
+                          customSvg: "/icons/kubernetes-svgrepo-com.svg",
                           proficiency: 80
                         },
                         {
-                          name: "GitHub Actions",
-                          icon: "githubactions",
-                          proficiency: 80
-                        },
-                        {
-                          name: "Git",
-                          icon: "git",
+                          name: "GitHub",
+                          customSvg: "/icons/github-142-svgrepo-com.svg",
                           proficiency: 90
                         },
                         {
-                          name: "MLflow",
-                          icon: "mlflow",
-                          proficiency: 85
+                          name: "Git",
+                          customSvg: "/icons/git-svgrepo-com.svg",
+                          proficiency: 90
+                        },
+                        {
+                          name: "Jenkins",
+                          customSvg: "/icons/jenkins-svgrepo-com.svg",
+                          proficiency: 70
                         },
                         {
                           name: "Apache Airflow",
-                          icon: "apacheairflow",
+                          customSvg: "/icons/apacheairflow-svgrepo-com.svg",
                           proficiency: 80
+                        },
+                        {
+                          name: "Kafka",
+                          customSvg: "/icons/kafka-icon-svgrepo-com.svg",
+                          proficiency: 70
                         },
                         {
                           name: "Linux",
@@ -315,22 +374,32 @@ export default function SkillsSection() {
                       technologies={[
                         {
                           name: "JavaScript",
-                          icon: "javascript",
+                          customSvg: "/icons/javascript-svgrepo-com.svg",
                           proficiency: 85
                         },
                         {
                           name: "TypeScript",
-                          icon: "typescript",
+                          customSvg: "/icons/typescript-svgrepo-com.svg",
                           proficiency: 80
                         },
                         {
                           name: "React",
-                          icon: "react",
+                          customSvg: "/icons/react-svgrepo-com.svg",
                           proficiency: 60
                         },
                         {
+                          name: "FastAPI",
+                          customSvg: "/icons/fastapi.svg",
+                          proficiency: 75
+                        },
+                        {
+                          name: "Flask",
+                          customSvg: "/icons/flask-svgrepo-com.svg",
+                          proficiency: 70
+                        },
+                        {
                           name: "MySQL",
-                          icon: "mysql",
+                          customSvg: "/icons/mysql-logo-svgrepo-com.svg",
                           proficiency: 75
                         },
                         {

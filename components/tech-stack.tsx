@@ -1,6 +1,5 @@
 "use client"
 
-import { Progress } from "@/components/ui/progress"
 import { useEffect, useState } from "react"
 
 interface TechStackProps {
@@ -11,6 +10,7 @@ interface TechStackProps {
     icon?: string // Optional simple-icons slug
     proficiency: number
     customSvg?: string // Optional custom SVG path
+    customImage?: string // Optional custom image path (PNG, JPG, etc.)
     customColor?: string // Optional custom color for the SVG
   }[]
 }
@@ -39,25 +39,73 @@ export function TechStack({ title, description, technologies }: TechStackProps) 
     loadSvgs()
   }, [technologies])
 
+  const renderIcon = (tech: any) => {
+    if (tech.customSvg && svgContents[tech.customSvg]) {
+      // Render custom SVG as inline element with proper sizing
+      return (
+        <div 
+          className="h-6 w-6 sm:h-8 sm:w-8 flex items-center justify-center skills-icon"
+          dangerouslySetInnerHTML={{ __html: svgContents[tech.customSvg] }}
+        />
+      )
+    }
+    
+    if (tech.customImage) {
+      // Render custom image (PNG, JPG, etc.)
+      return (
+        <img 
+          src={tech.customImage} 
+          alt={tech.name}
+          className="h-6 w-6 sm:h-8 sm:w-8 object-contain"
+        />
+      )
+    }
+    
+    // Fallback for simple-icons (if we implement them later)
+    if (tech.icon) {
+      return (
+        <div className="h-6 w-6 sm:h-8 sm:w-8 flex items-center justify-center text-primary skills-icon">
+          {tech.icon}
+        </div>
+      )
+    }
+    
+    // Default fallback
+    return (
+      <div className="h-6 w-6 sm:h-8 sm:w-8 flex items-center justify-center text-primary">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-4 w-4 sm:h-5 sm:w-5"
+        >
+          <rect width="18" height="18" x="3" y="3" rx="2" />
+          <path d="M3 9h18" />
+          <path d="M9 21V9" />
+        </svg>
+      </div>
+    )
+  }
+
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="space-y-3 sm:space-y-4">
       <h3 className="text-lg sm:text-xl font-bold">{title}</h3>
       <p className="text-muted-foreground">{description}</p>
-      <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
+      <div className="grid gap-2 sm:gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
         {technologies.map((tech) => (
           <div
             key={tech.name}
-            className="flex items-center space-x-3 sm:space-x-4 rounded-lg border p-3 sm:p-4"
+            className="flex items-center space-x-2 sm:space-x-3 rounded-lg border p-2 sm:p-3"
           >
-            <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-md bg-primary/10">
-              {tech.icon}
+            <div className="flex h-6 w-6 sm:h-8 sm:w-8 items-center justify-center rounded-md bg-primary/10 skills-icon">
+              {renderIcon(tech)}
             </div>
-            <div className="flex-1 space-y-1">
-              <div className="flex items-center justify-between">
-                <p className="text-sm sm:text-base font-medium">{tech.name}</p>
-                <p className="text-xs sm:text-sm text-muted-foreground">{tech.proficiency}%</p>
-              </div>
-              <Progress value={tech.proficiency} className="h-1.5 sm:h-2" />
+            <div className="flex-1">
+              <p className="text-xs sm:text-sm font-medium">{tech.name}</p>
             </div>
           </div>
         ))}

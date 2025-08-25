@@ -2,7 +2,6 @@ import Footer from "@/components/footer"
 import Navbar from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toast"
-import WelcomeAnimation from "@/components/WelcomeAnimation"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import Script from "next/script"
@@ -31,7 +30,6 @@ export default function RootLayout({
       <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <div className="relative">
-            <WelcomeAnimation />
             <div className="flex min-h-screen flex-col">
               <Navbar />
               <main className="flex-1 w-full overflow-x-hidden">{children}</main>

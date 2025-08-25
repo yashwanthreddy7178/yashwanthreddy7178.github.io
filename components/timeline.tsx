@@ -15,7 +15,7 @@ interface TimelineItem {
 
 const timelineData: TimelineItem[] = [
   {
-    date: "Expected May 2025",
+    date: "May 2025",
     title: "Master of Science in Data Science, Statistics @ New Jersey Institute of Technology (NJIT), Newark, NJ",
     description: `<ul">
     </ul>`,

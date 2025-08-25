@@ -72,3 +72,27 @@
     scroll-behavior: smooth;
   }
 }
+
+@layer components {
+  /* Skills section icon styling */
+  .skills-icon svg {
+    width: 100%;
+    height: 100%;
+    max-width: 20px;
+    max-height: 20px;
+  }
+  
+  @media (min-width: 640px) {
+    .skills-icon svg {
+      max-width: 28px;
+      max-height: 28px;
+    }
+  }
+  
+  /* Skills section image styling */
+  .skills-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
