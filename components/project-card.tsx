@@ -1,12 +1,12 @@
 "use client"
 
-import { motion } from "framer-motion"
-import Image from "next/image"
-import Link from "next/link"
-import { ExternalLink, Github } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { motion } from "framer-motion"
+import { ExternalLink, Github } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
 
 interface ProjectCardProps {
   title: string
@@ -14,7 +14,7 @@ interface ProjectCardProps {
   tags: string[]
   image: string
   demoUrl: string
-  githubUrl: string
+  githubUrl?: string
   category: string
 }
 
@@ -40,7 +40,7 @@ export function ProjectCard({ title, description, tags, image, demoUrl, githubUr
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
         </div>
         <CardHeader className="p-4">
-          <CardTitle className="line-clamp-1">{title}</CardTitle>
+          <CardTitle className="break-words">{title}</CardTitle>
           <CardDescription className="line-clamp-2">{description}</CardDescription>
         </CardHeader>
         <CardContent className="p-4 pt-0">
@@ -52,19 +52,21 @@ export function ProjectCard({ title, description, tags, image, demoUrl, githubUr
             ))}
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between p-4 pt-0">
+        <CardFooter className={`p-4 pt-0 ${githubUrl ? 'flex justify-between' : 'flex justify-center'}`}>
           <Button asChild size="sm" variant="outline">
             <Link href={demoUrl}>
               <ExternalLink className="mr-2 h-4 w-4" />
               Demo
             </Link>
           </Button>
-          <Button asChild size="sm" variant="outline">
-            <Link href={githubUrl}>
-              <Github className="mr-2 h-4 w-4" />
-              Code
-            </Link>
-          </Button>
+          {githubUrl && (
+            <Button asChild size="sm" variant="outline">
+              <Link href={githubUrl}>
+                <Github className="mr-2 h-4 w-4" />
+                Code
+              </Link>
+            </Button>
+          )}
         </CardFooter>
       </Card>
     </motion.div>

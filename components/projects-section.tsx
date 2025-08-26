@@ -26,27 +26,34 @@ export default function ProjectsSection() {
             </Badge>
             <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Featured Work</h2>
             <p className="mx-auto max-w-2xl text-sm sm:text-base text-muted-foreground">
-              A showcase of my projects spanning data visualization, full-stack applications, and data analysis
-              solutions.
+              A showcase of my projects spanning AI applications, data visualization, full-stack applications, and UI/UX design.
             </p>
           </motion.div>
 
           <Tabs defaultValue="all" className="w-full">
             <TabsList className="mb-6 grid w-full grid-cols-2 sm:grid-cols-4">
               <TabsTrigger value="all">All</TabsTrigger>
+              <TabsTrigger value="ai">AI Projects</TabsTrigger>
               <TabsTrigger value="dashboard">Dashboards</TabsTrigger>
-              <TabsTrigger value="fullstack">Full Stack</TabsTrigger>
-              <TabsTrigger value="data">Data</TabsTrigger>
+              <TabsTrigger value="uiux">UI/UX Portfolio</TabsTrigger>
             </TabsList>
 
             <TabsContent value="all" className="space-y-6 sm:space-y-8">
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 <ProjectCard
+                  title="Real-Time AI Interview Assistant"
+                  description="Next.js-based Real-Time AI Interview Assistant using GPT-4 with speech recognition and analytics dashboard for interview performance tracking."
+                  tags={["Next.js", "OpenAI GPT-4", "Speech Recognition", "Analytics"]}
+                  image="/aiassistant.png?height=400&width=600"
+                  demoUrl="https://realtime-aiinterview-assistant.vercel.app/"
+                  category="ai"
+                />
+                <ProjectCard
                   title="Interactive Data Dashboard"
                   description="A real-time dashboard for monitoring key business metrics with interactive visualizations."
                   tags={["React", "D3.js", "Node.js", "Socket.io"]}
                   image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#dashboard-demo"
+                  demoUrl="#"
                   githubUrl="#"
                   category="dashboard"
                 />
@@ -57,7 +64,7 @@ export default function ProjectsSection() {
                   image="/placeholder.svg?height=400&width=600"
                   demoUrl="#"
                   githubUrl="#"
-                  category="fullstack"
+                  category="uiux"
                 />
                 <ProjectCard
                   title="Predictive Sales Analysis"
@@ -66,7 +73,7 @@ export default function ProjectsSection() {
                   image="/placeholder.svg?height=400&width=600"
                   demoUrl="#"
                   githubUrl="#"
-                  category="data"
+                  category="ai"
                 />
                 <ProjectCard
                   title="Customer Segmentation Tool"
@@ -75,7 +82,7 @@ export default function ProjectsSection() {
                   image="/placeholder.svg?height=400&width=600"
                   demoUrl="#"
                   githubUrl="#"
-                  category="data"
+                  category="ai"
                 />
                 <ProjectCard
                   title="Inventory Management System"
@@ -84,7 +91,7 @@ export default function ProjectsSection() {
                   image="/placeholder.svg?height=400&width=600"
                   demoUrl="#"
                   githubUrl="#"
-                  category="fullstack"
+                  category="uiux"
                 />
                 <ProjectCard
                   title="Financial Performance Dashboard"
@@ -96,22 +103,13 @@ export default function ProjectsSection() {
                   category="dashboard"
                 />
                 <ProjectCard
-                  title="AI Mock Interviewer"
-                  description="Next.js-based AI Interviewer using GPT-4 with speech recognition and analytics dashboard for interview performance tracking."
-                  tags={["Next.js", "OpenAI GPT-4", "Speech Recognition", "Analytics"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="fullstack"
-                />
-                <ProjectCard
                   title="T20 World Cup Cricket Analytics"
                   description="Power BI dashboard for T20 player selection with 90% match-winning probability using data-driven analysis."
                   tags={["Power BI", "Python", "Pandas", "Data Analysis"]}
                   image="/placeholder.svg?height=400&width=600"
                   demoUrl="#"
                   githubUrl="#"
-                  category="data"
+                  category="dashboard"
                 />
                 <ProjectCard
                   title="Wine Quality Prediction"
@@ -120,13 +118,53 @@ export default function ProjectsSection() {
                   image="/placeholder.svg?height=400&width=600"
                   demoUrl="#"
                   githubUrl="#"
-                  category="data"
+                  category="ai"
                 />
               </div>
               <div className="flex justify-center">
                 <Button variant="outline" size="lg">
                   View All Projects
                 </Button>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="ai" className="space-y-8">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <ProjectCard
+                  title="Real-Time AI Interview Assistant"
+                  description="Next.js-based Real-Time AI Interview Assistant using GPT-4 with speech recognition and analytics dashboard for interview performance tracking."
+                  tags={["Next.js", "OpenAI GPT-4", "Speech Recognition", "Analytics"]}
+                  image="/aiassistant.png?height=400&width=600"
+                  demoUrl="https://realtime-aiinterview-assistant.vercel.app/"
+                  category="ai"
+                />
+                <ProjectCard
+                  title="Predictive Sales Analysis"
+                  description="Machine learning model to predict future sales based on historical data and market trends."
+                  tags={["Python", "Pandas", "Scikit-learn", "Matplotlib"]}
+                  image="/placeholder.svg?height=400&width=600"
+                  demoUrl="#"
+                  githubUrl="#"
+                  category="ai"
+                />
+                <ProjectCard
+                  title="Customer Segmentation Tool"
+                  description="Data analysis tool that segments customers based on purchasing behavior and demographics."
+                  tags={["Python", "Clustering", "Tableau", "SQL"]}
+                  image="/placeholder.svg?height=400&width=600"
+                  demoUrl="#"
+                  githubUrl="#"
+                  category="ai"
+                />
+                <ProjectCard
+                  title="Wine Quality Prediction"
+                  description="MLOps-based wine quality prediction system with 97% accuracy, featuring MLflow integration and AWS deployment."
+                  tags={["MLOps", "MLflow", "AWS", "CI/CD"]}
+                  image="/placeholder.svg?height=400&width=600"
+                  demoUrl="#"
+                  githubUrl="#"
+                  category="ai"
+                />
               </div>
             </TabsContent>
 
@@ -151,10 +189,19 @@ export default function ProjectsSection() {
                   githubUrl="#"
                   category="dashboard"
                 />
+                <ProjectCard
+                  title="T20 World Cup Cricket Analytics"
+                  description="Power BI dashboard for T20 player selection with 90% match-winning probability using data-driven analysis."
+                  tags={["Power BI", "Python", "Pandas", "Data Analysis"]}
+                  image="/placeholder.svg?height=400&width=600"
+                  demoUrl="#"
+                  githubUrl="#"
+                  category="dashboard"
+                />
               </div>
             </TabsContent>
 
-            <TabsContent value="fullstack" className="space-y-8">
+            <TabsContent value="uiux" className="space-y-8">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <ProjectCard
                   title="E-commerce Analytics Platform"
@@ -163,7 +210,7 @@ export default function ProjectsSection() {
                   image="/placeholder.svg?height=400&width=600"
                   demoUrl="#"
                   githubUrl="#"
-                  category="fullstack"
+                  category="uiux"
                 />
                 <ProjectCard
                   title="Inventory Management System"
@@ -172,57 +219,16 @@ export default function ProjectsSection() {
                   image="/placeholder.svg?height=400&width=600"
                   demoUrl="#"
                   githubUrl="#"
-                  category="fullstack"
+                  category="uiux"
                 />
                 <ProjectCard
-                  title="AI Mock Interviewer"
-                  description="Next.js-based AI Interviewer using GPT-4 with speech recognition and analytics dashboard for interview performance tracking."
-                  tags={["Next.js", "OpenAI GPT-4", "Speech Recognition", "Analytics"]}
+                  title="Portfolio Website"
+                  description="Modern, responsive portfolio website built with Next.js, featuring smooth animations and dark/light theme toggle."
+                  tags={["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"]}
                   image="/placeholder.svg?height=400&width=600"
                   demoUrl="#"
                   githubUrl="#"
-                  category="fullstack"
-                />
-              </div>
-            </TabsContent>
-
-            <TabsContent value="data" className="space-y-8">
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                <ProjectCard
-                  title="Predictive Sales Analysis"
-                  description="Machine learning model to predict future sales based on historical data and market trends."
-                  tags={["Python", "Pandas", "Scikit-learn", "Matplotlib"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="data"
-                />
-                <ProjectCard
-                  title="Customer Segmentation Tool"
-                  description="Data analysis tool that segments customers based on purchasing behavior and demographics."
-                  tags={["Python", "Clustering", "Tableau", "SQL"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="data"
-                />
-                <ProjectCard
-                  title="T20 World Cup Cricket Analytics"
-                  description="Power BI dashboard for T20 player selection with 90% match-winning probability using data-driven analysis."
-                  tags={["Power BI", "Python", "Pandas", "Data Analysis"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="data"
-                />
-                <ProjectCard
-                  title="Wine Quality Prediction"
-                  description="MLOps-based wine quality prediction system with 97% accuracy, featuring MLflow integration and AWS deployment."
-                  tags={["MLOps", "MLflow", "AWS", "CI/CD"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="data"
+                  category="uiux"
                 />
               </div>
             </TabsContent>
