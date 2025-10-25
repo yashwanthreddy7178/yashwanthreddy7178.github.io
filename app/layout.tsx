@@ -26,6 +26,13 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
+        <Script
+          defer
+          data-website-id="dfid_OEKtRoRg27SlsK4828H5T"
+          data-domain="techbyyash.me"
+          src="https://datafa.st/js/script.js"
+          strategy="afterInteractive"
+        />
       </head>
       <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
