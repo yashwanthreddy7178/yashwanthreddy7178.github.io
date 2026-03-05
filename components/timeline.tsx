@@ -17,51 +17,48 @@ const timelineData: TimelineItem[] = [
   {
     date: "May 2025",
     title: "Master of Science in Data Science, Statistics @ New Jersey Institute of Technology (NJIT), Newark, NJ",
-    description: `<ul">
+    description: `<ul>
     </ul>`,
     icon: <GraduationCap className="h-6 w-6" />,
     skills: ["Data Science", "Statistics", "Machine Learning", "Deep Learning", "Software Engineering"],
   },
   {
-    date: "07/2024 – Present",
-    title: "Web Resource Data Scientist @ VMware",
+    date: "January 2025 – Present",
+    title: "AI Engineer @ JPMorgan Chase & Co. — Remote, USA",
     description: `<ul class="list-disc pl-4 space-y-1">
-      <li>Partnered with product and engineering teams to identify and frame 10+ high-impact business problems across SaaS product telemetry and cloud infrastructure, leading to a 15% improvement in customer retention via targeted insights</li>
-      <li>Designed and automated data pipelines using PySpark and SQL to ingest and process ~3 TB of telemetry and log data daily from VMware's vSphere and NSX platforms, reducing data availability latency from 12 hours to under 2 hours</li>
-      <li>Built and deployed machine learning models (e.g., random forest, logistic regression, anomaly detection) to predict VM resource exhaustion and detect anomalous user behavior, increasing proactive alert accuracy by 28%</li>
-      <li>Engineered 100+ features from product usage logs, cloud performance metrics, and customer support data, and conducted hyperparameter tuning using MLflow and Optuna to improve F1-score by 22% across models</li>
-      <li>Delivered containerized ML inference services (Flask + Docker) deployed via Jenkins and Kubernetes, reducing model deployment cycles from 5 days to under 1 day and enabling real-time scoring for 50K+ daily API calls</li>
-      <li>Monitored deployed models for concept drift and performance decay using Grafana and Prometheus dashboards; retrained models monthly using scheduled Airflow workflows, maintaining <5% prediction error across quarters</li>
-      <li>Created interactive dashboards and reports in Tableau and Power BI to visualize model predictions and business KPIs, which were used weekly by senior leadership to guide roadmap and operational decisions</li>
+      <li>Own the inference platform that serves 60K+ predictions daily across enterprise analytics workloads. Set it up on Kubernetes with EC2 GPU instances, currently sitting at 99.8% uptime.</li>
+      <li>Built out the RAG and anomaly detection pipelines using LangChain, OpenAI API, and PyTorch. The anomaly detection piece alone improved accuracy by about 31% over what was there before.</li>
+      <li>Worked closely with DevOps to get our FastAPI microservices into a proper CI/CD flow with MLflow and Airflow. Cut deployment time roughly in half.</li>
+      <li>Spent a good amount of time on GPU optimization with TensorRT, got utilization up 28%. Also set up the Prometheus/Grafana dashboards the team now uses daily.</li>
+      <li>Helped compress our prototype-to-production timeline from ~2 weeks down to 5 days by working directly with the data science team and mentoring a few junior engineers through the process.</li>
     </ul>`,
     icon: <Rocket className="h-6 w-6" />,
-    skills: ["PySpark", "SQL", "Machine Learning", "Docker", "Kubernetes", "MLflow", "Airflow", "Tableau", "Power BI"],
+    skills: ["Kubernetes", "PyTorch", "LangChain", "OpenAI API", "RAG", "TensorRT", "FastAPI", "MLflow", "Airflow", "Prometheus", "Grafana"],
   },
   {
-    date: "07/2024 – 09/2024",
-    title: "Software Engineering Fellow @ Headstarter AI",
+    date: "July 2024 – December 2024",
+    title: "AI Engineer @ VMware (Broadcom) — Remote, USA",
     description: `<ul class="list-disc pl-4 space-y-1">
-      <li>Built 5+ AI apps and APIs using NextJS, OpenAI, Pinecone and Stripe API</li>
-      <li>Successfully led 4+ engineering fellows to deliver projects from design to deployment</li>
-      <li>Enhanced team productivity through effective leadership and collaboration</li>
+      <li>Owned the predictive analytics pipeline end-to-end — training, validation, deployment. PyTorch models with MLflow tracking and Airflow orchestration. Helped cut incident response time by around 40%.</li>
+      <li>Put together NLP services for semantic search across internal knowledge bases using Hugging Face Transformers and LangChain, wrapped in FastAPI.</li>
+      <li>Brought inference latency down 27% by moving to TensorRT and Ray Serve. Most of this was profiling work to find where the bottlenecks actually were.</li>
+      <li>Partnered with the cloud team on AWS infrastructure (S3, EC2, Lambda) and Kubernetes deployments. A lot of this was making sure our data pipelines were reproducible and properly versioned.</li>
     </ul>`,
     icon: <Rocket className="h-6 w-6" />,
-    skills: ["NextJS", "OpenAI", "Pinecone", "Stripe API", "Team Leadership"],
+    skills: ["PyTorch", "MLflow", "Airflow", "Hugging Face", "LangChain", "FastAPI", "TensorRT", "Ray Serve", "AWS", "Kubernetes"],
   },
   {
-    date: "10/2020 – 08/2023",
-    title: "Sr. Data Scientist @ Accenture",
+    date: "October 2020 – August 2023",
+    title: "Data Scientist @ Accenture — Hyderabad, India",
     description: `<ul class="list-disc pl-4 space-y-1">
-      <li>Led a cross-functional initiative to design and launch a recommendation engine for personalized content across HBO Max, resulting in a 19% increase in average user session duration and a 12% boost in monthly active users (MAU) within the first quarter of deployment</li>
-      <li>Architected and deployed a real-time churn prediction system using ensemble models (LightGBM, XGBoost) on a Spark-based pipeline, enabling targeted retention campaigns that reduced churn by 8.5% YoY in key demographic segments</li>
-      <li>Directed the end-to-end experimentation pipeline, including A/B testing frameworks and causal inference techniques (e.g., uplift modeling, propensity scoring), to evaluate content previews and marketing placements across digital platforms — increasing click-through rates by 2%</li>
-      <li>Managed large-scale data acquisition and enrichment pipelines using Airflow and AWS Glue to process over 5 TB of daily user interaction logs, integrating data from third-party ad platforms, streaming analytics, and CRM tools for unified audience profiling</li>
-      <li>Developed NLP-based models (topic modeling, sentiment analysis) on viewer feedback and closed-caption text to inform editorial decisions and improve trailer targeting, contributing to a 30% lift in trailer-to-watch conversion for new releases</li>
-      <li>Collaborated with product, engineering, and data governance teams to define data standards and deploy modular, reusable ML components using Databricks and MLflow, cutting model delivery timelines by 30% across business units</li>
-      <li>Mentored a team of 3 junior data scientists and analysts, conducting regular peer code reviews, technical deep dives, and knowledge-sharing sessions to elevate team productivity and ensure reproducibility and scalability in deployed solutions</li>
+      <li>Built NLP chatbots and recommendation engines on Azure OpenAI and Hugging Face that increased user engagement by 22% for clients.</li>
+      <li>Set up the team's MLOps platform from scratch — Databricks, Airflow, MLflow, Docker. Before this, model handoffs were mostly manual. Took about 45% off delivery timelines.</li>
+      <li>Built multi-agent systems with LangChain, LlamaIndex, and Pinecone/FAISS for document Q&amp;A. One Fortune 100 client reported it cut analyst research time by 60%.</li>
+      <li>Helped modernize a 5 TB/day streaming pipeline on AWS Glue and Kinesis — integrated with legacy systems without downtime and got throughput up about 30%.</li>
+      <li>Managed a team of 5 (mix of engineers and data scientists). Introduced code review standards and AI governance processes. Shipped 7 models to production that year.</li>
     </ul>`,
     icon: <Shield className="h-6 w-6" />,
-    skills: ["Machine Learning", "Spark", "AWS", "NLP", "Databricks", "MLflow", "Team Leadership", "A/B Testing"],
+    skills: ["NLP", "LangChain", "LlamaIndex", "Pinecone", "FAISS", "Azure OpenAI", "Hugging Face", "Databricks", "MLflow", "AWS Glue", "Kinesis", "Docker"],
   },
 ]
 

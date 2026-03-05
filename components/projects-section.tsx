@@ -26,7 +26,7 @@ export default function ProjectsSection() {
             </Badge>
             <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Featured Work</h2>
             <p className="mx-auto max-w-2xl text-sm sm:text-base text-muted-foreground">
-              A showcase of my projects spanning AI applications, data visualization, full-stack applications, and UI/UX design.
+              A showcase of my projects spanning production RAG systems, LLM observability, AI applications, and data analytics.
             </p>
           </motion.div>
 
@@ -41,66 +41,30 @@ export default function ProjectsSection() {
             <TabsContent value="all" className="space-y-6 sm:space-y-8">
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 <ProjectCard
+                  title="Production RAG System – Ask My Docs"
+                  description="Domain-specific document Q&A system for financial documents using hybrid BM25 + vector search with Cohere reranking. Pushed answer relevance from ~82% to 94%. Citation enforcement cut hallucinations by 40%. Ragas evaluation pipeline blocks deploys on quality regressions. Handles 500+ page docs in under 2s."
+                  tags={["Python", "LangChain", "FAISS", "Cohere Rerank", "FastAPI", "Ragas", "GitHub Actions"]}
+                  image="/placeholder.svg?height=400&width=600"
+                  demoUrl="#"
+                  githubUrl="#"
+                  category="ai"
+                />
+                <ProjectCard
+                  title="LLM Monitoring & Observability Dashboard"
+                  description="Full observability layer over a production RAG system using Langfuse for tracing. Every query broken into retrieval, reranking, and generation time. Grafana dashboards track p50/p95 latency, token costs, and quality scores. Regression gating in CI blocks deploys when latency spikes or eval scores drop."
+                  tags={["Langfuse", "Prometheus", "Grafana", "Python", "FastAPI", "GitHub Actions"]}
+                  image="/placeholder.svg?height=400&width=600"
+                  demoUrl="#"
+                  githubUrl="#"
+                  category="ai"
+                />
+                <ProjectCard
                   title="Real-Time AI Interview Assistant"
                   description="Next.js-based Real-Time AI Interview Assistant using GPT-4 with speech recognition and analytics dashboard for interview performance tracking."
                   tags={["Next.js", "OpenAI GPT-4", "Speech Recognition", "Analytics"]}
                   image="/aiassistant.png?height=400&width=600"
                   demoUrl="https://realtime-aiinterview-assistant.vercel.app/"
                   category="ai"
-                />
-                <ProjectCard
-                  title="Interactive Data Dashboard"
-                  description="A real-time dashboard for monitoring key business metrics with interactive visualizations."
-                  tags={["React", "D3.js", "Node.js", "Socket.io"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="dashboard"
-                />
-                <ProjectCard
-                  title="E-commerce Analytics Platform"
-                  description="Full-stack application for e-commerce businesses to track sales, customer behavior, and inventory."
-                  tags={["Next.js", "MongoDB", "Express", "Chart.js"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="uiux"
-                />
-                <ProjectCard
-                  title="Predictive Sales Analysis"
-                  description="Machine learning model to predict future sales based on historical data and market trends."
-                  tags={["Python", "Pandas", "Scikit-learn", "Matplotlib"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="ai"
-                />
-                <ProjectCard
-                  title="Customer Segmentation Tool"
-                  description="Data analysis tool that segments customers based on purchasing behavior and demographics."
-                  tags={["Python", "Clustering", "Tableau", "SQL"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="ai"
-                />
-                <ProjectCard
-                  title="Inventory Management System"
-                  description="Full-stack application for tracking inventory levels, orders, and supplier information."
-                  tags={["React", "Node.js", "PostgreSQL", "Express"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="uiux"
-                />
-                <ProjectCard
-                  title="Financial Performance Dashboard"
-                  description="Interactive dashboard visualizing financial KPIs and performance metrics for executive decision-making."
-                  tags={["React", "D3.js", "TypeScript", "REST API"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="dashboard"
                 />
                 <ProjectCard
                   title="T20 World Cup Cricket Analytics"
@@ -120,6 +84,15 @@ export default function ProjectsSection() {
                   githubUrl="#"
                   category="ai"
                 />
+                <ProjectCard
+                  title="Portfolio Website"
+                  description="Modern, responsive portfolio website built with Next.js, featuring smooth animations and dark/light theme toggle."
+                  tags={["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"]}
+                  image="/placeholder.svg?height=400&width=600"
+                  demoUrl="#"
+                  githubUrl="#"
+                  category="uiux"
+                />
               </div>
               <div className="flex justify-center">
                 <Button variant="outline" size="lg">
@@ -131,29 +104,29 @@ export default function ProjectsSection() {
             <TabsContent value="ai" className="space-y-8">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <ProjectCard
+                  title="Production RAG System – Ask My Docs"
+                  description="Domain-specific document Q&A system for financial documents using hybrid BM25 + vector search with Cohere reranking. Pushed answer relevance from ~82% to 94%. Citation enforcement cut hallucinations by 40%. Ragas evaluation pipeline blocks deploys on quality regressions."
+                  tags={["Python", "LangChain", "FAISS", "Cohere Rerank", "FastAPI", "Ragas", "GitHub Actions"]}
+                  image="/placeholder.svg?height=400&width=600"
+                  demoUrl="#"
+                  githubUrl="#"
+                  category="ai"
+                />
+                <ProjectCard
+                  title="LLM Monitoring & Observability Dashboard"
+                  description="Full observability layer over a production RAG system using Langfuse for tracing. Grafana dashboards track p50/p95 latency, token costs, and quality scores. Regression gating in CI automatically blocks deploys when latency spikes or eval scores drop."
+                  tags={["Langfuse", "Prometheus", "Grafana", "Python", "FastAPI", "GitHub Actions"]}
+                  image="/placeholder.svg?height=400&width=600"
+                  demoUrl="#"
+                  githubUrl="#"
+                  category="ai"
+                />
+                <ProjectCard
                   title="Real-Time AI Interview Assistant"
                   description="Next.js-based Real-Time AI Interview Assistant using GPT-4 with speech recognition and analytics dashboard for interview performance tracking."
                   tags={["Next.js", "OpenAI GPT-4", "Speech Recognition", "Analytics"]}
                   image="/aiassistant.png?height=400&width=600"
                   demoUrl="https://realtime-aiinterview-assistant.vercel.app/"
-                  category="ai"
-                />
-                <ProjectCard
-                  title="Predictive Sales Analysis"
-                  description="Machine learning model to predict future sales based on historical data and market trends."
-                  tags={["Python", "Pandas", "Scikit-learn", "Matplotlib"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="ai"
-                />
-                <ProjectCard
-                  title="Customer Segmentation Tool"
-                  description="Data analysis tool that segments customers based on purchasing behavior and demographics."
-                  tags={["Python", "Clustering", "Tableau", "SQL"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
                   category="ai"
                 />
                 <ProjectCard
@@ -172,18 +145,9 @@ export default function ProjectsSection() {
               <DashboardDemo />
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <ProjectCard
-                  title="Interactive Data Dashboard"
-                  description="A real-time dashboard for monitoring key business metrics with interactive visualizations."
-                  tags={["React", "D3.js", "Node.js", "Socket.io"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="dashboard"
-                />
-                <ProjectCard
-                  title="Financial Performance Dashboard"
-                  description="Interactive dashboard visualizing financial KPIs and performance metrics for executive decision-making."
-                  tags={["React", "D3.js", "TypeScript", "REST API"]}
+                  title="LLM Monitoring & Observability Dashboard"
+                  description="Grafana dashboards with Langfuse tracing, tracking p50/p95 latency, token costs, and quality scores across a production RAG system."
+                  tags={["Langfuse", "Prometheus", "Grafana", "FastAPI"]}
                   image="/placeholder.svg?height=400&width=600"
                   demoUrl="#"
                   githubUrl="#"
@@ -203,24 +167,6 @@ export default function ProjectsSection() {
 
             <TabsContent value="uiux" className="space-y-8">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                <ProjectCard
-                  title="E-commerce Analytics Platform"
-                  description="Full-stack application for e-commerce businesses to track sales, customer behavior, and inventory."
-                  tags={["Next.js", "MongoDB", "Express", "Chart.js"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="uiux"
-                />
-                <ProjectCard
-                  title="Inventory Management System"
-                  description="Full-stack application for tracking inventory levels, orders, and supplier information."
-                  tags={["React", "Node.js", "PostgreSQL", "Express"]}
-                  image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
-                  githubUrl="#"
-                  category="uiux"
-                />
                 <ProjectCard
                   title="Portfolio Website"
                   description="Modern, responsive portfolio website built with Next.js, featuring smooth animations and dark/light theme toggle."

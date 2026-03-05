@@ -31,8 +31,7 @@ export default function SkillsSection() {
             </Badge>
             <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Technical Proficiency</h2>
             <p className="mx-auto max-w-2xl text-sm sm:text-base text-muted-foreground">
-              A comprehensive overview of my technical skills in data science, engineering, MLOps, and development
-              technologies.
+              A comprehensive overview of my technical skills in AI engineering, MLOps, generative AI, cloud infrastructure, and data engineering.
             </p>
           </motion.div>
 
@@ -253,17 +252,17 @@ export default function SkillsSection() {
                   </TabsContent>
                   <TabsContent value="ai" className="pt-2">
                     <TechStack
-                      title="AI & Machine Learning Technologies"
-                      description="Advanced AI, ML, and deep learning frameworks and tools I work with."
+                      title="AI, ML & Generative AI Technologies"
+                      description="Advanced AI, ML, LLM, and deep learning frameworks and tools I work with."
                       technologies={[
-                        {
-                          name: "TensorFlow",
-                          customSvg: "/icons/tensorflow-svgrepo-com.svg",
-                          proficiency: 80
-                        },
                         {
                           name: "PyTorch",
                           customSvg: "/icons/pytorch-svgrepo-com.svg",
+                          proficiency: 90
+                        },
+                        {
+                          name: "TensorFlow",
+                          customSvg: "/icons/tensorflow-svgrepo-com.svg",
                           proficiency: 80
                         },
                         {
@@ -272,57 +271,57 @@ export default function SkillsSection() {
                           proficiency: 85
                         },
                         {
-                          name: "Keras",
-                          customSvg: "/icons/keras.svg",
-                          proficiency: 75
-                        },
-                        {
-                          name: "Hugging Face",
-                          customSvg: "/icons/huggingface.svg",
-                          proficiency: 70
-                        },
-                        {
                           name: "LangChain",
                           customSvg: "/icons/langchain.svg",
-                          proficiency: 65
+                          proficiency: 90
                         },
                         {
                           name: "OpenAI",
                           customSvg: "/icons/openai-svgrepo-com.svg",
-                          proficiency: 70
+                          proficiency: 88
+                        },
+                        {
+                          name: "Hugging Face",
+                          customSvg: "/icons/huggingface.svg",
+                          proficiency: 85
                         },
                         {
                           name: "Databricks",
                           customSvg: "/icons/databricks-svgrepo-com.svg",
-                          proficiency: 75
+                          proficiency: 80
                         },
                         {
                           name: "MLflow",
                           customImage: "/icons/mlflow.png",
-                          proficiency: 85
+                          proficiency: 90
                         }
                       ]}
                     />
                   </TabsContent>
                   <TabsContent value="devops" className="pt-2">
                     <TechStack
-                      title="DevOps, MLOps & AIops Technologies"
-                      description="Tools and technologies I use for deployment, automation, and operations."
+                      title="DevOps, MLOps & Infrastructure Technologies"
+                      description="Tools and technologies I use for deployment, automation, GPU optimization, and observability."
                       technologies={[
                         {
                           name: "Docker",
                           customSvg: "/icons/docker-svgrepo-com.svg",
-                          proficiency: 85
+                          proficiency: 88
+                        },
+                        {
+                          name: "Kubernetes",
+                          customSvg: "/icons/kubernetes-svgrepo-com.svg",
+                          proficiency: 88
                         },
                         {
                           name: "AWS",
                           customSvg: "/icons/aws-svgrepo-com.svg",
-                          proficiency: 80
+                          proficiency: 85
                         },
                         {
                           name: "Azure",
                           customSvg: "/icons/azure-svgrepo-com.svg",
-                          proficiency: 75
+                          proficiency: 78
                         },
                         {
                           name: "Google Cloud",
@@ -330,34 +329,24 @@ export default function SkillsSection() {
                           proficiency: 75
                         },
                         {
-                          name: "Kubernetes",
-                          customSvg: "/icons/kubernetes-svgrepo-com.svg",
-                          proficiency: 80
-                        },
-                        {
-                          name: "GitHub",
-                          customSvg: "/icons/github-142-svgrepo-com.svg",
-                          proficiency: 90
-                        },
-                        {
-                          name: "Git",
-                          customSvg: "/icons/git-svgrepo-com.svg",
-                          proficiency: 90
+                          name: "Apache Airflow",
+                          customSvg: "/icons/apacheairflow-svgrepo-com.svg",
+                          proficiency: 88
                         },
                         {
                           name: "Jenkins",
                           customSvg: "/icons/jenkins-svgrepo-com.svg",
-                          proficiency: 70
-                        },
-                        {
-                          name: "Apache Airflow",
-                          customSvg: "/icons/apacheairflow-svgrepo-com.svg",
                           proficiency: 80
                         },
                         {
                           name: "Kafka",
                           customSvg: "/icons/kafka-icon-svgrepo-com.svg",
-                          proficiency: 70
+                          proficiency: 75
+                        },
+                        {
+                          name: "GitHub",
+                          customSvg: "/icons/github-142-svgrepo-com.svg",
+                          proficiency: 90
                         },
                         {
                           name: "Linux",
@@ -390,7 +379,7 @@ export default function SkillsSection() {
                         {
                           name: "FastAPI",
                           customSvg: "/icons/fastapi.svg",
-                          proficiency: 75
+                          proficiency: 88
                         },
                         {
                           name: "Flask",
