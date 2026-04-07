@@ -23,42 +23,38 @@ const timelineData: TimelineItem[] = [
     skills: ["Data Science", "Statistics", "Machine Learning", "Deep Learning", "Software Engineering"],
   },
   {
-    date: "January 2025 – Present",
-    title: "AI Engineer @ JPMorgan Chase & Co. — Remote, USA",
+    date: "July 2025 - Present",
+    title: "AI Engineer @ JPMorgan Chase & Co. — New Jersey, USA",
     description: `<ul class="list-disc pl-4 space-y-1">
-      <li>Own the inference platform that serves 60K+ predictions daily across enterprise analytics workloads. Set it up on Kubernetes with EC2 GPU instances, currently sitting at 99.8% uptime.</li>
-      <li>Built out the RAG and anomaly detection pipelines using LangChain, OpenAI API, and PyTorch. The anomaly detection piece alone improved accuracy by about 31% over what was there before.</li>
-      <li>Worked closely with DevOps to get our FastAPI microservices into a proper CI/CD flow with MLflow and Airflow. Cut deployment time roughly in half.</li>
-      <li>Spent a good amount of time on GPU optimization with TensorRT, got utilization up 28%. Also set up the Prometheus/Grafana dashboards the team now uses daily.</li>
-      <li>Helped compress our prototype-to-production timeline from ~2 weeks down to 5 days by working directly with the data science team and mentoring a few junior engineers through the process.</li>
+      <li>Built scalable inference services handling ~60K requests/day on Kubernetes with GPU-backed infrastructure, serving real-time predictions across multiple financial business units.</li>
+      <li>Reduced model latency from ~900ms to ~580ms (35%) through request batching strategies and TensorRT optimization on production serving infrastructure.</li>
+      <li>Developed RAG pipelines combining BM25 + FAISS with Reciprocal Rank Fusion and Cohere reranking for anomaly detection and enterprise data insights, improving answer relevance from 82% to 94%.</li>
+      <li>Deployed and maintained production ML services through CI/CD pipelines with automated quality evaluation using Ragas, collaborating with cross-functional teams to ensure uptime.</li>
     </ul>`,
     icon: <Rocket className="h-6 w-6" />,
-    skills: ["Kubernetes", "PyTorch", "LangChain", "OpenAI API", "RAG", "TensorRT", "FastAPI", "MLflow", "Airflow", "Prometheus", "Grafana"],
+    skills: ["Kubernetes", "PyTorch", "LangChain", "OpenAI API", "RAG", "TensorRT", "FastAPI", "MLflow", "Airflow", "Prometheus", "Grafana", "GPU", "FAISS", "Cohere", "CI/CD", "Ragas"],
   },
   {
-    date: "July 2024 – December 2024",
-    title: "AI Engineer @ VMware (Broadcom) — Remote, USA",
+    date: "July 2024 – September 2024",
+    title: "Software Engineering Fellow @ Headstarter AI — Remote, USA",
     description: `<ul class="list-disc pl-4 space-y-1">
-      <li>Owned the predictive analytics pipeline end-to-end — training, validation, deployment. PyTorch models with MLflow tracking and Airflow orchestration. Helped cut incident response time by around 40%.</li>
-      <li>Put together NLP services for semantic search across internal knowledge bases using Hugging Face Transformers and LangChain, wrapped in FastAPI.</li>
-      <li>Brought inference latency down 27% by moving to TensorRT and Ray Serve. Most of this was profiling work to find where the bottlenecks actually were.</li>
-      <li>Partnered with the cloud team on AWS infrastructure (S3, EC2, Lambda) and Kubernetes deployments. A lot of this was making sure our data pipelines were reproducible and properly versioned.</li>
+      <li>Built 5+ AI apps and APIs using FastAPI, OpenAI, Pinecone and Stripe API.</li>
+      <li>Successfully led 4+ engineering fellows to deliver projects from design to deployment, enhancing team productivity.</li>
     </ul>`,
     icon: <Rocket className="h-6 w-6" />,
-    skills: ["PyTorch", "MLflow", "Airflow", "Hugging Face", "LangChain", "FastAPI", "TensorRT", "Ray Serve", "AWS", "Kubernetes"],
+    skills: ["FastAPI", "OpenAI", "Pinecone", "Stripe API"],
   },
   {
     date: "October 2020 – August 2023",
-    title: "Data Scientist @ Accenture — Hyderabad, India",
+    title: "AI Engineer @ Accenture — Hyderabad, India",
     description: `<ul class="list-disc pl-4 space-y-1">
-      <li>Built NLP chatbots and recommendation engines on Azure OpenAI and Hugging Face that increased user engagement by 22% for clients.</li>
-      <li>Set up the team's MLOps platform from scratch — Databricks, Airflow, MLflow, Docker. Before this, model handoffs were mostly manual. Took about 45% off delivery timelines.</li>
-      <li>Built multi-agent systems with LangChain, LlamaIndex, and Pinecone/FAISS for document Q&amp;A. One Fortune 100 client reported it cut analyst research time by 60%.</li>
-      <li>Helped modernize a 5 TB/day streaming pipeline on AWS Glue and Kinesis — integrated with legacy systems without downtime and got throughput up about 30%.</li>
-      <li>Managed a team of 5 (mix of engineers and data scientists). Introduced code review standards and AI governance processes. Shipped 7 models to production that year.</li>
+      <li>Developed NLP classification and recommendation systems for enterprise applications, improving user engagement by 18% through personalized content ranking models.</li>
+      <li>Designed end-to-end ML pipelines for model training, validation, and deployment, reducing model release cycles from weeks to days across 6+ production solutions.</li>
+      <li>Built document search and Q&A systems using transformer-based architectures, enabling semantic retrieval across 500K+ enterprise documents.</li>
+      <li>Mentored 4 junior engineers on ML development practices and contributed to delivery of production-grade AI solutions across client engagements.</li>
     </ul>`,
     icon: <Shield className="h-6 w-6" />,
-    skills: ["NLP", "LangChain", "LlamaIndex", "Pinecone", "FAISS", "Azure OpenAI", "Hugging Face", "Databricks", "MLflow", "AWS Glue", "Kinesis", "Docker"],
+    skills: ["NLP", "LangChain", "LlamaIndex", "Pinecone", "FAISS", "Azure OpenAI", "Hugging Face", "Databricks", "MLflow", "AWS Glue", "Kinesis", "Docker", "Transformers", "CI/CD", "Machine Learning", "Mentorship"],
   },
 ]
 

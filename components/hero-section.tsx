@@ -64,7 +64,7 @@ export default function HeroSection() {
               About Me
             </Button>
             <Button variant="secondary" size="lg" className="gap-2" asChild>
-              <a href="/Yashwanth-Reddy-AI_Engineer-Resume.pdf" download>
+              <a href="/Yashwanth_Reddy_AI_Engineer_Resume.pdf" download>
                 Download CV <Download className="h-4 w-4" />
               </a>
             </Button>
