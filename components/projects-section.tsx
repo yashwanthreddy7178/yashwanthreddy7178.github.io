@@ -85,6 +85,15 @@ export default function ProjectsSection() {
                   category="ai"
                 />
                 <ProjectCard
+                  title="Zara Web Redesign"
+                  description="A UX + frontend case study rebuilding Zara's storefront as a React SPA. Fixed navigation, readability, and product-discovery problems documented across published UX reviews. 7 routes, 13 components, purple accent system."
+                  tags={["React", "React Router", "Tailwind CSS", "UX Research", "Case Study"]}
+                  image="/zara-redesign.png"
+                  demoUrl="/zara-redesign-case-study.html"
+                  githubUrl="https://github.com/yashwanthreddy7178/zara_web_redesign"
+                  category="uiux"
+                />
+                <ProjectCard
                   title="Portfolio Website"
                   description="Modern, responsive portfolio website built with Next.js, featuring smooth animations and dark/light theme toggle."
                   tags={["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"]}
@@ -167,6 +176,15 @@ export default function ProjectsSection() {
 
             <TabsContent value="uiux" className="space-y-8">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <ProjectCard
+                  title="Zara Web Redesign"
+                  description="A UX + frontend case study rebuilding Zara's storefront as a React SPA. Fixed navigation, readability, and product-discovery problems documented across published UX reviews. 7 routes, 13 components, purple accent system."
+                  tags={["React", "React Router", "Tailwind CSS", "UX Research", "Case Study"]}
+                  image="/zara-redesign.png"
+                  demoUrl="/zara-redesign-case-study.html"
+                  githubUrl="https://github.com/yashwanthreddy7178/zara_web_redesign"
+                  category="uiux"
+                />
                 <ProjectCard
                   title="Portfolio Website"
                   description="Modern, responsive portfolio website built with Next.js, featuring smooth animations and dark/light theme toggle."
