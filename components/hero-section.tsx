@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { useScrollToSection } from "@/hooks/use-scroll-to-section"
 import { motion } from "framer-motion"
-import { ArrowRight, Code, Database, Download, LineChart } from "lucide-react"
+import { ArrowRight, Code, Database, Download, Github, Target } from "lucide-react"
 
 export default function HeroSection() {
   const scrollToSection = useScrollToSection()
@@ -16,7 +16,7 @@ export default function HeroSection() {
         <div className="mx-auto max-w-4xl text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <Badge variant="outline" className="mb-3 sm:mb-4 border-primary/20 px-3 sm:px-4 py-1 text-sm font-medium text-primary">
-              Full-Stack Data Developer
+              AI Engineer
             </Badge>
           </motion.div>
 
@@ -35,10 +35,11 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
           >
-            Where <span className="bg-gradient-to-r from-primary to-green-500 bg-clip-text text-transparent">Data</span>{" "}
-            Meets{" "}
+            Building Production{" "}
+            <span className="bg-gradient-to-r from-primary to-green-500 bg-clip-text text-transparent">GenAI</span>{" "}
+            &amp;{" "}
             <span className="bg-gradient-to-r from-green-500 to-amber-500 bg-clip-text text-transparent">
-              Development
+              ML Systems
             </span>
           </motion.h2>
 
@@ -48,7 +49,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Transforming complex data into intuitive solutions through full-stack development and data science
+            RAG · LLM Evaluation · ML Serving · MLOps
           </motion.p>
 
           <motion.div
@@ -58,14 +59,16 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <Button size="lg" className="gap-2" onClick={() => scrollToSection("projects")}>
-              View Projects <ArrowRight className="h-4 w-4" />
+              View Work <ArrowRight className="h-4 w-4" />
             </Button>
-            <Button variant="outline" size="lg" onClick={() => scrollToSection("about")}>
-              About Me
+            <Button variant="outline" size="lg" className="gap-2" asChild>
+              <a href="https://github.com/yashwanthreddy7178" target="_blank" rel="noopener noreferrer">
+                <Github className="h-4 w-4" /> GitHub
+              </a>
             </Button>
             <Button variant="secondary" size="lg" className="gap-2" asChild>
               <a href="/Yashwanth_Reddy_AI_Engineer_Resume.pdf" download>
-                Download CV <Download className="h-4 w-4" />
+                Resume <Download className="h-4 w-4" />
               </a>
             </Button>
           </motion.div>
@@ -92,10 +95,10 @@ export default function HeroSection() {
             </div>
             <div className="text-center">
               <div className="mb-1 flex items-center justify-center">
-                <LineChart className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                <Target className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold">10+</h3>
-              <p className="text-xs sm:text-sm text-muted-foreground">Technologies Mastered</p>
+              <h3 className="text-xl sm:text-2xl font-bold">94%</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">RAG Retrieval Relevance</p>
             </div>
           </motion.div>
         </div>

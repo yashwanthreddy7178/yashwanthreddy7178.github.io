@@ -46,9 +46,9 @@ export default function SkillsSection() {
                 <Tabs defaultValue="overview" className="w-full">
                   <TabsList className="mb-4 sm:mb-6 grid w-full grid-cols-2 sm:grid-cols-5">
                     <TabsTrigger value="overview">Overview</TabsTrigger>
-                    <TabsTrigger value="data">Data Science</TabsTrigger>
                     <TabsTrigger value="ai">AI & ML</TabsTrigger>
                     <TabsTrigger value="devops">DevOps</TabsTrigger>
+                    <TabsTrigger value="data">Data Science</TabsTrigger>
                     <TabsTrigger value="development">Development</TabsTrigger>
                   </TabsList>
                   <TabsContent value="overview" className="pt-2">
@@ -60,7 +60,7 @@ export default function SkillsSection() {
                         <h3 className="mb-4 sm:mb-6 text-lg sm:text-xl font-bold">Core Competencies</h3>
                         <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
                           <SkillItem
-                            name="Data Science & Analysis"
+                            name="AI & Machine Learning"
                             logo={
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -72,27 +72,14 @@ export default function SkillsSection() {
                                 strokeLinejoin="round"
                                 className="h-8 w-8 sm:h-10 sm:w-10 text-primary"
                               >
-                                <path d="M3 3v18h18" />
-                                <path d="m19 9-5 5-4-4-3 3" />
-                              </svg>
-                            }
-                          />
-                          <SkillItem
-                            name="Data Engineering"
-                            logo={
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="h-8 w-8 sm:h-10 sm:w-10 text-primary"
-                              >
-                                <ellipse cx="12" cy="5" rx="9" ry="3" />
-                                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
-                                <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" />
+                                <path d="M12 2v8" />
+                                <path d="m4.93 10.93 1.41 1.41" />
+                                <path d="M2 18h2" />
+                                <path d="M20 18h2" />
+                                <path d="m19.07 10.93-1.41 1.41" />
+                                <path d="M22 22H2" />
+                                <path d="m16 6-4 4-4-4" />
+                                <path d="M16 18a4 4 0 0 0-8 0" />
                               </svg>
                             }
                           />
@@ -120,7 +107,7 @@ export default function SkillsSection() {
                             }
                           />
                           <SkillItem
-                            name="AI & Machine Learning"
+                            name="Backend Development"
                             logo={
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -132,14 +119,44 @@ export default function SkillsSection() {
                                 strokeLinejoin="round"
                                 className="h-8 w-8 sm:h-10 sm:w-10 text-primary"
                               >
-                                <path d="M12 2v8" />
-                                <path d="m4.93 10.93 1.41 1.41" />
-                                <path d="M2 18h2" />
-                                <path d="M20 18h2" />
-                                <path d="m19.07 10.93-1.41 1.41" />
-                                <path d="M22 22H2" />
-                                <path d="m16 6-4 4-4-4" />
-                                <path d="M16 18a4 4 0 0 0-8 0" />
+                                <path d="M18 10h-4V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v6H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2z" />
+                              </svg>
+                            }
+                          />
+                          <SkillItem
+                            name="Data Engineering"
+                            logo={
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="h-8 w-8 sm:h-10 sm:w-10 text-primary"
+                              >
+                                <ellipse cx="12" cy="5" rx="9" ry="3" />
+                                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                                <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" />
+                              </svg>
+                            }
+                          />
+                          <SkillItem
+                            name="Data Science & Analysis"
+                            logo={
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="h-8 w-8 sm:h-10 sm:w-10 text-primary"
+                              >
+                                <path d="M3 3v18h18" />
+                                <path d="m19 9-5 5-4-4-3 3" />
                               </svg>
                             }
                           />

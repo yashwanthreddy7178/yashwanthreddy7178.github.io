@@ -2,7 +2,7 @@
 
 import ParticleBackground from "@/components/particle-background"
 import { motion } from "framer-motion"
-import { CheckCircle2, GraduationCap, Rocket, Shield } from "lucide-react"
+import { Building2, CheckCircle2, GraduationCap, Rocket, Shield } from "lucide-react"
 import type React from "react"
 
 interface TimelineItem {
@@ -39,25 +39,38 @@ const timelineData: TimelineItem[] = [
   },
   {
     date: "July 2024 – September 2024",
-    title: "Software Engineering Fellow @ Headstarter AI — Remote, USA",
+    title: "Software Engineer Fellow @ Headstarter AI — NYC, USA",
     description: `<ul class="list-disc pl-4 space-y-1">
-      <li>Built 5+ AI apps and APIs using FastAPI, OpenAI, Pinecone and Stripe API.</li>
-      <li>Successfully led 4+ engineering fellows to deliver projects from design to deployment, enhancing team productivity.</li>
+      <li>Shipped production AI applications using Python, FastAPI, OpenAI, Pinecone, and Stripe handling real payments and customer data from design to deployment.</li>
+      <li>Implemented CI/CD pipelines using Python and GitHub Actions for automated testing, versioning, and reproducible deployments across dev, staging, and production environments.</li>
+      <li>Led engineers through full development cycles, reviewing architecture and code quality to ship projects on schedule without technical debt.</li>
+      <li>Deployed on AWS with GitHub Actions CI/CD and automated tests to catch problems before users encounter them, ensuring system reliability as requirements changed.</li>
     </ul>`,
     icon: <Rocket className="h-6 w-6" />,
-    skills: ["FastAPI", "OpenAI", "Pinecone", "Stripe API"],
+    skills: ["Python", "FastAPI", "OpenAI", "Pinecone", "Stripe", "GitHub Actions", "AWS"],
   },
   {
-    date: "October 2020 – August 2023",
-    title: "AI Engineer @ Accenture — Hyderabad, India",
+    date: "January 2023 – August 2023",
+    title: "Software Engineer @ Google (client via Accenture) — Hyderabad, India",
     description: `<ul class="list-disc pl-4 space-y-1">
-      <li>Developed NLP classification and recommendation systems for enterprise applications, improving user engagement by 18% through personalized content ranking models.</li>
-      <li>Designed end-to-end ML pipelines for model training, validation, and deployment, reducing model release cycles from weeks to days across 6+ production solutions.</li>
-      <li>Built document search and Q&A systems using transformer-based architectures, enabling semantic retrieval across 500K+ enterprise documents.</li>
-      <li>Mentored 4 junior engineers on ML development practices and contributed to delivery of production-grade AI solutions across client engagements.</li>
+      <li>Fixed Bard's (now called Gemini) harmful responses using Python regex patterns to filter political bias, sexual content, hate speech, and misinformation so users got helpful answers.</li>
+      <li>Validated content filtering by regenerating responses in production before releases, confirming harmful content was blocked.</li>
     </ul>`,
     icon: <Shield className="h-6 w-6" />,
-    skills: ["NLP", "LangChain", "LlamaIndex", "Pinecone", "FAISS", "Azure OpenAI", "Hugging Face", "Databricks", "MLflow", "AWS Glue", "Kinesis", "Docker", "Transformers", "CI/CD", "Machine Learning", "Mentorship"],
+    skills: ["Python", "Content Moderation", "Responsible AI"],
+  },
+  {
+    date: "January 2022 – September 2023",
+    title: "Software Engineer @ Accenture — Hyderabad, India",
+    description: `<ul class="list-disc pl-4 space-y-1">
+      <li>Built NLP classification and ranking models using Python and transformer-based architectures to replace generic recommendations, deployed across apps so users found relevant content.</li>
+      <li>Automated ML workflows using Python automating data prep, model training, testing, packaging, and deployment to eliminate manual bottlenecks in release cycles.</li>
+      <li>Shipped full-stack features across .NET, C#, React, Angular, and Node.js for enterprise clients, owning the entire path from API design to production.</li>
+      <li>Optimized REST endpoints and SQL Server databases using Python and SQL, tuning queries and adding caching so users got instant responses.</li>
+      <li>Mentored junior engineers on building and shipping ML systems; two led independent AI projects for clients.</li>
+    </ul>`,
+    icon: <Building2 className="h-6 w-6" />,
+    skills: ["Python", "Transformers", "NLP", ".NET", "C#", "React", "Angular", "Node.js", "SQL Server", "Mentorship"],
   },
 ]
 

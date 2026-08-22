@@ -65,7 +65,7 @@ export default function AboutSection() {
                   At the intersection of AI innovation and data science, I transform complex problems into impactful solutions that drive measurable business outcomes.
                 </p>
                 <p>
-                  Software Engineer specializing in AI applications and machine learning, helping organizations leverage data for competitive advantage. With experience at Accenture and Headstarter AI, I focus on developing intelligent systems that enhance user experiences.
+                  AI Engineer specializing in production GenAI and ML systems, helping organizations leverage data for competitive advantage. With experience at Endeavour Technologies, Headstarter AI, and Accenture (including a client engagement with Google), I focus on developing intelligent systems that enhance user experiences.
                 </p>
                 <p>
                   I combine technical expertise with business acumen, following a systematic approach: understanding requirements, designing data-driven architectures, and implementing scalable solutions with measurable results.

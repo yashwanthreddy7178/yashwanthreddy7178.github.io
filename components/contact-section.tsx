@@ -69,8 +69,8 @@ export default function ContactSection() {
             </Badge>
             <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Get In Touch</h2>
             <p className="mx-auto max-w-2xl text-sm sm:text-base text-muted-foreground">
-              Have a project in mind or interested in working together? I'd love to hear from you. Let's create
-              something amazing.
+              Open to full-time AI Engineer roles. If your team is hiring or you'd like to talk about a fit, I'd love
+              to hear from you.
             </p>
           </motion.div>
 
@@ -103,7 +103,7 @@ export default function ContactSection() {
                   </div>
 
                   <div className="flex flex-col">
-                    <p className="mb-2 sm:mb-3 text-sm font-medium">Ready to discuss your project?</p>
+                    <p className="mb-2 sm:mb-3 text-sm font-medium">Hiring for an AI Engineer role?</p>
                     <Button size="lg" className="w-full" onClick={() => {
                       // @ts-ignore
                       Calendly.initPopupWidget({url: 'https://calendly.com/yashwanthreddy7178/30min'});

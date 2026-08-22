@@ -12,8 +12,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "TechbyYash - Yashwanth Reddy Boddireddy",
-  description: "Portfolio showcasing data development and full-stack skills",
-    generator: 'v0.dev'
+  description: "AI Engineer building production GenAI, RAG, and ML systems",
 }
 
 export default function RootLayout({
