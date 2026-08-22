@@ -41,11 +41,20 @@ export default function ProjectsSection() {
             <TabsContent value="all" className="space-y-6 sm:space-y-8">
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 <ProjectCard
+                  title="Multi-Agent Conversational System"
+                  description="Production customer support system routing conversations to specialist LangGraph subagents (triage, scheduling, promotions, support). Replaced lock-based turn serialization with cancellable, generation-tracked turns so new utterances cancel stale LLM/tool streams instantly. Async ToolNode with asyncio.gather for parallel tool calls, RAG grounded in Supabase Postgres with row-level security, JWT auth, and single-use signed WebSocket tokens."
+                  tags={["LangGraph", "LangChain", "Chroma", "OpenAI", "FastAPI", "Supabase", "WebSocket", "AWS", "Vercel"]}
+                  image="/placeholder.svg?height=400&width=600"
+                  demoUrl="/multi-agent-conversational-system-case-study.html"
+                  githubUrl="#"
+                  category="ai"
+                />
+                <ProjectCard
                   title="Production RAG System – Ask My Docs"
                   description="Domain-specific document Q&A system for financial documents using hybrid BM25 + vector search with Cohere reranking. Pushed answer relevance from ~82% to 94%. Citation enforcement cut hallucinations by 40%. Ragas evaluation pipeline blocks deploys on quality regressions. Handles 500+ page docs in under 2s."
                   tags={["Python", "LangChain", "FAISS", "Cohere Rerank", "FastAPI", "Ragas", "GitHub Actions"]}
                   image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
+                  demoUrl="/rag-system-case-study.html"
                   githubUrl="#"
                   category="ai"
                 />
@@ -54,7 +63,7 @@ export default function ProjectsSection() {
                   description="Full observability layer over a production RAG system using Langfuse for tracing. Every query broken into retrieval, reranking, and generation time. Grafana dashboards track p50/p95 latency, token costs, and quality scores. Regression gating in CI blocks deploys when latency spikes or eval scores drop."
                   tags={["Langfuse", "Prometheus", "Grafana", "Python", "FastAPI", "GitHub Actions"]}
                   image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
+                  demoUrl="/llm-observability-case-study.html"
                   githubUrl="#"
                   category="ai"
                 />
@@ -64,6 +73,7 @@ export default function ProjectsSection() {
                   tags={["Next.js", "OpenAI GPT-4", "Speech Recognition", "Analytics"]}
                   image="/aiassistant.png?height=400&width=600"
                   demoUrl="https://realtime-aiinterview-assistant.vercel.app/"
+                  caseStudyUrl="/ai-interview-assistant-case-study.html"
                   category="ai"
                 />
                 <ProjectCard
@@ -71,7 +81,7 @@ export default function ProjectsSection() {
                   description="Power BI dashboard for T20 player selection with 90% match-winning probability using data-driven analysis."
                   tags={["Power BI", "Python", "Pandas", "Data Analysis"]}
                   image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
+                  demoUrl="/t20-cricket-analytics-case-study.html"
                   githubUrl="#"
                   category="dashboard"
                 />
@@ -80,7 +90,7 @@ export default function ProjectsSection() {
                   description="MLOps-based wine quality prediction system with 97% accuracy, featuring MLflow integration and AWS deployment."
                   tags={["MLOps", "MLflow", "AWS", "CI/CD"]}
                   image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
+                  demoUrl="/wine-quality-prediction-case-study.html"
                   githubUrl="#"
                   category="ai"
                 />
@@ -98,7 +108,7 @@ export default function ProjectsSection() {
                   description="Modern, responsive portfolio website built with Next.js, featuring smooth animations and dark/light theme toggle."
                   tags={["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"]}
                   image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
+                  demoUrl="/portfolio-website-case-study.html"
                   githubUrl="#"
                   category="uiux"
                 />
@@ -113,11 +123,20 @@ export default function ProjectsSection() {
             <TabsContent value="ai" className="space-y-8">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <ProjectCard
+                  title="Multi-Agent Conversational System"
+                  description="Production customer support system routing conversations to specialist LangGraph subagents (triage, scheduling, promotions, support). Replaced lock-based turn serialization with cancellable, generation-tracked turns so new utterances cancel stale LLM/tool streams instantly. Async ToolNode with asyncio.gather for parallel tool calls, RAG grounded in Supabase Postgres with row-level security, JWT auth, and single-use signed WebSocket tokens."
+                  tags={["LangGraph", "LangChain", "Chroma", "OpenAI", "FastAPI", "Supabase", "WebSocket", "AWS", "Vercel"]}
+                  image="/placeholder.svg?height=400&width=600"
+                  demoUrl="/multi-agent-conversational-system-case-study.html"
+                  githubUrl="#"
+                  category="ai"
+                />
+                <ProjectCard
                   title="Production RAG System – Ask My Docs"
                   description="Domain-specific document Q&A system for financial documents using hybrid BM25 + vector search with Cohere reranking. Pushed answer relevance from ~82% to 94%. Citation enforcement cut hallucinations by 40%. Ragas evaluation pipeline blocks deploys on quality regressions."
                   tags={["Python", "LangChain", "FAISS", "Cohere Rerank", "FastAPI", "Ragas", "GitHub Actions"]}
                   image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
+                  demoUrl="/rag-system-case-study.html"
                   githubUrl="#"
                   category="ai"
                 />
@@ -126,7 +145,7 @@ export default function ProjectsSection() {
                   description="Full observability layer over a production RAG system using Langfuse for tracing. Grafana dashboards track p50/p95 latency, token costs, and quality scores. Regression gating in CI automatically blocks deploys when latency spikes or eval scores drop."
                   tags={["Langfuse", "Prometheus", "Grafana", "Python", "FastAPI", "GitHub Actions"]}
                   image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
+                  demoUrl="/llm-observability-case-study.html"
                   githubUrl="#"
                   category="ai"
                 />
@@ -136,6 +155,7 @@ export default function ProjectsSection() {
                   tags={["Next.js", "OpenAI GPT-4", "Speech Recognition", "Analytics"]}
                   image="/aiassistant.png?height=400&width=600"
                   demoUrl="https://realtime-aiinterview-assistant.vercel.app/"
+                  caseStudyUrl="/ai-interview-assistant-case-study.html"
                   category="ai"
                 />
                 <ProjectCard
@@ -143,7 +163,7 @@ export default function ProjectsSection() {
                   description="MLOps-based wine quality prediction system with 97% accuracy, featuring MLflow integration and AWS deployment."
                   tags={["MLOps", "MLflow", "AWS", "CI/CD"]}
                   image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
+                  demoUrl="/wine-quality-prediction-case-study.html"
                   githubUrl="#"
                   category="ai"
                 />
@@ -158,7 +178,7 @@ export default function ProjectsSection() {
                   description="Grafana dashboards with Langfuse tracing, tracking p50/p95 latency, token costs, and quality scores across a production RAG system."
                   tags={["Langfuse", "Prometheus", "Grafana", "FastAPI"]}
                   image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
+                  demoUrl="/llm-observability-case-study.html"
                   githubUrl="#"
                   category="dashboard"
                 />
@@ -167,7 +187,7 @@ export default function ProjectsSection() {
                   description="Power BI dashboard for T20 player selection with 90% match-winning probability using data-driven analysis."
                   tags={["Power BI", "Python", "Pandas", "Data Analysis"]}
                   image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
+                  demoUrl="/t20-cricket-analytics-case-study.html"
                   githubUrl="#"
                   category="dashboard"
                 />
@@ -190,7 +210,7 @@ export default function ProjectsSection() {
                   description="Modern, responsive portfolio website built with Next.js, featuring smooth animations and dark/light theme toggle."
                   tags={["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"]}
                   image="/placeholder.svg?height=400&width=600"
-                  demoUrl="#"
+                  demoUrl="/portfolio-website-case-study.html"
                   githubUrl="#"
                   category="uiux"
                 />

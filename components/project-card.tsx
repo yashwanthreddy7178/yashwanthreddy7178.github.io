@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { motion } from "framer-motion"
-import { ExternalLink, Github } from "lucide-react"
+import { BookOpen, ExternalLink, Github } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -15,10 +15,11 @@ interface ProjectCardProps {
   image: string
   demoUrl: string
   githubUrl?: string
+  caseStudyUrl?: string
   category: string
 }
 
-export function ProjectCard({ title, description, tags, image, demoUrl, githubUrl, category }: ProjectCardProps) {
+export function ProjectCard({ title, description, tags, image, demoUrl, githubUrl, caseStudyUrl, category }: ProjectCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -52,13 +53,21 @@ export function ProjectCard({ title, description, tags, image, demoUrl, githubUr
             ))}
           </div>
         </CardContent>
-        <CardFooter className={`p-4 pt-0 ${githubUrl ? 'flex justify-between' : 'flex justify-center'}`}>
+        <CardFooter className="flex flex-wrap justify-center gap-2 p-4 pt-0">
           <Button asChild size="sm" variant="outline">
             <Link href={demoUrl}>
               <ExternalLink className="mr-2 h-4 w-4" />
               Demo
             </Link>
           </Button>
+          {caseStudyUrl && (
+            <Button asChild size="sm" variant="outline">
+              <Link href={caseStudyUrl}>
+                <BookOpen className="mr-2 h-4 w-4" />
+                Case Study
+              </Link>
+            </Button>
+          )}
           {githubUrl && (
             <Button asChild size="sm" variant="outline">
               <Link href={githubUrl}>

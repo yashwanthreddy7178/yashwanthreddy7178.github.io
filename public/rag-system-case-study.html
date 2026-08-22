@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ask My Docs — Production RAG System Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF9F6;
+    --surface:#FFFFFF;
+    --ink:#151311;
+    --ink-soft:#56524C;
+    --line:#E4E0D8;
+    --line-strong:#CFC9BD;
+    --purple:#7E22CE;
+    --purple-bright:#9333EA;
+    --purple-tint:#F3EAFB;
+
+    --display:"DM Sans", system-ui, sans-serif;
+    --body:"Plus Jakarta Sans", system-ui, sans-serif;
+    --mono:"DM Mono", ui-monospace, monospace;
+
+    --maxw:1180px;
+    --pad:clamp(20px,5vw,64px);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none !important; transition:none !important}}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--pad)}
+  a{color:inherit}
+  img{max-width:100%}
+
+  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--purple);margin:0}
+  h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.08;letter-spacing:-.03em;margin:0}
+  h2{font-size:clamp(2rem,4.4vw,3.2rem);margin-bottom:.3em}
+  h3{font-size:1.35rem;line-height:1.15}
+  p{margin:0 0 1em}
+  .lead{font-size:clamp(1.1rem,1.8vw,1.45rem);line-height:1.5;color:var(--ink);font-weight:400}
+
+  .topbar{position:sticky;top:0;z-index:60;background:color-mix(in srgb, var(--paper) 86%, transparent);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--line)}
+  .topbar .row{display:flex;align-items:center;justify-content:space-between;height:58px}
+  .mark{font-family:var(--display);font-weight:800;font-size:1.1rem;letter-spacing:-.01em}
+  .mark b{color:var(--purple)}
+  .topnav{display:flex;gap:26px;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+  .topnav a{color:var(--ink-soft);text-decoration:none;transition:color .2s}
+  .topnav a:hover,.topnav a:focus-visible{color:var(--purple)}
+  @media (max-width:720px){.topnav{display:none}}
+
+  .hero{padding:clamp(64px,11vw,140px) 0 clamp(48px,7vw,90px)}
+  .hero .kicker{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:30px}
+  .pill{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;color:var(--ink-soft)}
+  .hero h1{font-size:clamp(2.8rem,8.5vw,6.4rem);font-weight:800;letter-spacing:-.035em;margin:0 0 .12em}
+  .hero h1 .it{font-style:italic;font-weight:700}
+  .hero h1 .ac{color:var(--purple)}
+  .hero .sub{max-width:50ch;color:var(--ink-soft);font-size:clamp(1.05rem,1.7vw,1.3rem);line-height:1.55;margin-top:.6em}
+  .meta-row{display:flex;flex-wrap:wrap;gap:0;margin-top:48px;border-top:1px solid var(--line)}
+  .meta-row .cell{flex:1 1 170px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .meta-row .cell + .cell{border-left:1px solid var(--line);padding-left:22px}
+  .meta-row .k{font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px}
+  .meta-row .v{font-size:.98rem;font-weight:500}
+  @media (max-width:720px){.meta-row .cell + .cell{border-left:none;padding-left:0}.meta-row .cell{flex-basis:100%}}
+
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;padding:14px 22px;border-radius:999px;text-decoration:none;border:1px solid var(--ink);transition:transform .18s ease, background .2s, color .2s, border-color .2s}
+  .btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .btn.primary:hover,.btn.primary:focus-visible{background:var(--purple);border-color:var(--purple);transform:translateY(-2px)}
+  .btn.ghost{background:transparent;color:var(--ink)}
+  .btn.ghost:hover,.btn.ghost:focus-visible{border-color:var(--purple);color:var(--purple);transform:translateY(-2px)}
+  .btn .arr{font-size:1rem;line-height:0}
+
+  section.block{padding:clamp(56px,8vw,104px) 0;border-top:1px solid var(--line)}
+  .sec-head{max-width:64ch;margin-bottom:48px}
+  .sec-head .lead{color:var(--ink-soft);margin-top:.4em}
+  .num{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;color:var(--purple);display:block;margin-bottom:14px}
+
+  .grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+  .grid.c3{grid-template-columns:repeat(3,1fr)}
+  @media (max-width:860px){.grid.c3{grid-template-columns:1fr}}
+  .card{background:var(--surface);padding:30px}
+  .card .tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px}
+  .card h3{font-size:1.18rem;margin-bottom:.45em}
+  .card p{font-size:.96rem;color:var(--ink-soft);margin:0}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
+  @media (max-width:860px){.stats{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:520px){.stats{grid-template-columns:1fr}}
+  .stat{background:var(--surface);padding:28px 24px}
+  .stat .big{font-family:var(--display);font-size:clamp(2rem,4.2vw,2.8rem);font-weight:600;line-height:1;letter-spacing:-.02em}
+  .stat .big.p{color:var(--purple)}
+  .stat .desc{font-size:.86rem;color:var(--ink-soft);margin-top:12px;line-height:1.5}
+
+  .map{border-top:1px solid var(--line);margin-top:8px}
+  .map-row{display:grid;grid-template-columns:38px 1fr 1.4fr;gap:24px;padding:26px 0;border-bottom:1px solid var(--line);align-items:start}
+  @media (max-width:760px){.map-row{grid-template-columns:1fr;gap:8px}}
+  .map-row .idx{font-family:var(--mono);font-size:.72rem;color:var(--purple);padding-top:3px}
+  .map-row .from .h,.map-row .to .h{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:8px}
+  .map-row .to .h{color:var(--purple)}
+  .map-row .from p{font-size:.96rem;color:var(--ink-soft);margin:0}
+  .map-row .to p{font-size:.98rem;color:var(--ink);margin:0;font-weight:450}
+
+  .tech-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  @media (max-width:760px){.tech-grid{grid-template-columns:1fr}}
+  .tech{background:var(--surface);padding:30px}
+  .tech .tag{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--purple);margin-bottom:14px}
+  .tech h3{font-size:1.12rem;margin-bottom:.5em}
+  .tech p{font-size:.93rem;color:var(--ink-soft);margin:0}
+  .tech code{font-family:var(--mono);font-size:.84em;background:var(--purple-tint);color:var(--purple);padding:1px 5px;border-radius:4px}
+  .stack-line{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .stack-line b{font-family:var(--mono);font-weight:500;font-size:.66rem;letter-spacing:.06em;border:1px solid var(--line-strong);border-radius:6px;padding:6px 10px;color:var(--ink)}
+
+  .limits{border-left:3px solid var(--purple);padding-left:26px;margin-top:8px}
+  .limits .li{padding:18px 0;border-bottom:1px solid var(--line)}
+  .limits .li:first-child{padding-top:0}
+  .limits .li h3{font-size:1.05rem;margin-bottom:.3em}
+  .limits .li p{font-size:.94rem;color:var(--ink-soft);margin:0}
+  .next{margin-top:34px;display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  @media (max-width:620px){.next{grid-template-columns:1fr}}
+  .next .n{background:var(--surface);padding:22px}
+  .next .n .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--purple);display:block;margin-bottom:8px}
+  .next .n p{font-size:.9rem;color:var(--ink-soft);margin:0}
+
+  footer.site{border-top:1px solid var(--line);padding:clamp(48px,7vw,80px) 0 60px;background:var(--ink);color:var(--paper)}
+  footer.site .wrap{display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;align-items:flex-end}
+  footer.site h2{color:var(--paper);font-size:clamp(1.8rem,4vw,2.8rem);max-width:14ch}
+  footer.site h2 .ac{color:var(--purple-bright)}
+  footer.site .fcta{display:flex;gap:14px;flex-wrap:wrap}
+  footer.site .btn{border-color:rgba(250,249,246,.4);color:var(--paper)}
+  footer.site .btn:hover,footer.site .btn:focus-visible{border-color:var(--purple-bright);color:var(--purple-bright);transform:translateY(-2px)}
+  footer.site .by{width:100%;border-top:1px solid rgba(250,249,246,.16);margin-top:40px;padding-top:24px;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:rgba(250,249,246,.6);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .rv.in{opacity:1;transform:none}
+
+  :focus-visible{outline:2px solid var(--purple);outline-offset:3px;border-radius:2px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap row">
+    <span class="mark">ASK MY<b>·</b>DOCS</span>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#problem">Problem</a>
+      <a href="#approach">Approach</a>
+      <a href="#results">Results</a>
+      <a href="#limits">Honesty</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker rv">
+      <p class="eyebrow">Production RAG Case Study</p>
+      <span class="pill">Financial documents</span>
+      <span class="pill">2025</span>
+    </div>
+    <h1 class="rv">Ask the docs, <span class="ac">get the answer.</span></h1>
+    <p class="sub rv">A domain-specific document Q&A system for financial documents, combining hybrid BM25 + vector search with Cohere reranking so analysts spend time on analysis instead of hunting through PDFs.</p>
+
+    <div class="cta-row rv">
+      <a class="btn primary" href="/#projects">Back to all projects <span class="arr">→</span></a>
+      <a class="btn ghost" href="https://github.com/yashwanthreddy7178" target="_blank" rel="noopener">GitHub profile <span class="arr">↗</span></a>
+    </div>
+
+    <div class="meta-row rv">
+      <div class="cell"><span class="k">Role</span><span class="v">Solo AI engineer</span></div>
+      <div class="cell"><span class="k">Stack</span><span class="v">Python, LangChain, FAISS, Cohere</span></div>
+      <div class="cell"><span class="k">Scope</span><span class="v">500+ page documents</span></div>
+      <div class="cell"><span class="k">Type</span><span class="v">Production retrieval system</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- 01 BRIEF -->
+<section class="block" id="brief">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="num">01 — The brief</span>
+      <h2>Financial answers, verified before they're trusted.</h2>
+      <p class="lead">Financial documents are long, dense, and full of numbers that matter. I built a retrieval system that finds the right passage and lets analysts verify the answer against the source, instead of trusting a model's memory.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 PROBLEM -->
+<section class="block" id="problem">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="num">02 — The problem</span>
+      <h2>Where plain search and plain LLMs both fall short.</h2>
+      <p class="lead">Neither keyword search nor a bare LLM call was good enough on its own.</p>
+    </div>
+
+    <div class="grid c3 rv">
+      <div class="card">
+        <div class="tag">Recall</div>
+        <h3>Keyword search misses paraphrase</h3>
+        <p>Pure BM25 misses relevant passages that use different wording for the same concept — common in financial filings written by different authors.</p>
+      </div>
+      <div class="card">
+        <div class="tag">Precision</div>
+        <h3>Vector search returns near-misses</h3>
+        <p>Semantic search alone often surfaces passages that are topically close but not the specific figure or clause being asked about.</p>
+      </div>
+      <div class="card">
+        <div class="tag">Trust</div>
+        <h3>Ungrounded answers hallucinate</h3>
+        <p>Without citation enforcement, an LLM will confidently state a number it never actually read — expensive to get wrong in a financial context.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 APPROACH -->
+<section class="block" id="approach">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="num">03 — The approach</span>
+      <h2>How a query becomes a verified answer.</h2>
+      <p class="lead">A hybrid pipeline, in the order a query actually moves through it.</p>
+    </div>
+
+    <div class="map rv">
+      <div class="map-row">
+        <span class="idx">01</span>
+        <div class="from"><span class="h">Stage</span><p>Hybrid retrieval</p></div>
+        <div class="to"><span class="h">What it does</span><p>BM25 keyword search runs alongside FAISS vector search, so the system catches both exact terminology and paraphrased meaning.</p></div>
+      </div>
+      <div class="map-row">
+        <span class="idx">02</span>
+        <div class="from"><span class="h">Stage</span><p>Cohere reranking</p></div>
+        <div class="to"><span class="h">What it does</span><p>Candidates from both retrievers are reranked by relevance to the specific query, pushing the true best passage to the top.</p></div>
+      </div>
+      <div class="map-row">
+        <span class="idx">03</span>
+        <div class="from"><span class="h">Stage</span><p>Citation enforcement</p></div>
+        <div class="to"><span class="h">What it does</span><p>The model is required to ground every answer in a retrieved passage it can cite, cutting hallucinated figures out of the response.</p></div>
+      </div>
+      <div class="map-row">
+        <span class="idx">04</span>
+        <div class="from"><span class="h">Stage</span><p>Quality gate</p></div>
+        <div class="to"><span class="h">What it does</span><p>A Ragas evaluation pipeline scores answer quality on every change and blocks a deploy if the score regresses.</p></div>
+      </div>
+      <div class="map-row">
+        <span class="idx">05</span>
+        <div class="from"><span class="h">Stage</span><p>Serving</p></div>
+        <div class="to"><span class="h">What it does</span><p>FastAPI serves the pipeline, tested through GitHub Actions on every change before it ships.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 RESULTS -->
+<section class="block" id="results">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="num">04 — Results</span>
+      <h2>What the hybrid pipeline moved.</h2>
+      <p class="lead">Measured against the single-retriever baseline it replaced.</p>
+    </div>
+    <div class="stats rv">
+      <div class="stat"><div class="big p">82% → 94%</div><div class="desc">Answer relevance, after adding hybrid retrieval and Cohere reranking.</div></div>
+      <div class="stat"><div class="big">−40%</div><div class="desc">Hallucinations cut by enforcing citations back to a retrieved passage.</div></div>
+      <div class="stat"><div class="big p">500+ pages</div><div class="desc">Document length handled per query in under 2 seconds.</div></div>
+      <div class="stat"><div class="big">Gated</div><div class="desc">Ragas evaluation blocks any deploy that regresses answer quality.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 TECH -->
+<section class="block" id="tech">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="num">05 — Under the hood</span>
+      <h2>The engineering decisions.</h2>
+      <div class="stack-line">
+        <b>Python</b><b>LangChain</b><b>FAISS</b><b>BM25</b><b>Cohere Rerank</b><b>FastAPI</b><b>Ragas</b><b>GitHub Actions</b>
+      </div>
+    </div>
+
+    <div class="tech-grid rv">
+      <div class="tech">
+        <div class="tag">Retrieval</div>
+        <h3>Two retrievers, one ranked list.</h3>
+        <p>BM25 and FAISS run in parallel over the same corpus; their candidates are merged and passed to a Cohere reranker before the top passages reach the model.</p>
+      </div>
+      <div class="tech">
+        <div class="tag">Evaluation</div>
+        <h3>Ragas as a CI gate, not an afterthought.</h3>
+        <p>Every pull request runs the pipeline against a held-out question set. A regression in <code>faithfulness</code> or <code>answer relevance</code> blocks the merge.</p>
+      </div>
+      <div class="tech">
+        <div class="tag">Latency</div>
+        <h3>Sub-2-second answers on long documents.</h3>
+        <p>Chunking and index structure are tuned so a 500+ page document still resolves a query in under 2 seconds end-to-end.</p>
+      </div>
+      <div class="tech">
+        <div class="tag">Grounding</div>
+        <h3>Citations aren't optional.</h3>
+        <p>The generation step is constrained to quote or reference the retrieved passage it draws from, which is what drove the 40% drop in hallucinated content.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 LIMITS -->
+<section class="block" id="limits">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="num">06 — Honest scope</span>
+      <h2>What this system doesn't do yet.</h2>
+    </div>
+
+    <div class="limits rv">
+      <div class="li"><h3>Single-document-set tuned</h3><p>Retrieval parameters are tuned against the financial-document corpus it was built for and would need re-tuning for a different domain.</p></div>
+      <div class="li"><h3>No multi-hop reasoning yet</h3><p>The pipeline answers from a single best passage; questions that require combining facts across multiple documents aren't handled.</p></div>
+      <div class="li"><h3>Ragas set is held-out, not live</h3><p>The evaluation question set is fixed at build time — it doesn't yet learn from real user queries in production.</p></div>
+    </div>
+
+    <div class="sec-head rv" style="margin-top:56px;margin-bottom:16px">
+      <span class="num">Next steps</span>
+      <h2 style="font-size:clamp(1.6rem,3.2vw,2.3rem)">Where this goes next.</h2>
+    </div>
+    <div class="next rv">
+      <div class="n"><span class="k">Multi-hop</span><p>Add query decomposition so questions spanning multiple documents can be answered.</p></div>
+      <div class="n"><span class="k">Live eval set</span><p>Fold real, anonymized production queries back into the Ragas evaluation set over time.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <h2>See more of <span class="ac">the build.</span></h2>
+    <div class="fcta">
+      <a class="btn" href="/#projects">All projects <span class="arr">→</span></a>
+      <a class="btn" href="https://github.com/yashwanthreddy7178" target="_blank" rel="noopener">GitHub <span class="arr">↗</span></a>
+      <a class="btn" href="mailto:yashwanthreddy7178@gmail.com">Email me <span class="arr">↗</span></a>
+    </div>
+    <div class="by">
+      <span>Ask My Docs · Production RAG Case Study · Yashwanth Reddy</span>
+      <span>Independent production build.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.rv');
+    if(!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      els.forEach(function(e){e.classList.add('in')});
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){en.target.classList.add('in'); io.unobserve(en.target);}
+      });
+    },{threshold:.12});
+    els.forEach(function(e){io.observe(e)});
+  })();
+</script>
+</body>
+</html>

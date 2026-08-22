@@ -24,15 +24,18 @@ const timelineData: TimelineItem[] = [
   },
   {
     date: "July 2025 - Present",
-    title: "AI Engineer @ JPMorgan Chase & Co. — New Jersey, USA",
+    title: "AI Engineer @ Endeavour Technologies — Jersey City, NJ",
     description: `<ul class="list-disc pl-4 space-y-1">
-      <li>Built scalable inference services handling ~60K requests/day on Kubernetes with GPU-backed infrastructure, serving real-time predictions across multiple financial business units.</li>
-      <li>Reduced model latency from ~900ms to ~580ms (35%) through request batching strategies and TensorRT optimization on production serving infrastructure.</li>
-      <li>Developed RAG pipelines combining BM25 + FAISS with Reciprocal Rank Fusion and Cohere reranking for anomaly detection and enterprise data insights, improving answer relevance from 82% to 94%.</li>
-      <li>Deployed and maintained production ML services through CI/CD pipelines with automated quality evaluation using Ragas, collaborating with cross-functional teams to ensure uptime.</li>
+      <li>Created an AI-first workflow using Claude Code to build internal tools: AI writes Python and React code, engineers review on GitHub before shipping, adopted by operations teams daily.</li>
+      <li>Built a financial document search system using Python, Pinecone, BM25, Cohere, LangChain, and OpenAI to retrieve and verify answers so analysts spend time on analysis instead of fact-checking.</li>
+      <li>Implemented query expansion and multi-hop reasoning to improve retrieval accuracy on complex financial queries, enabling the system to understand nuanced questions across multiple documents.</li>
+      <li>Implemented end-to-end LLM application tracing using Langfuse and Python to observe all application calls and identify bottlenecks, so engineers debug issues faster without guessing.</li>
+      <li>Built real-time dashboards using Prometheus, Grafana, MySQL, and Elasticsearch to track infrastructure and application health, enabling the team to catch and fix problems instantly.</li>
+      <li>Implemented end-to-end ML pipelines using Python and Kubernetes automating data ingestion, feature engineering, model training, packaging, and deployment with Ragas evaluation so models ship without manual bottlenecks.</li>
+      <li>Built feature pipelines with validation and versioning to ensure data quality across ML models, preventing model degradation from bad data entering production.</li>
     </ul>`,
     icon: <Rocket className="h-6 w-6" />,
-    skills: ["Kubernetes", "PyTorch", "LangChain", "OpenAI API", "RAG", "TensorRT", "FastAPI", "MLflow", "Airflow", "Prometheus", "Grafana", "GPU", "FAISS", "Cohere", "CI/CD", "Ragas"],
+    skills: ["Claude Code", "Python", "React", "Pinecone", "BM25", "Cohere", "LangChain", "OpenAI", "Langfuse", "Prometheus", "Grafana", "MySQL", "Elasticsearch", "Kubernetes", "Ragas"],
   },
   {
     date: "July 2024 – September 2024",
