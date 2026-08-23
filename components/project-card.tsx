@@ -56,8 +56,17 @@ export function ProjectCard({ title, description, tags, image, demoUrl, githubUr
         <CardFooter className="flex flex-wrap justify-center gap-2 p-4 pt-0">
           <Button asChild size="sm" variant="outline">
             <Link href={demoUrl}>
-              <ExternalLink className="mr-2 h-4 w-4" />
-              Demo
+              {demoUrl.startsWith("http") ? (
+                <>
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  Demo
+                </>
+              ) : (
+                <>
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  Case Study
+                </>
+              )}
             </Link>
           </Button>
           {caseStudyUrl && (

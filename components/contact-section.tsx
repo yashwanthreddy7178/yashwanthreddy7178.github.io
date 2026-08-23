@@ -67,7 +67,7 @@ export default function ContactSection() {
             <Badge variant="outline" className="mb-2 border-primary/20 px-3 sm:px-4 py-1 text-sm font-medium text-primary">
               Contact
             </Badge>
-            <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Get In Touch</h2>
+            <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Let's Talk</h2>
             <p className="mx-auto max-w-2xl text-sm sm:text-base text-muted-foreground">
               Open to full-time AI Engineer roles. If your team is hiring or you'd like to talk about a fit, I'd love
               to hear from you.

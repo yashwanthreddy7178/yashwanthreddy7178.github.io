@@ -3,366 +3,548 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ask My Docs — Production RAG System Case Study</title>
+<title>Financial RAG Engine — Solo Engineering Case Study</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#FAF9F6;
-    --surface:#FFFFFF;
-    --ink:#151311;
-    --ink-soft:#56524C;
-    --line:#E4E0D8;
-    --line-strong:#CFC9BD;
-    --purple:#7E22CE;
-    --purple-bright:#9333EA;
-    --purple-tint:#F3EAFB;
-
-    --display:"DM Sans", system-ui, sans-serif;
-    --body:"Plus Jakarta Sans", system-ui, sans-serif;
-    --mono:"DM Mono", ui-monospace, monospace;
-
-    --maxw:1180px;
-    --pad:clamp(20px,5vw,64px);
+    --paper:#F6F6F4; --surface:#FFFFFF; --ink:#16151A; --ink-soft:#5C5A63;
+    --line:#E6E4E2; --line-strong:#D2CFCB;
+    --purple:#7E22CE; --purple-bright:#9333EA; --purple-tint:#F3EAFB;
+    --danger:#DC2626; --danger-tint:#FDEAEA;
+    --teal:#2E6F63; --teal-tint:#E1EDE9;
+    --warn:#B5622A; --warn-tint:#F5E6D8; --warn-ink:#7A4118;
+    --display:"DM Sans", system-ui, sans-serif; --serif:"Fraunces", Georgia, serif; --body:"DM Sans", system-ui, sans-serif; --mono:"DM Mono", ui-monospace, monospace;
+    --side-w:250px;
   }
-
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none !important; transition:none !important}}
-
-  .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--pad)}
-  a{color:inherit}
-  img{max-width:100%}
-
-  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--purple);margin:0}
-  h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.08;letter-spacing:-.03em;margin:0}
-  h2{font-size:clamp(2rem,4.4vw,3.2rem);margin-bottom:.3em}
-  h3{font-size:1.35rem;line-height:1.15}
+  a{color:inherit} img,svg{max-width:100%;display:block}
+  h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.1;letter-spacing:-.025em;margin:0}
+  h2{font-size:clamp(1.7rem,3.2vw,2.5rem);margin-bottom:.3em}
+  h3{font-size:1.1rem;line-height:1.25}
   p{margin:0 0 1em}
-  .lead{font-size:clamp(1.1rem,1.8vw,1.45rem);line-height:1.5;color:var(--ink);font-weight:400}
+  .lead{font-size:clamp(1rem,1.5vw,1.18rem);line-height:1.6;color:var(--ink-soft);font-weight:400}
+  code{font-family:var(--mono);font-size:.86em;background:var(--purple-tint);color:var(--purple);padding:1px 6px;border-radius:5px}
+  :focus-visible{outline:2px solid var(--purple);outline-offset:3px;border-radius:2px}
+  blockquote{margin:0;padding-left:22px;border-left:3px solid var(--purple);font-family:var(--serif);font-style:italic;font-size:1.1rem;color:var(--ink-soft);line-height:1.55}
 
-  .topbar{position:sticky;top:0;z-index:60;background:color-mix(in srgb, var(--paper) 86%, transparent);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--line)}
-  .topbar .row{display:flex;align-items:center;justify-content:space-between;height:58px}
-  .mark{font-family:var(--display);font-weight:800;font-size:1.1rem;letter-spacing:-.01em}
-  .mark b{color:var(--purple)}
-  .topnav{display:flex;gap:26px;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
-  .topnav a{color:var(--ink-soft);text-decoration:none;transition:color .2s}
-  .topnav a:hover,.topnav a:focus-visible{color:var(--purple)}
-  @media (max-width:720px){.topnav{display:none}}
+  .shell{display:flex;align-items:flex-start}
+  .side{position:fixed;top:0;left:0;bottom:0;width:var(--side-w);padding:34px 26px;border-right:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto;z-index:40}
+  .side-top{display:flex;align-items:center;gap:10px;margin-bottom:26px}
+  .avatar{width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:.72rem;flex:none}
+  .who{line-height:1.25}
+  .who b{display:block;font-size:.86rem;font-weight:600}
+  .who span{font-size:.72rem;color:var(--ink-soft)}
+  .back{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--ink-soft);text-decoration:none;margin-bottom:28px}
+  .back:hover{color:var(--purple)}
+  .side-nav{display:flex;flex-direction:column;gap:2px}
+  .side-nav a{display:flex;gap:10px;align-items:baseline;padding:8px 8px;border-radius:8px;font-size:.78rem;color:var(--ink-soft);text-decoration:none;transition:background .15s,color .15s}
+  .side-nav a b{font-family:var(--mono);font-size:.66rem;font-weight:500;color:var(--line-strong);transition:color .15s}
+  .side-nav a:hover{color:var(--ink);background:var(--surface)}
+  .side-nav a.active{color:var(--ink);background:var(--surface);font-weight:600;box-shadow:0 0 0 1px var(--line)}
+  .side-nav a.active b{color:var(--purple)}
+  .side-spacer{flex:1}
+  .totop{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:var(--ink-soft);text-decoration:none;padding-top:16px;border-top:1px solid var(--line)}
+  .totop:hover{color:var(--purple)}
+  .main{margin-left:var(--side-w);flex:1;min-width:0;max-width:920px;padding:0 56px 40px}
+  @media (max-width:900px){
+    .side{position:static;width:auto;height:auto;border-right:none;border-bottom:1px solid var(--line);flex-direction:row;align-items:center;padding:16px 20px;gap:16px}
+    .side-nav,.side-spacer,.totop{display:none}
+    .main{margin-left:0;max-width:none;padding:0 20px 40px}
+  }
 
-  .hero{padding:clamp(64px,11vw,140px) 0 clamp(48px,7vw,90px)}
-  .hero .kicker{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:30px}
-  .pill{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;color:var(--ink-soft)}
-  .hero h1{font-size:clamp(2.8rem,8.5vw,6.4rem);font-weight:800;letter-spacing:-.035em;margin:0 0 .12em}
-  .hero h1 .it{font-style:italic;font-weight:700}
-  .hero h1 .ac{color:var(--purple)}
-  .hero .sub{max-width:50ch;color:var(--ink-soft);font-size:clamp(1.05rem,1.7vw,1.3rem);line-height:1.55;margin-top:.6em}
-  .meta-row{display:flex;flex-wrap:wrap;gap:0;margin-top:48px;border-top:1px solid var(--line)}
-  .meta-row .cell{flex:1 1 170px;padding:18px 0;border-bottom:1px solid var(--line)}
-  .meta-row .cell + .cell{border-left:1px solid var(--line);padding-left:22px}
-  .meta-row .k{font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px}
-  .meta-row .v{font-size:.98rem;font-weight:500}
+  .hero{padding:52px 0 44px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);margin:0 0 14px}
+  .hero h1{font-size:clamp(1.8rem,4.2vw,2.9rem);letter-spacing:-.03em}
+  .hero h1 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--purple)}
+  .hero .sub{max-width:60ch;color:var(--ink-soft);font-size:clamp(1rem,1.5vw,1.15rem);margin-top:.7em}
+  .tag-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .tagchip{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;color:var(--purple);background:var(--purple-tint);border-radius:999px;padding:5px 12px}
+
+  .mockup-wrap{position:relative;margin:44px 0 8px;padding:0 24px}
+  .device{background:var(--surface);border:1px solid var(--line-strong);border-radius:18px;box-shadow:0 24px 60px -32px rgba(20,17,25,.35);overflow:hidden}
+  .device-bar{display:flex;align-items:center;gap:6px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--paper)}
+  .device-bar i{width:9px;height:9px;border-radius:50%;background:var(--line-strong)}
+  .device-body{padding:22px 22px 26px;display:flex;flex-direction:column;gap:8px}
+  .bubble{max-width:82%;padding:10px 14px;border-radius:14px;font-size:.86rem;line-height:1.4}
+  .bubble.user{align-self:flex-end;background:var(--ink);color:#fff;border-bottom-right-radius:4px}
+  .bubble.bot{align-self:flex-start;background:var(--purple-tint);color:var(--ink);border-bottom-left-radius:4px}
+  .bubble .cite{color:var(--purple);font-family:var(--mono);font-size:.72em}
+  .route-tag{align-self:flex-start;font-family:var(--mono);font-size:.6rem;letter-spacing:.04em;text-transform:uppercase;color:var(--purple);display:flex;align-items:center;gap:6px;margin:1px 0}
+  .route-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--purple)}
+  .route-tag.cache{color:var(--teal)}
+  .route-tag.cache .dot{background:var(--teal)}
+  .callout{position:absolute;background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;padding:8px 12px;font-family:var(--mono);font-size:.66rem;letter-spacing:.02em;color:var(--ink);box-shadow:0 10px 24px -14px rgba(20,17,25,.3);white-space:nowrap}
+  .callout.c1{top:-6px;left:0}
+  .callout.c1:after{content:'';position:absolute;left:16px;bottom:-22px;width:1px;height:22px;border-left:1.5px dashed var(--line-strong)}
+  .callout.c2{top:64px;right:-4px}
+  .callout.c2:after{content:'';position:absolute;left:-18px;top:50%;width:18px;height:1px;border-top:1.5px dashed var(--line-strong)}
+  .callout.c3{bottom:8px;left:-8px}
+  .callout.c3:after{content:'';position:absolute;left:20px;top:-18px;width:1px;height:18px;border-left:1.5px dashed var(--line-strong)}
+  @media (max-width:720px){.callout{display:none}.mockup-wrap{padding:0}}
+
+  .meta-row{display:flex;flex-wrap:wrap;gap:0;margin-top:40px;border-top:1px solid var(--line)}
+  .meta-row .cell{flex:1 1 170px;padding:16px 0}
+  .meta-row .cell + .cell{border-left:1px solid var(--line);padding-left:20px}
+  .meta-row .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px}
+  .meta-row .v{font-size:.94rem;font-weight:500}
   @media (max-width:720px){.meta-row .cell + .cell{border-left:none;padding-left:0}.meta-row .cell{flex-basis:100%}}
 
-  .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px}
-  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;padding:14px 22px;border-radius:999px;text-decoration:none;border:1px solid var(--ink);transition:transform .18s ease, background .2s, color .2s, border-color .2s}
-  .btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .btn.primary:hover,.btn.primary:focus-visible{background:var(--purple);border-color:var(--purple);transform:translateY(-2px)}
-  .btn.ghost{background:transparent;color:var(--ink)}
-  .btn.ghost:hover,.btn.ghost:focus-visible{border-color:var(--purple);color:var(--purple);transform:translateY(-2px)}
-  .btn .arr{font-size:1rem;line-height:0}
+  section.block{padding:56px 0;border-bottom:1px solid var(--line)}
+  .sec-head{max-width:66ch;margin-bottom:34px}
+  .sec-head .lead{margin-top:.5em}
+  .num{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;color:var(--purple);display:block;margin-bottom:10px}
 
-  section.block{padding:clamp(56px,8vw,104px) 0;border-top:1px solid var(--line)}
-  .sec-head{max-width:64ch;margin-bottom:48px}
-  .sec-head .lead{color:var(--ink-soft);margin-top:.4em}
-  .num{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;color:var(--purple);display:block;margin-bottom:14px}
+  .chip-row{display:flex;flex-wrap:wrap;gap:12px}
+  .chip{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+  .chip .ico{width:20px;height:20px;border-radius:50%;background:var(--danger-tint);color:var(--danger);display:grid;place-items:center;font-size:.7rem;font-weight:700;flex:none}
+  .chip span{font-size:.86rem;font-weight:500}
 
-  .grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
-  .grid.c3{grid-template-columns:repeat(3,1fr)}
-  @media (max-width:860px){.grid.c3{grid-template-columns:1fr}}
-  .card{background:var(--surface);padding:30px}
-  .card .tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px}
-  .card h3{font-size:1.18rem;margin-bottom:.45em}
-  .card p{font-size:.96rem;color:var(--ink-soft);margin:0}
+  /* ---------- timeline (phase-style) ---------- */
+  .phase{border-left:3px solid var(--purple);padding-left:24px;margin-top:26px}
+  .phase:first-child{margin-top:0}
+  .phase.pending{border-left-color:var(--warn)}
+  .phase-tag{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);display:block;margin-bottom:10px}
+  .phase.pending .phase-tag{color:var(--warn)}
+  .commit{font-size:.86rem;color:var(--ink-soft);padding:6px 0}
+  .commit code{background:var(--surface);border:1px solid var(--line);color:var(--purple);margin-right:4px}
+  .commit b{color:var(--ink);font-weight:600}
 
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
-  @media (max-width:860px){.stats{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:520px){.stats{grid-template-columns:1fr}}
-  .stat{background:var(--surface);padding:28px 24px}
-  .stat .big{font-family:var(--display);font-size:clamp(2rem,4.2vw,2.8rem);font-weight:600;line-height:1;letter-spacing:-.02em}
-  .stat .big.p{color:var(--purple)}
-  .stat .desc{font-size:.86rem;color:var(--ink-soft);margin-top:12px;line-height:1.5}
+  /* ---------- flow (ingestion) ---------- */
+  .flow{display:flex;align-items:stretch;margin-top:8px}
+  .flow .node{flex:1 1 0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .flow .node .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);display:block;margin-bottom:8px}
+  .flow .node h3{font-size:.92rem;margin-bottom:.4em}
+  .flow .node p{font-size:.8rem;color:var(--ink-soft);margin:0}
+  .flow .connector{flex:0 0 26px;position:relative}
+  .flow .connector:before{content:'';position:absolute;left:0;right:0;top:50%;border-top:2px dashed var(--line-strong)}
+  .flow .connector .dot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:7px;height:7px;border-radius:50%;background:var(--purple)}
+  @media (max-width:820px){
+    .flow{flex-direction:column}
+    .flow .connector{flex-basis:22px}
+    .flow .connector:before{left:50%;right:auto;top:0;bottom:0;height:100%;border-top:none;border-left:2px dashed var(--line-strong)}
+  }
 
-  .map{border-top:1px solid var(--line);margin-top:8px}
-  .map-row{display:grid;grid-template-columns:38px 1fr 1.4fr;gap:24px;padding:26px 0;border-bottom:1px solid var(--line);align-items:start}
-  @media (max-width:760px){.map-row{grid-template-columns:1fr;gap:8px}}
-  .map-row .idx{font-family:var(--mono);font-size:.72rem;color:var(--purple);padding-top:3px}
-  .map-row .from .h,.map-row .to .h{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:8px}
-  .map-row .to .h{color:var(--purple)}
-  .map-row .from p{font-size:.96rem;color:var(--ink-soft);margin:0}
-  .map-row .to p{font-size:.98rem;color:var(--ink);margin:0;font-weight:450}
+  /* ---------- ledger (retrieval steps) ---------- */
+  .ledger{border-top:1px solid var(--line);margin-top:8px}
+  .lstep{display:grid;grid-template-columns:34px 1fr auto;gap:14px;align-items:start;padding:13px 0;border-bottom:1px solid var(--line)}
+  .lstep .ln{font-family:var(--mono);font-size:.72rem;color:var(--purple);background:var(--purple-tint);width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center}
+  .lstep h3{font-size:.9rem;margin-bottom:2px}
+  .lstep p{font-size:.82rem;color:var(--ink-soft);margin:0}
+  .ltag{font-family:var(--mono);font-size:.6rem;letter-spacing:.03em;padding:3px 8px;border-radius:999px;white-space:nowrap;height:fit-content}
+  .ltag.llm{background:var(--danger-tint);color:var(--danger)}
+  .ltag.local{background:var(--teal-tint);color:var(--teal)}
+  .ltag.cache{background:var(--surface);color:var(--ink-soft);border:1px solid var(--line-strong)}
+  @media (max-width:560px){.lstep{grid-template-columns:28px 1fr}.ltag{grid-column:2}}
 
-  .tech-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-  @media (max-width:760px){.tech-grid{grid-template-columns:1fr}}
-  .tech{background:var(--surface);padding:30px}
-  .tech .tag{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--purple);margin-bottom:14px}
-  .tech h3{font-size:1.12rem;margin-bottom:.5em}
-  .tech p{font-size:.93rem;color:var(--ink-soft);margin:0}
-  .tech code{font-family:var(--mono);font-size:.84em;background:var(--purple-tint);color:var(--purple);padding:1px 5px;border-radius:4px}
-  .stack-line{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-  .stack-line b{font-family:var(--mono);font-weight:500;font-size:.66rem;letter-spacing:.06em;border:1px solid var(--line-strong);border-radius:6px;padding:6px 10px;color:var(--ink)}
+  /* ---------- decision cards ---------- */
+  .dgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:8px}
+  @media (max-width:760px){.dgrid{grid-template-columns:1fr}}
+  .dcard{background:var(--surface);padding:22px}
+  .dcard .ct{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+  .dcard h3{font-size:.98rem;margin-bottom:.5em}
+  .dcard p{font-size:.84rem;color:var(--ink-soft);margin:0 0 8px}
+  .dcard .verdict{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:.78rem;color:var(--ink)}
+  .dcard .verdict b{color:var(--purple)}
 
-  .limits{border-left:3px solid var(--purple);padding-left:26px;margin-top:8px}
-  .limits .li{padding:18px 0;border-bottom:1px solid var(--line)}
+  /* ---------- eval stats ---------- */
+  .stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media (max-width:860px){.stat-cards{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:520px){.stat-cards{grid-template-columns:1fr}}
+  .stat-cards .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .stat-cards .card .big{font-family:var(--display);font-size:1.4rem;font-weight:700;color:var(--ink)}
+  .stat-cards .card .big.pass{color:var(--teal)}
+  .stat-cards .card .big.pend{color:var(--ink-soft);font-size:1.1rem}
+  .stat-cards .card .desc{font-size:.78rem;color:var(--ink-soft);margin-top:8px;line-height:1.5}
+  .stat-cards .card .status{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);margin-top:8px;display:block}
+  .stat-cards .card .status.pend{color:var(--ink-soft)}
+
+  .note{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--purple);border-radius:10px;padding:16px 20px;margin-top:20px}
+  .note .nl{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);display:block;margin-bottom:8px}
+  .note p{font-size:.86rem;color:var(--ink-soft);margin:0}
+
+  /* ---------- tabs ---------- */
+  .tabs{margin-top:8px}
+  .tab-btns{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .tab-btns button{flex:1 1 auto;background:var(--surface);border:0;border-right:1px solid var(--line);padding:12px 10px;font-family:var(--mono);font-size:.64rem;letter-spacing:.02em;text-transform:uppercase;color:var(--ink-soft);cursor:pointer}
+  .tab-btns button:last-child{border-right:0}
+  .tab-btns button.active{background:var(--ink);color:#fff}
+  .tab-panel{display:none;margin-top:20px;background:var(--ink);color:var(--paper);border-radius:16px;padding:30px}
+  .tab-panel.active{display:block}
+  .tab-panel .tag{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--purple-bright);margin-bottom:10px}
+  .tab-panel h3{color:#fff;font-size:1.1rem;margin-bottom:.5em}
+  .tab-panel p{color:rgba(246,246,244,.72);font-size:.86rem;margin:0 0 10px}
+  .hgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 24px;margin-top:14px}
+  @media (max-width:640px){.hgrid{grid-template-columns:1fr}}
+  .hgrid .hi{font-size:.8rem;color:rgba(246,246,244,.82);padding:8px 0;border-top:1px solid rgba(246,246,244,.14)}
+  .hgrid .hi b{display:block;font-family:var(--mono);font-size:.66rem;color:var(--purple-bright);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+
+  /* ---------- limits / holds up ---------- */
+  .limits{border-left:3px solid var(--purple);padding-left:24px}
+  .limits .li{padding:14px 0;border-bottom:1px solid var(--line);font-size:.88rem;color:var(--ink-soft)}
   .limits .li:first-child{padding-top:0}
-  .limits .li h3{font-size:1.05rem;margin-bottom:.3em}
-  .limits .li p{font-size:.94rem;color:var(--ink-soft);margin:0}
-  .next{margin-top:34px;display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  .next{margin-top:30px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
   @media (max-width:620px){.next{grid-template-columns:1fr}}
-  .next .n{background:var(--surface);padding:22px}
-  .next .n .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--purple);display:block;margin-bottom:8px}
-  .next .n p{font-size:.9rem;color:var(--ink-soft);margin:0}
+  .next .n{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .next .n p{font-size:.82rem;color:var(--ink-soft);margin:0}
 
-  footer.site{border-top:1px solid var(--line);padding:clamp(48px,7vw,80px) 0 60px;background:var(--ink);color:var(--paper)}
-  footer.site .wrap{display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;align-items:flex-end}
-  footer.site h2{color:var(--paper);font-size:clamp(1.8rem,4vw,2.8rem);max-width:14ch}
-  footer.site h2 .ac{color:var(--purple-bright)}
-  footer.site .fcta{display:flex;gap:14px;flex-wrap:wrap}
-  footer.site .btn{border-color:rgba(250,249,246,.4);color:var(--paper)}
-  footer.site .btn:hover,footer.site .btn:focus-visible{border-color:var(--purple-bright);color:var(--purple-bright);transform:translateY(-2px)}
-  footer.site .by{width:100%;border-top:1px solid rgba(250,249,246,.16);margin-top:40px;padding-top:24px;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:rgba(250,249,246,.6);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer.site{padding:60px 0 20px;position:relative;overflow:hidden}
+  footer.site .dots{position:absolute;inset:0;background-image:radial-gradient(var(--line-strong) 1px, transparent 1px);background-size:22px 22px;opacity:.5;mask-image:radial-gradient(ellipse at center, black 40%, transparent 75%)}
+  footer.site .inner{position:relative;text-align:center}
+  footer.site h2{font-size:clamp(1.6rem,3.6vw,2.4rem)}
+  footer.site h2 em{font-family:var(--serif);font-style:italic;color:var(--purple);font-weight:500}
+  footer.site .flinks{display:flex;gap:22px;justify-content:center;flex-wrap:wrap;margin-top:22px;font-family:var(--mono);font-size:.76rem}
+  footer.site .flinks a{text-decoration:none;color:var(--ink-soft);border-bottom:1px solid transparent}
+  footer.site .flinks a:hover{color:var(--purple);border-color:var(--purple)}
+  footer.site .by{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;color:var(--ink-soft)}
 
-  .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
   .rv.in{opacity:1;transform:none}
-
-  :focus-visible{outline:2px solid var(--purple);outline-offset:3px;border-radius:2px}
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="wrap row">
-    <span class="mark">ASK MY<b>·</b>DOCS</span>
-    <nav class="topnav" aria-label="Sections">
-      <a href="#problem">Problem</a>
-      <a href="#approach">Approach</a>
-      <a href="#results">Results</a>
-      <a href="#limits">Honesty</a>
+<div class="shell">
+  <aside class="side">
+    <div class="side-top">
+      <div class="avatar">YR</div>
+      <div class="who"><b>Yashwanth Reddy</b><span>AI Engineer</span></div>
+    </div>
+    <a class="back" href="/#projects">← Back to projects</a>
+    <nav class="side-nav">
+      <a href="#brief"><b>01</b> Brief</a>
+      <a href="#timeline"><b>02</b> Timeline</a>
+      <a href="#architecture"><b>03</b> Architecture</a>
+      <a href="#decisions"><b>04</b> Decisions</a>
+      <a href="#evaluation"><b>05</b> Evaluation</a>
+      <a href="#production"><b>06</b> Production</a>
+      <a href="#limits"><b>07</b> Honesty</a>
     </nav>
-  </div>
+    <div class="side-spacer"></div>
+    <a class="totop" href="#top">Go to top ↑</a>
+  </aside>
+
+  <main class="main">
+    <header class="hero" id="top">
+      <p class="eyebrow rv">Solo Engineering Case Study</p>
+      <h1 class="rv">Five days, <em>from empty repo</em><br>to a self-grading retrieval system.</h1>
+      <p class="sub rv">Financial RAG Engine is a production-shaped Retrieval-Augmented Generation service for 10-K filings and earnings reports — hybrid dense/sparse retrieval, contextual chunk enrichment, a Self-RAG feedback loop, and a fail-safe integration pattern that keeps the whole thing running even when Redis or Langfuse are unreachable.</p>
+      <div class="tag-row rv">
+        <span class="tagchip">1 engineer · 5 days</span>
+        <span class="tagchip">11 commits · v2.0.0</span>
+        <span class="tagchip">FastAPI · AWS ECS</span>
+      </div>
+
+      <div class="mockup-wrap rv">
+        <div class="callout c1">route: rag</div>
+        <div class="callout c2">RRF fusion, k=60</div>
+        <div class="callout c3">Self-RAG: sufficient</div>
+        <div class="device">
+          <div class="device-bar"><i></i><i></i><i></i></div>
+          <div class="device-body">
+            <div class="bubble user">What was NVIDIA's operating margin in the segment discussed on the prior page?</div>
+            <div class="route-tag cache"><span class="dot"></span>cache: miss (resolved query, cosine &lt; 0.92)</div>
+            <div class="route-tag"><span class="dot"></span>hybrid: Pinecone + BM25 → rerank → grade: sufficient</div>
+            <div class="bubble bot">Operating margin for the Data Center segment was 68% <span class="cite">[1]</span>, up from the prior quarter's figure discussed in the same filing <span class="cite">[2]</span>.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="meta-row rv">
+        <div class="cell"><span class="k">Role</span><span class="v">Solo engineer</span></div>
+        <div class="cell"><span class="k">Stack</span><span class="v">FastAPI, Pinecone, Redis</span></div>
+        <div class="cell"><span class="k">Scope</span><span class="v">5 days, 11 commits, v2.0.0</span></div>
+        <div class="cell"><span class="k">Type</span><span class="v">Production-shaped RAG service</span></div>
+      </div>
+    </header>
+
+    <section class="block" id="brief">
+      <div class="sec-head rv">
+        <span class="num">01 — Overview</span>
+        <h2>Answer with citations, without inventing numbers.</h2>
+        <p class="lead">Financial analysts read 10-Ks the way everyone dreads reading 10-Ks: skimming a 200-page PDF for the three sentences that matter, hoping keyword search doesn't miss the one that's phrased differently than expected. The premise is narrow on purpose — take a single financial filing, and answer questions about it with citations, without inventing numbers.</p>
+      </div>
+      <div class="chip-row rv">
+        <div class="chip"><span class="ico">✕</span><span>200-page PDFs waste analyst time</span></div>
+        <div class="chip"><span class="ico">✕</span><span>Keyword search misses rephrasing</span></div>
+        <div class="chip"><span class="ico">✕</span><span>Invented numbers are unacceptable</span></div>
+      </div>
+      <blockquote class="rv" style="margin-top:26px">What makes it worth a case study isn't the premise, it's the shape of the engineering: a solo build, done in five consecutive days, that carries the instrumentation, fail-safes, and test discipline of a system meant to survive contact with production — deployed continuously to AWS ECS behind a GitHub Actions pipeline from day one.</blockquote>
+    </section>
+
+    <section class="block" id="timeline">
+      <div class="sec-head rv">
+        <span class="num">02 — Build timeline</span>
+        <h2>Eleven commits, four working days.</h2>
+        <p class="lead">Reconstructed from <code>git log</code>. Infrastructure plumbing interleaved with product features, because the pipeline was live on ECS almost immediately.</p>
+      </div>
+
+      <div class="phase rv">
+        <span class="phase-tag">Day 1 — May 1</span>
+        <p class="commit"><code>7777332</code> <b>Initial commit</b> — the whole v1 system lands at once: 18 files, ~3,000 lines. FastAPI app, five services (document processor, embeddings, Pinecone, reranker, semantic cache), a vanilla JS frontend, a Ragas eval script, AWS/Docker deploy scaffolding already in place.</p>
+        <p class="commit"><code>1ef41e0</code> Dependency fix — Dockerfile patched same evening, first contact with "works locally, fails in the container."</p>
+        <p class="commit"><code>c60f82f</code> AWS region corrected to line up with the real ECR/ECS account.</p>
+      </div>
+      <div class="phase rv">
+        <span class="phase-tag">Day 2 — May 2</span>
+        <p class="commit"><code>0b3eadb</code> ECS task definition committed, deploy job wired up for real.</p>
+        <p class="commit"><code>93ba30f</code> <code>1aca126</code> Two follow-up commits tuning the task definition — the unglamorous part of shipping a container to a real cluster.</p>
+      </div>
+      <div class="phase rv">
+        <span class="phase-tag">Day 3 — May 4</span>
+        <p class="commit"><code>9af2d76</code> <b>Added tests</b> — a real suite arrives in one pass: <code>pytest.ini</code>, unit tests for the document processor and LLM service, an integration suite, a CI job gating deploys, a rewritten README with an architecture diagram.</p>
+        <p class="commit"><code>74b6689</code> <code>requirements.txt</code> shrinks 4,756 → 2,247 bytes — unused dependencies trimmed after seeing what CI actually needed.</p>
+        <p class="commit"><code>3bd6e63</code> <code>733e647</code> Settings loosened to accept placeholder keys in CI so <code>pytest</code> can boot the app with every external call mocked.</p>
+      </div>
+      <div class="phase rv">
+        <span class="phase-tag">Day 4 — May 5</span>
+        <p class="commit"><code>8dd77cb</code> <b>Added inline citations</b> — bracketed <code>[1] [2]</code> citations threaded from the reranker through the generator prompt into the frontend.</p>
+      </div>
+      <div class="phase pending rv">
+        <span class="phase-tag">Working tree — today</span>
+        <p class="commit"><b>Hybrid retrieval + tracing</b> — three new services (<code>bm25_service.py</code>, <code>hybrid_retriever.py</code>, <code>tracing.py</code>) plus a rewritten <code>/search</code> pipeline and a new benchmark script sit uncommitted. See section 06.</p>
+      </div>
+    </section>
+
+    <section class="block" id="architecture">
+      <div class="sec-head rv">
+        <span class="num">03 — Architecture</span>
+        <h2>Two pipelines: one writes, one reads.</h2>
+        <p class="lead">Ingestion happens once per document and is allowed to be slow and thorough. Retrieval happens on every keystroke a user waits on, and is built to degrade rather than fail.</p>
+      </div>
+
+      <h3 style="font-size:.88rem;margin-bottom:10px;color:var(--ink-soft)">Ingestion — <code>POST /ingest</code></h3>
+      <div class="flow rv">
+        <div class="node"><span class="k">01</span><h3>PDF → Markdown</h3><p><code>pymupdf4llm</code> extracts text while preserving table structure.</p></div>
+        <div class="connector"><span class="dot"></span></div>
+        <div class="node"><span class="k">02</span><h3>Chunking</h3><p>Recursive splitter, 1,000 chars / 200 overlap, paragraph-aware.</p></div>
+        <div class="connector"><span class="dot"></span></div>
+        <div class="node"><span class="k">03</span><h3>Enrichment</h3><p>LLM writes a 1–2 sentence summary per chunk before embedding.</p></div>
+      </div>
+      <div class="flow rv" style="margin-top:12px">
+        <div class="node"><span class="k">04</span><h3>Embed</h3><p><code>text-embedding-3-small</code> → 1,536-dim vectors.</p></div>
+        <div class="connector"><span class="dot"></span></div>
+        <div class="node"><span class="k">05</span><h3>Dual index</h3><p>Upsert to Pinecone (dense) and the in-memory BM25 index (sparse) together.</p></div>
+      </div>
+
+      <h3 style="font-size:.88rem;margin:32px 0 4px;color:var(--ink-soft)">Retrieval — <code>POST /search</code></h3>
+      <div class="ledger rv">
+        <div class="lstep"><span class="ln">0</span><div><h3>Route the query</h3><p>Classify as <code>rag</code> / <code>small_talk</code> / <code>off_topic</code> before spending a retrieval call. Deterministic, 5-token cap.</p></div><span class="ltag llm">LLM</span></div>
+        <div class="lstep"><span class="ln">1</span><div><h3>Resolve pronouns, expand</h3><p>If "it / they / this…" and history exists, an LLM rewrites the entity, then generates 3 phrasing variants.</p></div><span class="ltag llm">LLM</span></div>
+        <div class="lstep"><span class="ln">2</span><div><h3>Semantic cache lookup</h3><p>Embed the resolved query, scan Redis for a cosine match ≥ 0.92. Hit → return in ~100ms.</p></div><span class="ltag cache">Cache</span></div>
+        <div class="lstep"><span class="ln">3</span><div><h3>Embed variants</h3><p>The 3 expansion variants are embedded (resolved query's embedding reused from the cache check).</p></div><span class="ltag llm">API</span></div>
+        <div class="lstep"><span class="ln">4</span><div><h3>Hybrid search</h3><p>Dense (Pinecone) and sparse (BM25) run independently; fused with Reciprocal Rank Fusion, k = 60.</p></div><span class="ltag local">Local + API</span></div>
+        <div class="lstep"><span class="ln">5</span><div><h3>Cross-encoder rerank</h3><p>FlashRank (<code>ms-marco-MiniLM-L-12-v2</code>, ONNX, CPU) cuts fused candidates to the top 5.</p></div><span class="ltag local">Local</span></div>
+        <div class="lstep"><span class="ln">6</span><div><h3>Self-RAG grade</h3><p>An LLM grader reads the top 3 of those 5 chunks and returns <code>sufficient</code> / <code>insufficient</code>.</p></div><span class="ltag llm">LLM</span></div>
+        <div class="lstep"><span class="ln">7</span><div><h3>Rewrite &amp; retry, once</h3><p>If insufficient and a retry remains: rewrite with different vocabulary, re-embed, back to step 4.</p></div><span class="ltag llm">LLM</span></div>
+        <div class="lstep"><span class="ln">8</span><div><h3>Generate the answer</h3><p>Context-only system prompt, inline <code>[1] [2]</code> citations, history spliced in for follow-ups.</p></div><span class="ltag llm">LLM</span></div>
+        <div class="lstep"><span class="ln">9</span><div><h3>Cache &amp; trace</h3><p>Store (resolved query embedding → answer) in Redis; flush the full Langfuse trace.</p></div><span class="ltag cache">Cache</span></div>
+      </div>
+      <p class="note rv" style="margin-top:20px"><span class="nl">Schema note</span><p>Every ingestion stage is streamed through a <code>StageTimer</code> and reported to Langfuse as a span or generation.</p></p>
+    </section>
+
+    <section class="block" id="decisions">
+      <div class="sec-head rv">
+        <span class="num">04 — Engineering decisions</span>
+        <h2>Six calls that shaped the system.</h2>
+        <p class="lead">Each one trades something away on purpose — pulled directly from the codebase's own reasoning, not retrofit justifications.</p>
+      </div>
+      <div class="dgrid rv">
+        <div class="dcard">
+          <div class="ct">Embeddings</div>
+          <h3>text-embedding-3-small over a finance-tuned model</h3>
+          <p>FinBERT and finance fine-tunes capture niche vocabulary better in isolation, but the constraint was latency and cost per query. A downstream cross-encoder rerank (FlashRank) recovers precision, so the cheap embedding only needs candidates in the top 10–20.</p>
+          <div class="verdict"><b>Trade-off:</b> a slight edge lost on ultra-niche terms, for real-time latency and zero-shot generalization.</div>
+        </div>
+        <div class="dcard">
+          <div class="ct">Chunking</div>
+          <h3>Recursive splitting + Contextual Retrieval, not table-aware parsing</h3>
+          <p>Tables split mid-row lose their headers — the classic RAG failure on 10-Ks. Instead of a specialized parser, an LLM reads a document prefix + preceding text and writes a summary restoring the table's meaning in text before embedding.</p>
+          <div class="verdict"><b>Trade-off:</b> one extra LLM call per chunk, for never maintaining brittle table-parsing logic.</div>
+        </div>
+        <div class="dcard">
+          <div class="ct">Retrieval</div>
+          <h3>Hybrid dense + sparse, fused with RRF — not dense-only</h3>
+          <p>Dense embeddings miss exact keywords (tickers, codes, figures); BM25 misses paraphrase. RRF combines both ranked lists without needing comparable scores. Both retrievers fail independently — zero hits on one falls back to the other.</p>
+          <div class="verdict"><b>Trade-off:</b> a second retrieval path to maintain, for materially better recall on exact-term queries.</div>
+        </div>
+        <div class="dcard">
+          <div class="ct">Caching</div>
+          <h3>Cache the resolved query, at 0.92 similarity</h3>
+          <p>Caching raw questions would let "how is it doing?" collide across conversations about different companies. The 0.92 threshold was tuned empirically — below 0.90, different questions matched; above 0.95, only near-identical phrasing hit.</p>
+          <div class="verdict"><b>Trade-off:</b> queries under 6 words are never cached — too ambiguous to trust on similarity alone.</div>
+        </div>
+        <div class="dcard">
+          <div class="ct">Self-RAG</div>
+          <h3>One retry, then answer honestly with what's available</h3>
+          <p>The grader gets one chance to reject context and force a rewrite. If still insufficient on the second attempt, the system doesn't error — it generates from the best context it has, explaining what's missing.</p>
+          <div class="verdict"><b>Trade-off:</b> a bounded retry budget (max 2) caps latency, at the cost of occasionally giving up one attempt early.</div>
+        </div>
+        <div class="dcard">
+          <div class="ct">Reliability</div>
+          <h3>Every optional integration is fail-open, not fail-closed</h3>
+          <p><code>SemanticCache</code> and <code>TracingService</code> wrap their connection check in try/except and flip an <code>_enabled</code> flag false on failure — every public method becomes a silent no-op when disabled.</p>
+          <div class="verdict"><b>Trade-off:</b> failures in these systems are silent by design — right for a cache/tracing layer, wrong for anything on the critical path.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="evaluation">
+      <div class="sec-head rv">
+        <span class="num">05 — Evaluation</span>
+        <h2>Measured with Ragas, not vibes.</h2>
+        <p class="lead">A 5-question benchmark against NVIDIA's FY2025 10-K, scored on independent axes so a good answer can't hide a bad retrieval.</p>
+      </div>
+      <div class="stat-cards rv">
+        <div class="card"><div class="big pass">1.000</div><div class="desc">Faithfulness — every claim traces back to retrieved context.</div><span class="status">Pass · target ≥ 0.95</span></div>
+        <div class="card"><div class="big pass">~0.930</div><div class="desc">Answer Relevancy — does the answer address the question asked.</div><span class="status">Pass · target ≥ 0.90</span></div>
+        <div class="card"><div class="big pass">1.000</div><div class="desc">Context Recall — were all needed chunks actually retrieved.</div><span class="status">Pass · target ≥ 0.90</span></div>
+        <div class="card"><div class="big pend">—</div><div class="desc">Context Precision — how much of what was retrieved was noise.</div><span class="status pend">Not yet reported</span></div>
+      </div>
+      <div class="note rv">
+        <span class="nl">Honest read</span>
+        <p>Faithfulness and context recall at a perfect 1.0 on a 5-question set is a strong early signal, not yet a statistically wide one — "the approach works," not "the system is solved."</p>
+      </div>
+      <div class="note rv">
+        <span class="nl">On the benchmark script</span>
+        <p><code>benchmark.py</code> measures per-stage latency (p50/p95/p99 across the nine pipeline stages), fully wired to the hybrid pipeline but not yet run in this environment — no results file exists. Included as evidence that latency was treated as a first-class metric to measure, not just eyeballed end-to-end.</p>
+      </div>
+    </section>
+
+    <section class="block" id="production">
+      <div class="sec-head rv">
+        <span class="num">06 — Production &amp; testing</span>
+        <h2>Built to run unattended, not just to demo.</h2>
+        <p class="lead">The deploy pipeline and hardening choices existed from the first commit — this was never a notebook with a FastAPI wrapper bolted on later.</p>
+      </div>
+      <div class="tabs rv">
+        <div class="tab-btns">
+          <button class="active" data-tab="p1">01 Deploy</button>
+          <button data-tab="p2">02 Hardening</button>
+          <button data-tab="p3">03 Testing</button>
+          <button data-tab="p4">04 In flight</button>
+        </div>
+        <div class="tab-panel active" id="p1">
+          <div class="tag">Deploy path</div>
+          <h3>GitHub Actions → ECR → ECS.</h3>
+          <p>Build &amp; push to ECR, render + deploy the ECS task definition, gated on the test job passing, triggered on push to main.</p>
+          <div class="hgrid">
+            <div class="hi"><b>Container</b>python:3.12-slim, layer-cached deps, FlashRank's ONNX model pre-baked at build time to avoid a cold-start download stall.</div>
+            <div class="hi"><b>Runtime</b>Uvicorn, 4 workers, health check at /health, static frontend served from the same FastAPI app.</div>
+          </div>
+        </div>
+        <div class="tab-panel" id="p2">
+          <div class="tag">Hardening on the request path</div>
+          <h3>Six deliberate guardrails.</h3>
+          <div class="hgrid">
+            <div class="hi"><b>Streamed upload</b>PDFs read in 1MB chunks, hard 50MB cap enforced mid-stream — rejected before fully buffered into memory.</div>
+            <div class="hi"><b>UUID filenames</b>Every upload renamed to a UUID before touching disk — closes path traversal and collisions.</div>
+            <div class="hi"><b>Per-IP rate limits</b>slowapi caps ingest at 5/min, search at 30/min, Ragas eval at 2/min.</div>
+            <div class="hi"><b>Exponential backoff</b>Every OpenAI call retries up to 6 times, 1s → 32s with jitter, on RateLimitError.</div>
+            <div class="hi"><b>Bounded concurrency</b>Chunk contextualization caps at 3 concurrent LLM calls via a semaphore, 1s cooldown.</div>
+            <div class="hi"><b>Known gap: CORS</b><code style="background:rgba(147,51,234,.25);color:#fff">allow_origins=["*"]</code> — flagged in the code's own comment as "adjust in production."</div>
+          </div>
+        </div>
+        <div class="tab-panel" id="p3">
+          <div class="tag">Testing</div>
+          <h3>Arrived on day three, and it stuck.</h3>
+          <p>Not part of the initial commit — landed as its own deliberate pass, and CI has gated every deploy since.</p>
+          <div class="hgrid">
+            <div class="hi"><b>Unit — retrieval math</b>RRF fusion tested against the scoring formula: ordering preserved, shared docs boosted, dedup, empty-list edges.</div>
+            <div class="hi"><b>Unit — LLM service</b>Routing and small-talk generation tested with AsyncOpenAI fully mocked — no network calls, no key required.</div>
+            <div class="hi"><b>Integration</b>FastAPI's TestClient against /health, an empty-question 400, an invalid-file-type 400 on /ingest.</div>
+            <div class="hi"><b>Coverage</b>pytest-cov reports on every run; the --cov-fail-under=75 gate exists but is currently commented out — measured, not yet enforced.</div>
+          </div>
+        </div>
+        <div class="tab-panel" id="p4">
+          <div class="tag">Current state</div>
+          <h3>What's sitting in the working tree right now.</h3>
+          <p>The most architecturally significant change isn't in git history yet — the difference between the dense-only v1 pipeline and the hybrid v2 pipeline described in Architecture above.</p>
+          <div class="hgrid">
+            <div class="hi"><b>main.py</b>Largest working-tree diff in the project's history (+212 / −62 lines) — /search rewritten around the Self-RAG retry loop and Langfuse instrumentation.</div>
+            <div class="hi"><b>New files</b>bm25_service.py, hybrid_retriever.py, tracing.py — net-new and untracked, alongside a new hybrid-retrieval test file and benchmark.py.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="limits" style="border-bottom:none">
+      <div class="sec-head rv">
+        <span class="num">07 — Honest scope</span>
+        <h2>What holds up, and what a staff review would flag.</h2>
+      </div>
+      <div class="limits rv">
+        <div class="li">BM25's index lives entirely in RAM, rebuilt from Pinecone metadata on every cold start — fine now, but a full-corpus fetch loop won't stay cheap as document count grows.</div>
+        <div class="li">The semantic cache does a linear scan + cosine comparison against every stored entry — correct, but O(n) against cache size rather than using Redis's vector search.</div>
+        <div class="li">CORS is wide open by explicit, commented acknowledgment — the right call for a demo, the wrong one to forget before real traffic.</div>
+        <div class="li">The 75%-coverage CI gate is written but commented out, so a coverage regression currently wouldn't block a merge.</div>
+        <div class="li">The hybrid retrieval rewrite is unshipped — sitting in the working tree, not in a reviewed commit or a deployed image yet.</div>
+      </div>
+      <div class="next rv">
+        <div class="n"><p><b>Fail-open design</b> on every optional dependency means the core answer path never depends on infrastructure that wasn't provisioned.</p></div>
+        <div class="n"><p><b>Contextual Retrieval</b> as a substitute for table-aware parsing turns a structural parsing problem into a text-generation problem the LLM already solves well.</p></div>
+        <div class="n"><p><b>Self-RAG's fallback</b> avoids the two common failure modes: hallucinating past a gap, or hard-refusing when partial information exists.</p></div>
+        <div class="n"><p><b>Tests arrived before</b> the pipeline got materially more complex, not after — RRF and BM25 unit tests were written alongside the feature.</p></div>
+      </div>
+      <blockquote class="rv" style="margin-top:30px">The system doesn't try to be clever everywhere — it's dumb chunking plus a smart repair step, a cheap embedding plus a precise reranker, an optimistic cache plus a fail-open guard. Each layer compensates for the cheapness of the one below it.</blockquote>
+    </section>
+
+    <footer class="site">
+      <div class="dots"></div>
+      <div class="inner rv">
+        <h2>See more of <em>the build.</em></h2>
+        <div class="flinks">
+          <a href="/#projects">All projects ↗</a>
+          <a href="https://github.com/yashwanthreddy7178" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="mailto:yashwanthreddy7178@gmail.com">Email ↗</a>
+        </div>
+        <div class="by">Financial RAG Engine · Solo Engineering Case Study · Yashwanth Reddy · Compiled from source, README, and git history</div>
+      </div>
+    </footer>
+  </main>
 </div>
-
-<header class="hero">
-  <div class="wrap">
-    <div class="kicker rv">
-      <p class="eyebrow">Production RAG Case Study</p>
-      <span class="pill">Financial documents</span>
-      <span class="pill">2025</span>
-    </div>
-    <h1 class="rv">Ask the docs, <span class="ac">get the answer.</span></h1>
-    <p class="sub rv">A domain-specific document Q&A system for financial documents, combining hybrid BM25 + vector search with Cohere reranking so analysts spend time on analysis instead of hunting through PDFs.</p>
-
-    <div class="cta-row rv">
-      <a class="btn primary" href="/#projects">Back to all projects <span class="arr">→</span></a>
-      <a class="btn ghost" href="https://github.com/yashwanthreddy7178" target="_blank" rel="noopener">GitHub profile <span class="arr">↗</span></a>
-    </div>
-
-    <div class="meta-row rv">
-      <div class="cell"><span class="k">Role</span><span class="v">Solo AI engineer</span></div>
-      <div class="cell"><span class="k">Stack</span><span class="v">Python, LangChain, FAISS, Cohere</span></div>
-      <div class="cell"><span class="k">Scope</span><span class="v">500+ page documents</span></div>
-      <div class="cell"><span class="k">Type</span><span class="v">Production retrieval system</span></div>
-    </div>
-  </div>
-</header>
-
-<!-- 01 BRIEF -->
-<section class="block" id="brief">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="num">01 — The brief</span>
-      <h2>Financial answers, verified before they're trusted.</h2>
-      <p class="lead">Financial documents are long, dense, and full of numbers that matter. I built a retrieval system that finds the right passage and lets analysts verify the answer against the source, instead of trusting a model's memory.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 02 PROBLEM -->
-<section class="block" id="problem">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="num">02 — The problem</span>
-      <h2>Where plain search and plain LLMs both fall short.</h2>
-      <p class="lead">Neither keyword search nor a bare LLM call was good enough on its own.</p>
-    </div>
-
-    <div class="grid c3 rv">
-      <div class="card">
-        <div class="tag">Recall</div>
-        <h3>Keyword search misses paraphrase</h3>
-        <p>Pure BM25 misses relevant passages that use different wording for the same concept — common in financial filings written by different authors.</p>
-      </div>
-      <div class="card">
-        <div class="tag">Precision</div>
-        <h3>Vector search returns near-misses</h3>
-        <p>Semantic search alone often surfaces passages that are topically close but not the specific figure or clause being asked about.</p>
-      </div>
-      <div class="card">
-        <div class="tag">Trust</div>
-        <h3>Ungrounded answers hallucinate</h3>
-        <p>Without citation enforcement, an LLM will confidently state a number it never actually read — expensive to get wrong in a financial context.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 03 APPROACH -->
-<section class="block" id="approach">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="num">03 — The approach</span>
-      <h2>How a query becomes a verified answer.</h2>
-      <p class="lead">A hybrid pipeline, in the order a query actually moves through it.</p>
-    </div>
-
-    <div class="map rv">
-      <div class="map-row">
-        <span class="idx">01</span>
-        <div class="from"><span class="h">Stage</span><p>Hybrid retrieval</p></div>
-        <div class="to"><span class="h">What it does</span><p>BM25 keyword search runs alongside FAISS vector search, so the system catches both exact terminology and paraphrased meaning.</p></div>
-      </div>
-      <div class="map-row">
-        <span class="idx">02</span>
-        <div class="from"><span class="h">Stage</span><p>Cohere reranking</p></div>
-        <div class="to"><span class="h">What it does</span><p>Candidates from both retrievers are reranked by relevance to the specific query, pushing the true best passage to the top.</p></div>
-      </div>
-      <div class="map-row">
-        <span class="idx">03</span>
-        <div class="from"><span class="h">Stage</span><p>Citation enforcement</p></div>
-        <div class="to"><span class="h">What it does</span><p>The model is required to ground every answer in a retrieved passage it can cite, cutting hallucinated figures out of the response.</p></div>
-      </div>
-      <div class="map-row">
-        <span class="idx">04</span>
-        <div class="from"><span class="h">Stage</span><p>Quality gate</p></div>
-        <div class="to"><span class="h">What it does</span><p>A Ragas evaluation pipeline scores answer quality on every change and blocks a deploy if the score regresses.</p></div>
-      </div>
-      <div class="map-row">
-        <span class="idx">05</span>
-        <div class="from"><span class="h">Stage</span><p>Serving</p></div>
-        <div class="to"><span class="h">What it does</span><p>FastAPI serves the pipeline, tested through GitHub Actions on every change before it ships.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 04 RESULTS -->
-<section class="block" id="results">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="num">04 — Results</span>
-      <h2>What the hybrid pipeline moved.</h2>
-      <p class="lead">Measured against the single-retriever baseline it replaced.</p>
-    </div>
-    <div class="stats rv">
-      <div class="stat"><div class="big p">82% → 94%</div><div class="desc">Answer relevance, after adding hybrid retrieval and Cohere reranking.</div></div>
-      <div class="stat"><div class="big">−40%</div><div class="desc">Hallucinations cut by enforcing citations back to a retrieved passage.</div></div>
-      <div class="stat"><div class="big p">500+ pages</div><div class="desc">Document length handled per query in under 2 seconds.</div></div>
-      <div class="stat"><div class="big">Gated</div><div class="desc">Ragas evaluation blocks any deploy that regresses answer quality.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- 05 TECH -->
-<section class="block" id="tech">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="num">05 — Under the hood</span>
-      <h2>The engineering decisions.</h2>
-      <div class="stack-line">
-        <b>Python</b><b>LangChain</b><b>FAISS</b><b>BM25</b><b>Cohere Rerank</b><b>FastAPI</b><b>Ragas</b><b>GitHub Actions</b>
-      </div>
-    </div>
-
-    <div class="tech-grid rv">
-      <div class="tech">
-        <div class="tag">Retrieval</div>
-        <h3>Two retrievers, one ranked list.</h3>
-        <p>BM25 and FAISS run in parallel over the same corpus; their candidates are merged and passed to a Cohere reranker before the top passages reach the model.</p>
-      </div>
-      <div class="tech">
-        <div class="tag">Evaluation</div>
-        <h3>Ragas as a CI gate, not an afterthought.</h3>
-        <p>Every pull request runs the pipeline against a held-out question set. A regression in <code>faithfulness</code> or <code>answer relevance</code> blocks the merge.</p>
-      </div>
-      <div class="tech">
-        <div class="tag">Latency</div>
-        <h3>Sub-2-second answers on long documents.</h3>
-        <p>Chunking and index structure are tuned so a 500+ page document still resolves a query in under 2 seconds end-to-end.</p>
-      </div>
-      <div class="tech">
-        <div class="tag">Grounding</div>
-        <h3>Citations aren't optional.</h3>
-        <p>The generation step is constrained to quote or reference the retrieved passage it draws from, which is what drove the 40% drop in hallucinated content.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 06 LIMITS -->
-<section class="block" id="limits">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="num">06 — Honest scope</span>
-      <h2>What this system doesn't do yet.</h2>
-    </div>
-
-    <div class="limits rv">
-      <div class="li"><h3>Single-document-set tuned</h3><p>Retrieval parameters are tuned against the financial-document corpus it was built for and would need re-tuning for a different domain.</p></div>
-      <div class="li"><h3>No multi-hop reasoning yet</h3><p>The pipeline answers from a single best passage; questions that require combining facts across multiple documents aren't handled.</p></div>
-      <div class="li"><h3>Ragas set is held-out, not live</h3><p>The evaluation question set is fixed at build time — it doesn't yet learn from real user queries in production.</p></div>
-    </div>
-
-    <div class="sec-head rv" style="margin-top:56px;margin-bottom:16px">
-      <span class="num">Next steps</span>
-      <h2 style="font-size:clamp(1.6rem,3.2vw,2.3rem)">Where this goes next.</h2>
-    </div>
-    <div class="next rv">
-      <div class="n"><span class="k">Multi-hop</span><p>Add query decomposition so questions spanning multiple documents can be answered.</p></div>
-      <div class="n"><span class="k">Live eval set</span><p>Fold real, anonymized production queries back into the Ragas evaluation set over time.</p></div>
-    </div>
-  </div>
-</section>
-
-<footer class="site">
-  <div class="wrap">
-    <h2>See more of <span class="ac">the build.</span></h2>
-    <div class="fcta">
-      <a class="btn" href="/#projects">All projects <span class="arr">→</span></a>
-      <a class="btn" href="https://github.com/yashwanthreddy7178" target="_blank" rel="noopener">GitHub <span class="arr">↗</span></a>
-      <a class="btn" href="mailto:yashwanthreddy7178@gmail.com">Email me <span class="arr">↗</span></a>
-    </div>
-    <div class="by">
-      <span>Ask My Docs · Production RAG Case Study · Yashwanth Reddy</span>
-      <span>Independent production build.</span>
-    </div>
-  </div>
-</footer>
 
 <script>
   (function(){
     var els = document.querySelectorAll('.rv');
-    if(!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!('IntersectionObserver' in window) || reduce){
       els.forEach(function(e){e.classList.add('in')});
-      return;
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in'); io.unobserve(en.target);} });
+      },{threshold:.12});
+      els.forEach(function(e){io.observe(e)});
     }
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){
-        if(en.isIntersecting){en.target.classList.add('in'); io.unobserve(en.target);}
+
+    var tabBtns = document.querySelectorAll('.tab-btns button');
+    tabBtns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        tabBtns.forEach(function(b){b.classList.remove('active')});
+        document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
       });
-    },{threshold:.12});
-    els.forEach(function(e){io.observe(e)});
+    });
+
+    var navLinks = document.querySelectorAll('.side-nav a');
+    var sections = Array.prototype.map.call(navLinks, function(a){ return document.querySelector(a.getAttribute('href')); });
+    if('IntersectionObserver' in window){
+      var spy = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          var idx = sections.indexOf(en.target);
+          if(idx > -1 && en.isIntersecting){
+            navLinks.forEach(function(a){a.classList.remove('active')});
+            navLinks[idx].classList.add('active');
+          }
+        });
+      },{rootMargin:'-40% 0px -50% 0px'});
+      sections.forEach(function(s){ if(s) spy.observe(s); });
+    }
   })();
 </script>
 </body>

@@ -6,316 +6,416 @@
 <title>LLM Monitoring & Observability — Case Study</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#FAF9F6; --surface:#FFFFFF; --ink:#151311; --ink-soft:#56524C;
-    --line:#E4E0D8; --line-strong:#CFC9BD;
+    --paper:#F6F6F4; --surface:#FFFFFF; --ink:#16151A; --ink-soft:#5C5A63;
+    --line:#E6E4E2; --line-strong:#D2CFCB;
     --purple:#7E22CE; --purple-bright:#9333EA; --purple-tint:#F3EAFB;
-    --display:"DM Sans", system-ui, sans-serif; --body:"Plus Jakarta Sans", system-ui, sans-serif; --mono:"DM Mono", ui-monospace, monospace;
-    --maxw:1180px; --pad:clamp(20px,5vw,64px);
+    --danger:#DC2626; --danger-tint:#FDEAEA;
+    --display:"DM Sans", system-ui, sans-serif; --serif:"Fraunces", Georgia, serif; --body:"DM Sans", system-ui, sans-serif; --mono:"DM Mono", ui-monospace, monospace;
+    --side-w:250px;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none !important; transition:none !important}}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--pad)}
-  a{color:inherit} img{max-width:100%}
-  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--purple);margin:0}
-  h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.08;letter-spacing:-.03em;margin:0}
-  h2{font-size:clamp(2rem,4.4vw,3.2rem);margin-bottom:.3em}
-  h3{font-size:1.35rem;line-height:1.15}
+  a{color:inherit} img,svg{max-width:100%;display:block}
+  h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.1;letter-spacing:-.025em;margin:0}
+  h2{font-size:clamp(1.7rem,3.2vw,2.5rem);margin-bottom:.3em}
+  h3{font-size:1.1rem;line-height:1.25}
   p{margin:0 0 1em}
-  .lead{font-size:clamp(1.1rem,1.8vw,1.45rem);line-height:1.5;color:var(--ink);font-weight:400}
-  .topbar{position:sticky;top:0;z-index:60;background:color-mix(in srgb, var(--paper) 86%, transparent);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--line)}
-  .topbar .row{display:flex;align-items:center;justify-content:space-between;height:58px}
-  .mark{font-family:var(--display);font-weight:800;font-size:1.1rem;letter-spacing:-.01em}
-  .mark b{color:var(--purple)}
-  .topnav{display:flex;gap:26px;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
-  .topnav a{color:var(--ink-soft);text-decoration:none;transition:color .2s}
-  .topnav a:hover,.topnav a:focus-visible{color:var(--purple)}
-  @media (max-width:720px){.topnav{display:none}}
-  .hero{padding:clamp(64px,11vw,140px) 0 clamp(48px,7vw,90px)}
-  .hero .kicker{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:30px}
-  .pill{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;color:var(--ink-soft)}
-  .hero h1{font-size:clamp(2.8rem,8.5vw,6.4rem);font-weight:800;letter-spacing:-.035em;margin:0 0 .12em}
-  .hero h1 .ac{color:var(--purple)}
-  .hero .sub{max-width:50ch;color:var(--ink-soft);font-size:clamp(1.05rem,1.7vw,1.3rem);line-height:1.55;margin-top:.6em}
-  .meta-row{display:flex;flex-wrap:wrap;gap:0;margin-top:48px;border-top:1px solid var(--line)}
-  .meta-row .cell{flex:1 1 170px;padding:18px 0;border-bottom:1px solid var(--line)}
-  .meta-row .cell + .cell{border-left:1px solid var(--line);padding-left:22px}
-  .meta-row .k{font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px}
-  .meta-row .v{font-size:.98rem;font-weight:500}
-  @media (max-width:720px){.meta-row .cell + .cell{border-left:none;padding-left:0}.meta-row .cell{flex-basis:100%}}
-  .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px}
-  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;padding:14px 22px;border-radius:999px;text-decoration:none;border:1px solid var(--ink);transition:transform .18s ease, background .2s, color .2s, border-color .2s}
-  .btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .btn.primary:hover,.btn.primary:focus-visible{background:var(--purple);border-color:var(--purple);transform:translateY(-2px)}
-  .btn.ghost{background:transparent;color:var(--ink)}
-  .btn.ghost:hover,.btn.ghost:focus-visible{border-color:var(--purple);color:var(--purple);transform:translateY(-2px)}
-  .btn .arr{font-size:1rem;line-height:0}
-  section.block{padding:clamp(56px,8vw,104px) 0;border-top:1px solid var(--line)}
-  .sec-head{max-width:64ch;margin-bottom:48px}
-  .sec-head .lead{color:var(--ink-soft);margin-top:.4em}
-  .num{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;color:var(--purple);display:block;margin-bottom:14px}
-  .grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
-  .grid.c3{grid-template-columns:repeat(3,1fr)}
-  @media (max-width:860px){.grid.c3{grid-template-columns:1fr}}
-  .card{background:var(--surface);padding:30px}
-  .card .tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px}
-  .card h3{font-size:1.18rem;margin-bottom:.45em}
-  .card p{font-size:.96rem;color:var(--ink-soft);margin:0}
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
-  @media (max-width:860px){.stats{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:520px){.stats{grid-template-columns:1fr}}
-  .stat{background:var(--surface);padding:28px 24px}
-  .stat .big{font-family:var(--display);font-size:clamp(1.6rem,3.6vw,2.3rem);font-weight:600;line-height:1.05;letter-spacing:-.02em}
-  .stat .big.p{color:var(--purple)}
-  .stat .desc{font-size:.86rem;color:var(--ink-soft);margin-top:12px;line-height:1.5}
-  .map{border-top:1px solid var(--line);margin-top:8px}
-  .map-row{display:grid;grid-template-columns:38px 1fr 1.4fr;gap:24px;padding:26px 0;border-bottom:1px solid var(--line);align-items:start}
-  @media (max-width:760px){.map-row{grid-template-columns:1fr;gap:8px}}
-  .map-row .idx{font-family:var(--mono);font-size:.72rem;color:var(--purple);padding-top:3px}
-  .map-row .from .h,.map-row .to .h{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:8px}
-  .map-row .to .h{color:var(--purple)}
-  .map-row .from p{font-size:.96rem;color:var(--ink-soft);margin:0}
-  .map-row .to p{font-size:.98rem;color:var(--ink);margin:0;font-weight:450}
-  .tech-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-  @media (max-width:760px){.tech-grid{grid-template-columns:1fr}}
-  .tech{background:var(--surface);padding:30px}
-  .tech .tag{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--purple);margin-bottom:14px}
-  .tech h3{font-size:1.12rem;margin-bottom:.5em}
-  .tech p{font-size:.93rem;color:var(--ink-soft);margin:0}
-  .tech code{font-family:var(--mono);font-size:.84em;background:var(--purple-tint);color:var(--purple);padding:1px 5px;border-radius:4px}
-  .stack-line{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-  .stack-line b{font-family:var(--mono);font-weight:500;font-size:.66rem;letter-spacing:.06em;border:1px solid var(--line-strong);border-radius:6px;padding:6px 10px;color:var(--ink)}
-  .limits{border-left:3px solid var(--purple);padding-left:26px;margin-top:8px}
-  .limits .li{padding:18px 0;border-bottom:1px solid var(--line)}
-  .limits .li:first-child{padding-top:0}
-  .limits .li h3{font-size:1.05rem;margin-bottom:.3em}
-  .limits .li p{font-size:.94rem;color:var(--ink-soft);margin:0}
-  .next{margin-top:34px;display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-  @media (max-width:620px){.next{grid-template-columns:1fr}}
-  .next .n{background:var(--surface);padding:22px}
-  .next .n .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--purple);display:block;margin-bottom:8px}
-  .next .n p{font-size:.9rem;color:var(--ink-soft);margin:0}
-  footer.site{border-top:1px solid var(--line);padding:clamp(48px,7vw,80px) 0 60px;background:var(--ink);color:var(--paper)}
-  footer.site .wrap{display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;align-items:flex-end}
-  footer.site h2{color:var(--paper);font-size:clamp(1.8rem,4vw,2.8rem);max-width:14ch}
-  footer.site h2 .ac{color:var(--purple-bright)}
-  footer.site .fcta{display:flex;gap:14px;flex-wrap:wrap}
-  footer.site .btn{border-color:rgba(250,249,246,.4);color:var(--paper)}
-  footer.site .btn:hover,footer.site .btn:focus-visible{border-color:var(--purple-bright);color:var(--purple-bright);transform:translateY(-2px)}
-  footer.site .by{width:100%;border-top:1px solid rgba(250,249,246,.16);margin-top:40px;padding-top:24px;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:rgba(250,249,246,.6);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
-  .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
-  .rv.in{opacity:1;transform:none}
+  .lead{font-size:clamp(1rem,1.5vw,1.18rem);line-height:1.6;color:var(--ink-soft);font-weight:400}
+  code{font-family:var(--mono);font-size:.86em;background:var(--purple-tint);color:var(--purple);padding:1px 6px;border-radius:5px}
   :focus-visible{outline:2px solid var(--purple);outline-offset:3px;border-radius:2px}
+
+  .shell{display:flex;align-items:flex-start}
+  .side{position:fixed;top:0;left:0;bottom:0;width:var(--side-w);padding:34px 26px;border-right:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto;z-index:40}
+  .side-top{display:flex;align-items:center;gap:10px;margin-bottom:26px}
+  .avatar{width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:.72rem;flex:none}
+  .who{line-height:1.25}
+  .who b{display:block;font-size:.86rem;font-weight:600}
+  .who span{font-size:.72rem;color:var(--ink-soft)}
+  .back{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--ink-soft);text-decoration:none;margin-bottom:28px}
+  .back:hover{color:var(--purple)}
+  .side-nav{display:flex;flex-direction:column;gap:2px}
+  .side-nav a{display:flex;gap:10px;align-items:baseline;padding:8px 8px;border-radius:8px;font-size:.82rem;color:var(--ink-soft);text-decoration:none;transition:background .15s,color .15s}
+  .side-nav a b{font-family:var(--mono);font-size:.68rem;font-weight:500;color:var(--line-strong);transition:color .15s}
+  .side-nav a:hover{color:var(--ink);background:var(--surface)}
+  .side-nav a.active{color:var(--ink);background:var(--surface);font-weight:600;box-shadow:0 0 0 1px var(--line)}
+  .side-nav a.active b{color:var(--purple)}
+  .side-spacer{flex:1}
+  .totop{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:var(--ink-soft);text-decoration:none;padding-top:16px;border-top:1px solid var(--line)}
+  .totop:hover{color:var(--purple)}
+  .main{margin-left:var(--side-w);flex:1;min-width:0;max-width:920px;padding:0 56px 40px}
+  @media (max-width:900px){
+    .side{position:static;width:auto;height:auto;border-right:none;border-bottom:1px solid var(--line);flex-direction:row;align-items:center;padding:16px 20px;gap:16px}
+    .side-nav,.side-spacer,.totop{display:none}
+    .main{margin-left:0;max-width:none;padding:0 20px 40px}
+  }
+
+  .hero{padding:52px 0 44px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);margin:0 0 14px}
+  .hero h1{font-size:clamp(2rem,4.6vw,3.1rem);letter-spacing:-.03em}
+  .hero h1 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--purple)}
+  .hero .sub{max-width:56ch;color:var(--ink-soft);font-size:clamp(1rem,1.5vw,1.15rem);margin-top:.7em}
+  .tag-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .tagchip{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;color:var(--purple);background:var(--purple-tint);border-radius:999px;padding:5px 12px}
+
+  .mockup-wrap{position:relative;margin:44px 0 8px;padding:0 24px}
+  .device{background:var(--surface);border:1px solid var(--line-strong);border-radius:18px;box-shadow:0 24px 60px -32px rgba(20,17,25,.35);overflow:hidden}
+  .device-bar{display:flex;align-items:center;gap:6px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--paper)}
+  .device-bar i{width:9px;height:9px;border-radius:50%;background:var(--line-strong)}
+  .device-body{padding:22px}
+  .dash-metrics{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+  .dash-metrics .m{flex:1 1 100px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .dash-metrics .m b{display:block;font-family:var(--display);font-size:1.05rem}
+  .dash-metrics .m span{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+  .chart{display:flex;align-items:flex-end;gap:6px;height:70px;padding:0 2px}
+  .chart i{flex:1;background:linear-gradient(180deg,var(--purple-bright),var(--purple));border-radius:4px 4px 0 0}
+  .callout{position:absolute;background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;padding:8px 12px;font-family:var(--mono);font-size:.66rem;letter-spacing:.02em;color:var(--ink);box-shadow:0 10px 24px -14px rgba(20,17,25,.3);white-space:nowrap}
+  .callout.c1{top:-6px;left:0}
+  .callout.c1:after{content:'';position:absolute;left:16px;bottom:-22px;width:1px;height:22px;border-left:1.5px dashed var(--line-strong)}
+  .callout.c2{top:64px;right:-4px}
+  .callout.c2:after{content:'';position:absolute;left:-18px;top:50%;width:18px;height:1px;border-top:1.5px dashed var(--line-strong)}
+  .callout.c3{bottom:8px;left:-8px}
+  .callout.c3:after{content:'';position:absolute;left:20px;top:-18px;width:1px;height:18px;border-left:1.5px dashed var(--line-strong)}
+  @media (max-width:720px){.callout{display:none}.mockup-wrap{padding:0}}
+
+  .meta-row{display:flex;flex-wrap:wrap;gap:0;margin-top:40px;border-top:1px solid var(--line)}
+  .meta-row .cell{flex:1 1 170px;padding:16px 0}
+  .meta-row .cell + .cell{border-left:1px solid var(--line);padding-left:20px}
+  .meta-row .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px}
+  .meta-row .v{font-size:.94rem;font-weight:500}
+  @media (max-width:720px){.meta-row .cell + .cell{border-left:none;padding-left:0}.meta-row .cell{flex-basis:100%}}
+
+  section.block{padding:56px 0;border-bottom:1px solid var(--line)}
+  .sec-head{max-width:60ch;margin-bottom:34px}
+  .sec-head .lead{margin-top:.5em}
+  .num{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;color:var(--purple);display:block;margin-bottom:10px}
+
+  .chip-row{display:flex;flex-wrap:wrap;gap:12px}
+  .chip{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+  .chip .ico{width:20px;height:20px;border-radius:50%;background:var(--danger-tint);color:var(--danger);display:grid;place-items:center;font-size:.7rem;font-weight:700;flex:none}
+  .chip span{font-size:.86rem;font-weight:500}
+  .problem-detail{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  @media (max-width:760px){.problem-detail{grid-template-columns:1fr}}
+  .problem-detail .cell{background:var(--surface);padding:22px}
+  .problem-detail .cell h3{font-size:1rem;margin-bottom:.4em}
+  .problem-detail .cell p{font-size:.88rem;color:var(--ink-soft);margin:0}
+
+  .flow{display:flex;align-items:stretch;margin-top:8px}
+  .flow .node{flex:1 1 0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .flow .node .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);display:block;margin-bottom:8px}
+  .flow .node h3{font-size:.96rem;margin-bottom:.4em}
+  .flow .node p{font-size:.82rem;color:var(--ink-soft);margin:0}
+  .flow .connector{flex:0 0 30px;position:relative}
+  .flow .connector:before{content:'';position:absolute;left:0;right:0;top:50%;border-top:2px dashed var(--line-strong)}
+  .flow .connector .dot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:7px;height:7px;border-radius:50%;background:var(--purple)}
+  @media (max-width:820px){
+    .flow{flex-direction:column}
+    .flow .connector{flex-basis:26px}
+    .flow .connector:before{left:50%;right:auto;top:0;bottom:0;height:100%;border-top:none;border-left:2px dashed var(--line-strong)}
+  }
+
+  .tabs{margin-top:8px}
+  .tab-btns{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .tab-btns button{flex:1 1 auto;background:var(--surface);border:0;border-right:1px solid var(--line);padding:12px 10px;font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);cursor:pointer}
+  .tab-btns button:last-child{border-right:0}
+  .tab-btns button.active{background:var(--ink);color:#fff}
+  .tab-panel{display:none;margin-top:20px;background:var(--ink);color:var(--paper);border-radius:16px;padding:30px;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center}
+  .tab-panel.active{display:grid}
+  @media (max-width:760px){.tab-panel{grid-template-columns:1fr}}
+  .tab-panel .tag{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--purple-bright);margin-bottom:10px}
+  .tab-panel h3{color:#fff;font-size:1.2rem;margin-bottom:.5em}
+  .tab-panel p{color:rgba(246,246,244,.72);font-size:.9rem;margin:0}
+  .tab-visual{background:rgba(246,246,244,.06);border:1px solid rgba(246,246,244,.14);border-radius:12px;padding:16px;font-family:var(--mono);font-size:.72rem;color:rgba(246,246,244,.85);line-height:1.7}
+  .tab-visual .l{color:var(--purple-bright)}
+
+  .impact{position:relative;border-radius:20px;overflow:hidden;background:linear-gradient(180deg,var(--purple-tint),var(--surface) 70%);padding:52px 30px 40px;text-align:center;margin-bottom:28px}
+  .impact:before{content:'';position:absolute;left:50%;bottom:-40%;transform:translateX(-50%);width:140%;aspect-ratio:2/1;background:radial-gradient(closest-side,rgba(126,34,206,.28),transparent 72%);pointer-events:none}
+  .impact .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);position:relative}
+  .impact h3{position:relative;font-size:clamp(1.1rem,2.2vw,1.5rem);max-width:32ch;margin:.5em auto 0;font-weight:600}
+  .impact .num-frame{position:relative;display:inline-flex;align-items:center;justify-content:center;margin:22px auto 0;padding:6px 4px}
+  .impact .num-frame .big{font-family:var(--display);font-size:clamp(2.4rem,7vw,4.2rem);font-weight:700;color:var(--purple);letter-spacing:-.03em}
+  .impact .num-frame:before,.impact .num-frame:after,.impact .num-frame .hL,.impact .num-frame .hR{content:'';position:absolute;width:9px;height:9px;border:1.6px solid var(--purple);background:var(--surface)}
+  .impact .num-frame:before{top:-6px;left:-6px}
+  .impact .num-frame:after{bottom:-6px;right:-6px}
+  .impact .num-frame .hL{top:-6px;right:-6px}
+  .impact .num-frame .hR{bottom:-6px;left:-6px}
+
+  .stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media (max-width:860px){.stat-cards{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:520px){.stat-cards{grid-template-columns:1fr}}
+  .stat-cards .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .stat-cards .card .big{font-family:var(--display);font-size:1.5rem;font-weight:700;color:var(--ink)}
+  .stat-cards .card .desc{font-size:.8rem;color:var(--ink-soft);margin-top:8px;line-height:1.5}
+
+  .limits{border-left:3px solid var(--purple);padding-left:24px}
+  .limits .li{padding:16px 0;border-bottom:1px solid var(--line)}
+  .limits .li:first-child{padding-top:0}
+  .limits .li h3{font-size:1rem;margin-bottom:.3em}
+  .limits .li p{font-size:.9rem;color:var(--ink-soft);margin:0}
+  .next{margin-top:30px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media (max-width:620px){.next{grid-template-columns:1fr}}
+  .next .n{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .next .n .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--purple);display:block;margin-bottom:6px}
+  .next .n p{font-size:.86rem;color:var(--ink-soft);margin:0}
+
+  footer.site{padding:60px 0 20px;position:relative;overflow:hidden}
+  footer.site .dots{position:absolute;inset:0;background-image:radial-gradient(var(--line-strong) 1px, transparent 1px);background-size:22px 22px;opacity:.5;mask-image:radial-gradient(ellipse at center, black 40%, transparent 75%)}
+  footer.site .inner{position:relative;text-align:center}
+  footer.site h2{font-size:clamp(1.6rem,3.6vw,2.4rem)}
+  footer.site h2 em{font-family:var(--serif);font-style:italic;color:var(--purple);font-weight:500}
+  footer.site .flinks{display:flex;gap:22px;justify-content:center;flex-wrap:wrap;margin-top:22px;font-family:var(--mono);font-size:.76rem}
+  footer.site .flinks a{text-decoration:none;color:var(--ink-soft);border-bottom:1px solid transparent}
+  footer.site .flinks a:hover{color:var(--purple);border-color:var(--purple)}
+  footer.site .by{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;color:var(--ink-soft)}
+
+  .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+  .rv.in{opacity:1;transform:none}
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="wrap row">
-    <span class="mark">LLM<b>·</b>OBSERVABILITY</span>
-    <nav class="topnav" aria-label="Sections">
-      <a href="#problem">Problem</a>
-      <a href="#approach">Approach</a>
-      <a href="#results">Results</a>
-      <a href="#limits">Honesty</a>
+<div class="shell">
+  <aside class="side">
+    <div class="side-top">
+      <div class="avatar">YR</div>
+      <div class="who"><b>Yashwanth Reddy</b><span>AI Engineer</span></div>
+    </div>
+    <a class="back" href="/#projects">← Back to projects</a>
+    <nav class="side-nav">
+      <a href="#problem"><b>01</b> Problem</a>
+      <a href="#approach"><b>02</b> Approach</a>
+      <a href="#tech"><b>03</b> Under the hood</a>
+      <a href="#results"><b>04</b> Results</a>
+      <a href="#limits"><b>05</b> Honesty</a>
     </nav>
-  </div>
+    <div class="side-spacer"></div>
+    <a class="totop" href="#top">Go to top ↑</a>
+  </aside>
+
+  <main class="main">
+    <header class="hero" id="top">
+      <p class="eyebrow rv">Observability Case Study</p>
+      <h1 class="rv">See inside <em>every call.</em></h1>
+      <p class="sub rv">A full observability layer over a production RAG system: every query traced into retrieval, reranking, and generation time, with Grafana dashboards and CI gates that block a deploy before it degrades quality.</p>
+      <div class="tag-row rv">
+        <span class="tagchip">Production RAG</span>
+        <span class="tagchip">Langfuse · Prometheus · Grafana</span>
+        <span class="tagchip">2025</span>
+      </div>
+
+      <div class="mockup-wrap rv">
+        <div class="callout c1">p50 / p95 latency</div>
+        <div class="callout c2">token cost / query</div>
+        <div class="callout c3">CI regression gate</div>
+        <div class="device">
+          <div class="device-bar"><i></i><i></i><i></i></div>
+          <div class="device-body">
+            <div class="dash-metrics">
+              <div class="m"><b>412ms</b><span>p50 latency</span></div>
+              <div class="m"><b>891ms</b><span>p95 latency</span></div>
+              <div class="m"><b>$0.006</b><span>cost / query</span></div>
+              <div class="m"><b>0.94</b><span>quality score</span></div>
+            </div>
+            <div class="chart">
+              <i style="height:40%"></i><i style="height:55%"></i><i style="height:30%"></i><i style="height:65%"></i><i style="height:48%"></i><i style="height:72%"></i><i style="height:38%"></i><i style="height:58%"></i><i style="height:44%"></i><i style="height:80%"></i><i style="height:36%"></i><i style="height:52%"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="meta-row rv">
+        <div class="cell"><span class="k">Role</span><span class="v">Solo AI engineer</span></div>
+        <div class="cell"><span class="k">Stack</span><span class="v">Langfuse, Prometheus, Grafana</span></div>
+        <div class="cell"><span class="k">Scope</span><span class="v">Full request tracing + CI gating</span></div>
+        <div class="cell"><span class="k">Type</span><span class="v">Production observability layer</span></div>
+      </div>
+    </header>
+
+    <section class="block" id="problem">
+      <div class="sec-head rv">
+        <span class="num">01 — The problem</span>
+        <h2>Debugging a RAG pipeline blind.</h2>
+      </div>
+      <div class="chip-row rv">
+        <div class="chip"><span class="ico">✕</span><span>Which stage is slow?</span></div>
+        <div class="chip"><span class="ico">✕</span><span>Token spend was invisible</span></div>
+        <div class="chip"><span class="ico">✕</span><span>Quality drops shipped silently</span></div>
+      </div>
+      <div class="problem-detail rv">
+        <div class="cell"><h3>Attribution</h3><p>A single end-to-end latency number doesn't say whether retrieval, reranking, or generation caused a slowdown.</p></div>
+        <div class="cell"><h3>Cost</h3><p>Without per-query cost tracking, a prompt or model change could quietly inflate spend before anyone noticed.</p></div>
+        <div class="cell"><h3>Regression</h3><p>Nothing stopped a change that degraded answer quality from reaching production before a human noticed.</p></div>
+      </div>
+    </section>
+
+    <section class="block" id="approach">
+      <div class="sec-head rv">
+        <span class="num">02 — The approach</span>
+        <h2>How a query gets observed.</h2>
+      </div>
+      <div class="flow rv">
+        <div class="node"><span class="k">01 Tracing</span><h3>End-to-end spans</h3><p>Langfuse instruments every request into retrieval, reranking, and generation spans with their own timing.</p></div>
+        <div class="connector"><span class="dot"></span></div>
+        <div class="node"><span class="k">02 Metrics</span><h3>Prometheus export</h3><p>Latency, cost, and quality metrics scraped from the FastAPI service on every request.</p></div>
+        <div class="connector"><span class="dot"></span></div>
+        <div class="node"><span class="k">03 Dashboards</span><h3>Grafana</h3><p>Tracks p50/p95 latency, token cost per query, and quality scores over time.</p></div>
+      </div>
+      <div class="flow rv" style="margin-top:14px">
+        <div class="node"><span class="k">04 Gate</span><h3>Regression check</h3><p>A GitHub Actions check blocks a deploy when latency spikes or a quality score drops.</p></div>
+      </div>
+    </section>
+
+    <section class="block" id="tech">
+      <div class="sec-head rv">
+        <span class="num">03 — Under the hood</span>
+        <h2>Four engineering decisions, up close.</h2>
+      </div>
+      <div class="tabs rv">
+        <div class="tab-btns">
+          <button class="active" data-tab="t1">01 Tracing</button>
+          <button data-tab="t2">02 Dashboards</button>
+          <button data-tab="t3">03 CI gating</button>
+          <button data-tab="t4">04 Serving</button>
+        </div>
+        <div class="tab-panel active" id="t1">
+          <div>
+            <div class="tag">Tracing</div>
+            <h3>Span-level, not request-level.</h3>
+            <p>Langfuse spans wrap each pipeline stage individually, so a latency spike can be attributed to retrieval versus generation instead of guessed at.</p>
+          </div>
+          <div class="tab-visual">
+            <div><span class="l">span</span>: retrieval → 140ms</div>
+            <div><span class="l">span</span>: rerank → 90ms</div>
+            <div><span class="l">span</span>: generation → 660ms</div>
+          </div>
+        </div>
+        <div class="tab-panel" id="t2">
+          <div>
+            <div class="tag">Dashboards</div>
+            <h3>One place for latency, cost, and quality.</h3>
+            <p>Grafana panels pull from the same Prometheus metrics store, so latency percentiles, token cost, and quality scores live side by side.</p>
+          </div>
+          <div class="tab-visual">
+            <div>panel: <span class="l">latency_p50 / p95</span></div>
+            <div>panel: <span class="l">cost_per_query</span></div>
+            <div>panel: <span class="l">quality_score</span></div>
+          </div>
+        </div>
+        <div class="tab-panel" id="t3">
+          <div>
+            <div class="tag">CI gating</div>
+            <h3>The pipeline fails closed.</h3>
+            <p>A GitHub Actions job runs the evaluation suite on every change; a regression in latency or quality score fails the check instead of shipping silently.</p>
+          </div>
+          <div class="tab-visual">
+            <div><span class="l">if</span> quality_score &lt; threshold:</div>
+            <div>&nbsp;&nbsp;fail_build()</div>
+          </div>
+        </div>
+        <div class="tab-panel" id="t4">
+          <div>
+            <div class="tag">Serving</div>
+            <h3>Instrumented at the FastAPI layer.</h3>
+            <p>Metrics are emitted directly from the serving layer, so the dashboards reflect real production traffic, not a synthetic sample.</p>
+          </div>
+          <div class="tab-visual">
+            <div><span class="l">middleware</span>: metrics_emit</div>
+            <div>source: live production traffic</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="results">
+      <div class="sec-head rv">
+        <span class="num">04 — Results</span>
+        <h2>What became visible.</h2>
+      </div>
+      <div class="impact rv">
+        <span class="k">Impact</span>
+        <h3>Pipeline stages traced individually</h3>
+        <div class="num-frame"><span class="hL"></span><span class="hR"></span><span class="big">3 stages</span></div>
+      </div>
+      <div class="stat-cards rv">
+        <div class="card"><div class="big">p50 / p95</div><div class="desc">Latency percentiles tracked continuously on Grafana, not just averages.</div></div>
+        <div class="card"><div class="big">Per-query</div><div class="desc">Token cost tracked at the individual query level, not just in aggregate.</div></div>
+        <div class="card"><div class="big">Auto-blocked</div><div class="desc">CI gating stops a deploy when latency or quality regresses.</div></div>
+        <div class="card"><div class="big">Live traffic</div><div class="desc">Dashboards reflect real production requests, not a synthetic sample.</div></div>
+      </div>
+    </section>
+
+    <section class="block" id="limits" style="border-bottom:none">
+      <div class="sec-head rv">
+        <span class="num">05 — Honest scope</span>
+        <h2>What this layer doesn't do yet.</h2>
+      </div>
+      <div class="limits rv">
+        <div class="li"><h3>No alerting yet</h3><p>Dashboards surface regressions visually; there's no paging or Slack alert wired up for on-call response.</p></div>
+        <div class="li"><h3>Single-service scope</h3><p>Tracing covers the RAG service itself, not every upstream or downstream dependency.</p></div>
+        <div class="li"><h3>Fixed evaluation thresholds</h3><p>The CI quality gate uses static thresholds rather than statistical drift detection.</p></div>
+      </div>
+      <div class="next rv">
+        <div class="n"><span class="k">Alerting</span><p>Wire Grafana alert rules into Slack or PagerDuty for real-time incident response.</p></div>
+        <div class="n"><span class="k">Drift detection</span><p>Replace static thresholds with statistical drift detection on quality scores over time.</p></div>
+      </div>
+    </section>
+
+    <footer class="site">
+      <div class="dots"></div>
+      <div class="inner rv">
+        <h2>See more of <em>the build.</em></h2>
+        <div class="flinks">
+          <a href="/#projects">All projects ↗</a>
+          <a href="https://github.com/yashwanthreddy7178" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="mailto:yashwanthreddy7178@gmail.com">Email ↗</a>
+        </div>
+        <div class="by">LLM Monitoring & Observability · Yashwanth Reddy · Independent production build</div>
+      </div>
+    </footer>
+  </main>
 </div>
-
-<header class="hero">
-  <div class="wrap">
-    <div class="kicker rv">
-      <p class="eyebrow">Observability Case Study</p>
-      <span class="pill">Production RAG</span>
-      <span class="pill">2025</span>
-    </div>
-    <h1 class="rv">See inside <span class="ac">every call.</span></h1>
-    <p class="sub rv">A full observability layer over a production RAG system: every query traced into retrieval, reranking, and generation time, with Grafana dashboards and CI gates that block a deploy before it degrades quality.</p>
-
-    <div class="cta-row rv">
-      <a class="btn primary" href="/#projects">Back to all projects <span class="arr">→</span></a>
-      <a class="btn ghost" href="https://github.com/yashwanthreddy7178" target="_blank" rel="noopener">GitHub profile <span class="arr">↗</span></a>
-    </div>
-
-    <div class="meta-row rv">
-      <div class="cell"><span class="k">Role</span><span class="v">Solo AI engineer</span></div>
-      <div class="cell"><span class="k">Stack</span><span class="v">Langfuse, Prometheus, Grafana</span></div>
-      <div class="cell"><span class="k">Scope</span><span class="v">Full request tracing + CI gating</span></div>
-      <div class="cell"><span class="k">Type</span><span class="v">Production observability layer</span></div>
-    </div>
-  </div>
-</header>
-
-<section class="block" id="brief">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="num">01 — The brief</span>
-      <h2>A RAG system you can actually debug.</h2>
-      <p class="lead">A RAG pipeline has three places latency and quality can quietly degrade: retrieval, reranking, and generation. I built the tracing and dashboarding layer that makes each stage visible instead of guessed at.</p>
-    </div>
-  </div>
-</section>
-
-<section class="block" id="problem">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="num">02 — The problem</span>
-      <h2>Debugging a RAG pipeline blind.</h2>
-    </div>
-    <div class="grid c3 rv">
-      <div class="card">
-        <div class="tag">Attribution</div>
-        <h3>Which stage is slow?</h3>
-        <p>A single end-to-end latency number doesn't say whether retrieval, reranking, or generation caused a slowdown.</p>
-      </div>
-      <div class="card">
-        <div class="tag">Cost</div>
-        <h3>Token spend was invisible</h3>
-        <p>Without per-query cost tracking, a prompt or model change could quietly inflate spend before anyone noticed.</p>
-      </div>
-      <div class="card">
-        <div class="tag">Regression</div>
-        <h3>Quality drops shipped silently</h3>
-        <p>Nothing stopped a change that degraded answer quality from reaching production before a human noticed.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="block" id="approach">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="num">03 — The approach</span>
-      <h2>How a query gets observed.</h2>
-    </div>
-    <div class="map rv">
-      <div class="map-row">
-        <span class="idx">01</span>
-        <div class="from"><span class="h">Stage</span><p>End-to-end tracing</p></div>
-        <div class="to"><span class="h">What it does</span><p>Langfuse instruments every request, breaking it into retrieval, reranking, and generation spans with their own timing.</p></div>
-      </div>
-      <div class="map-row">
-        <span class="idx">02</span>
-        <div class="from"><span class="h">Stage</span><p>Metrics export</p></div>
-        <div class="to"><span class="h">What it does</span><p>Prometheus scrapes latency, cost, and quality metrics from the FastAPI service on every request.</p></div>
-      </div>
-      <div class="map-row">
-        <span class="idx">03</span>
-        <div class="from"><span class="h">Stage</span><p>Dashboards</p></div>
-        <div class="to"><span class="h">What it does</span><p>Grafana dashboards track p50/p95 latency, token cost per query, and quality scores over time, broken down by pipeline stage.</p></div>
-      </div>
-      <div class="map-row">
-        <span class="idx">04</span>
-        <div class="from"><span class="h">Stage</span><p>Regression gate</p></div>
-        <div class="to"><span class="h">What it does</span><p>A GitHub Actions check blocks a deploy automatically when latency spikes or an evaluation score drops below threshold.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="block" id="results">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="num">04 — Results</span>
-      <h2>What became visible.</h2>
-    </div>
-    <div class="stats rv">
-      <div class="stat"><div class="big p">3 stages</div><div class="desc">Retrieval, reranking, and generation each traced and timed separately.</div></div>
-      <div class="stat"><div class="big">p50 / p95</div><div class="desc">Latency percentiles tracked continuously on Grafana, not just averages.</div></div>
-      <div class="stat"><div class="big p">Per-query</div><div class="desc">Token cost tracked at the individual query level, not just in aggregate.</div></div>
-      <div class="stat"><div class="big">Auto-blocked</div><div class="desc">CI gating stops a deploy when latency or quality regresses — no manual check required.</div></div>
-    </div>
-  </div>
-</section>
-
-<section class="block" id="tech">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="num">05 — Under the hood</span>
-      <h2>The engineering decisions.</h2>
-      <div class="stack-line">
-        <b>Langfuse</b><b>Prometheus</b><b>Grafana</b><b>Python</b><b>FastAPI</b><b>GitHub Actions</b>
-      </div>
-    </div>
-    <div class="tech-grid rv">
-      <div class="tech">
-        <div class="tag">Tracing</div>
-        <h3>Span-level, not request-level.</h3>
-        <p>Langfuse spans wrap each pipeline stage individually, so a latency spike can be attributed to retrieval versus generation instead of guessed at.</p>
-      </div>
-      <div class="tech">
-        <div class="tag">Dashboards</div>
-        <h3>One place for latency, cost, and quality.</h3>
-        <p>Grafana panels pull from the same Prometheus metrics store, so latency percentiles, token cost, and quality scores live side by side.</p>
-      </div>
-      <div class="tech">
-        <div class="tag">CI gating</div>
-        <h3>The pipeline fails closed.</h3>
-        <p>A GitHub Actions job runs the evaluation suite on every change; a regression in latency or quality score fails the check instead of shipping silently.</p>
-      </div>
-      <div class="tech">
-        <div class="tag">Serving</div>
-        <h3>Instrumented at the FastAPI layer.</h3>
-        <p>Metrics are emitted directly from the serving layer, so the dashboards reflect real production traffic, not a synthetic sample.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="block" id="limits">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="num">06 — Honest scope</span>
-      <h2>What this layer doesn't do yet.</h2>
-    </div>
-    <div class="limits rv">
-      <div class="li"><h3>No alerting yet</h3><p>Dashboards surface regressions visually; there's no paging or Slack alert wired up for on-call response.</p></div>
-      <div class="li"><h3>Single-service scope</h3><p>Tracing covers the RAG service itself, not every upstream or downstream dependency in the broader system.</p></div>
-      <div class="li"><h3>Fixed evaluation thresholds</h3><p>The CI quality gate uses static thresholds rather than statistical drift detection.</p></div>
-    </div>
-    <div class="sec-head rv" style="margin-top:56px;margin-bottom:16px">
-      <span class="num">Next steps</span>
-      <h2 style="font-size:clamp(1.6rem,3.2vw,2.3rem)">Where this goes next.</h2>
-    </div>
-    <div class="next rv">
-      <div class="n"><span class="k">Alerting</span><p>Wire Grafana alert rules into Slack or PagerDuty for real-time incident response.</p></div>
-      <div class="n"><span class="k">Drift detection</span><p>Replace static thresholds with statistical drift detection on quality scores over time.</p></div>
-    </div>
-  </div>
-</section>
-
-<footer class="site">
-  <div class="wrap">
-    <h2>See more of <span class="ac">the build.</span></h2>
-    <div class="fcta">
-      <a class="btn" href="/#projects">All projects <span class="arr">→</span></a>
-      <a class="btn" href="https://github.com/yashwanthreddy7178" target="_blank" rel="noopener">GitHub <span class="arr">↗</span></a>
-      <a class="btn" href="mailto:yashwanthreddy7178@gmail.com">Email me <span class="arr">↗</span></a>
-    </div>
-    <div class="by">
-      <span>LLM Monitoring & Observability · Case Study · Yashwanth Reddy</span>
-      <span>Independent production build.</span>
-    </div>
-  </div>
-</footer>
 
 <script>
   (function(){
     var els = document.querySelectorAll('.rv');
-    if(!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!('IntersectionObserver' in window) || reduce){
       els.forEach(function(e){e.classList.add('in')});
-      return;
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in'); io.unobserve(en.target);} });
+      },{threshold:.12});
+      els.forEach(function(e){io.observe(e)});
     }
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){
-        if(en.isIntersecting){en.target.classList.add('in'); io.unobserve(en.target);}
+
+    var tabBtns = document.querySelectorAll('.tab-btns button');
+    tabBtns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        tabBtns.forEach(function(b){b.classList.remove('active')});
+        document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
       });
-    },{threshold:.12});
-    els.forEach(function(e){io.observe(e)});
+    });
+
+    var navLinks = document.querySelectorAll('.side-nav a');
+    var sections = Array.prototype.map.call(navLinks, function(a){ return document.querySelector(a.getAttribute('href')); });
+    if('IntersectionObserver' in window){
+      var spy = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          var idx = sections.indexOf(en.target);
+          if(idx > -1 && en.isIntersecting){
+            navLinks.forEach(function(a){a.classList.remove('active')});
+            navLinks[idx].classList.add('active');
+          }
+        });
+      },{rootMargin:'-40% 0px -50% 0px'});
+      sections.forEach(function(s){ if(s) spy.observe(s); });
+    }
   })();
 </script>
 </body>

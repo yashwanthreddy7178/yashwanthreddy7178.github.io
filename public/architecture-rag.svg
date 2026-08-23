@@ -15,32 +15,32 @@
 
   <rect width="1200" height="675" fill="url(#bg2)"/>
 
-  <text x="60" y="70" fill="#64748b" font-size="22" letter-spacing="3">PRODUCTION RAG &#183; ASK MY DOCS</text>
+  <text x="60" y="70" fill="#64748b" font-size="22" letter-spacing="3">FINANCIAL RAG ENGINE &#183; FIN-RAG</text>
   <rect x="60" y="86" width="160" height="4" rx="2" fill="url(#accent2)"/>
 
   <!-- Pipeline row -->
   <g>
     <rect x="60" y="270" width="190" height="135" rx="16" fill="#1e293b" stroke="#334155" stroke-width="2"/>
-    <text x="155" y="325" fill="#e2e8f0" font-size="24" font-weight="700" text-anchor="middle">Financial</text>
-    <text x="155" y="353" fill="#e2e8f0" font-size="24" font-weight="700" text-anchor="middle">Documents</text>
-    <text x="155" y="380" fill="#94a3b8" font-size="16" text-anchor="middle">500+ pages</text>
+    <text x="155" y="325" fill="#e2e8f0" font-size="22" font-weight="700" text-anchor="middle">10-K</text>
+    <text x="155" y="353" fill="#e2e8f0" font-size="22" font-weight="700" text-anchor="middle">Filings</text>
+    <text x="155" y="380" fill="#94a3b8" font-size="15" text-anchor="middle">contextual chunks</text>
   </g>
   <line x1="250" y1="337" x2="320" y2="337" stroke="#64748b" stroke-width="3" marker-end="url(#arrow2)"/>
 
   <g>
     <rect x="325" y="255" width="230" height="165" rx="16" fill="#132036" stroke="#3b82f6" stroke-width="2.5"/>
-    <text x="440" y="305" fill="#e2e8f0" font-size="23" font-weight="700" text-anchor="middle">Hybrid</text>
-    <text x="440" y="333" fill="#e2e8f0" font-size="23" font-weight="700" text-anchor="middle">Retrieval</text>
-    <text x="440" y="365" fill="#93c5fd" font-size="17" text-anchor="middle">BM25 + FAISS</text>
-    <text x="440" y="390" fill="#93c5fd" font-size="17" text-anchor="middle">vector search</text>
+    <text x="440" y="305" fill="#e2e8f0" font-size="22" font-weight="700" text-anchor="middle">Hybrid</text>
+    <text x="440" y="333" fill="#e2e8f0" font-size="22" font-weight="700" text-anchor="middle">Retrieval</text>
+    <text x="440" y="365" fill="#93c5fd" font-size="16" text-anchor="middle">Pinecone + BM25</text>
+    <text x="440" y="390" fill="#93c5fd" font-size="16" text-anchor="middle">fused with RRF</text>
   </g>
   <line x1="555" y1="337" x2="625" y2="337" stroke="#64748b" stroke-width="3" marker-end="url(#arrow2)"/>
 
   <g>
     <rect x="630" y="255" width="220" height="165" rx="16" fill="#132a1f" stroke="#22c55e" stroke-width="2.5"/>
-    <text x="740" y="315" fill="#e2e8f0" font-size="23" font-weight="700" text-anchor="middle">Cohere</text>
-    <text x="740" y="343" fill="#e2e8f0" font-size="23" font-weight="700" text-anchor="middle">Rerank</text>
-    <text x="740" y="378" fill="#86efac" font-size="17" text-anchor="middle">relevance filter</text>
+    <text x="740" y="315" fill="#e2e8f0" font-size="21" font-weight="700" text-anchor="middle">FlashRank</text>
+    <text x="740" y="343" fill="#e2e8f0" font-size="21" font-weight="700" text-anchor="middle">+ Self-RAG</text>
+    <text x="740" y="378" fill="#86efac" font-size="15" text-anchor="middle">rerank, grade, retry</text>
   </g>
   <line x1="850" y1="337" x2="920" y2="337" stroke="#64748b" stroke-width="3" marker-end="url(#arrow2)"/>
 
@@ -48,16 +48,16 @@
     <rect x="925" y="255" width="215" height="165" rx="16" fill="#2a1f13" stroke="#f59e0b" stroke-width="2.5"/>
     <text x="1032" y="305" fill="#e2e8f0" font-size="22" font-weight="700" text-anchor="middle">LLM Answer</text>
     <text x="1032" y="333" fill="#e2e8f0" font-size="22" font-weight="700" text-anchor="middle">+ Citations</text>
-    <text x="1032" y="365" fill="#fbbf24" font-size="17" text-anchor="middle">hallucination -40%</text>
-    <text x="1032" y="390" fill="#fbbf24" font-size="17" text-anchor="middle">Ragas-gated CI</text>
+    <text x="1032" y="365" fill="#fbbf24" font-size="16" text-anchor="middle">1.000 faithfulness</text>
+    <text x="1032" y="390" fill="#fbbf24" font-size="16" text-anchor="middle">Ragas-evaluated</text>
   </g>
 
   <!-- Metric badge -->
   <g>
-    <rect x="470" y="470" width="260" height="90" rx="45" fill="#0f2e1a" stroke="#22c55e" stroke-width="2.5"/>
-    <text x="600" y="510" fill="#4ade80" font-size="30" font-weight="800" text-anchor="middle">82% &#8594; 94%</text>
-    <text x="600" y="536" fill="#86efac" font-size="16" text-anchor="middle">answer relevance</text>
+    <rect x="440" y="470" width="320" height="90" rx="45" fill="#0f2e1a" stroke="#22c55e" stroke-width="2.5"/>
+    <text x="600" y="510" fill="#4ade80" font-size="26" font-weight="800" text-anchor="middle">5 days &#183; solo &#183; v2.0.0</text>
+    <text x="600" y="536" fill="#86efac" font-size="16" text-anchor="middle">empty repo to self-grading retrieval</text>
   </g>
 
-  <text x="60" y="620" fill="#475569" font-size="17">FastAPI &#183; GitHub Actions quality gate &#183; sub-2s response on 500+ page documents</text>
+  <text x="60" y="620" fill="#475569" font-size="17">FastAPI &#183; AWS ECS &#183; GitHub Actions CI/CD &#183; fail-open Redis / Langfuse</text>
 </svg>

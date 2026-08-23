@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { useScrollToSection } from "@/hooks/use-scroll-to-section"
 import { motion } from "framer-motion"
-import { ArrowRight, Code, Database, Download, Github, Target } from "lucide-react"
+import { ArrowRight, Code, Download, Github, ShieldCheck, Target } from "lucide-react"
 
 export default function HeroSection() {
   const scrollToSection = useScrollToSection()
@@ -36,10 +36,10 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.15 }}
           >
             Building Production{" "}
-            <span className="bg-gradient-to-r from-primary to-green-500 bg-clip-text text-transparent">GenAI</span>{" "}
-            &amp;{" "}
+            <span className="bg-gradient-to-r from-primary to-green-500 bg-clip-text text-transparent">RAG</span>,
+            LLM Applications &amp;{" "}
             <span className="bg-gradient-to-r from-green-500 to-amber-500 bg-clip-text text-transparent">
-              ML Systems
+              ML Infrastructure
             </span>
           </motion.h2>
 
@@ -81,24 +81,24 @@ export default function HeroSection() {
           >
             <div className="text-center">
               <div className="mb-1 flex items-center justify-center">
-                <Database className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                <Target className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold">4+</h3>
-              <p className="text-xs sm:text-sm text-muted-foreground">Years Experience</p>
+              <h3 className="text-xl sm:text-2xl font-bold">94%</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">RAG Answer Relevance (Ragas)</p>
+            </div>
+            <div className="text-center">
+              <div className="mb-1 flex items-center justify-center">
+                <ShieldCheck className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold">40%</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">Hallucination Reduction</p>
             </div>
             <div className="text-center">
               <div className="mb-1 flex items-center justify-center">
                 <Code className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold">15+</h3>
-              <p className="text-xs sm:text-sm text-muted-foreground">Projects Completed</p>
-            </div>
-            <div className="text-center">
-              <div className="mb-1 flex items-center justify-center">
-                <Target className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold">94%</h3>
-              <p className="text-xs sm:text-sm text-muted-foreground">RAG Retrieval Relevance</p>
+              <h3 className="text-xl sm:text-2xl font-bold">4</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">Featured AI Systems</p>
             </div>
           </motion.div>
         </div>

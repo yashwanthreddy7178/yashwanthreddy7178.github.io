@@ -8,9 +8,10 @@ import { useScrollToSection } from "@/hooks/use-scroll-to-section"
 
 const navItems = [
   { name: "Home", href: "home" },
-  { name: "About", href: "about" },
-  { name: "Skills", href: "skills" },
   { name: "Projects", href: "projects" },
+  { name: "Experience", href: "experience" },
+  { name: "Skills", href: "skills" },
+  { name: "About", href: "about" },
   { name: "Contact", href: "contact" },
 ]
 

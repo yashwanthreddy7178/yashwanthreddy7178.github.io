@@ -22,14 +22,14 @@
   </g>
 
   <!-- kicker -->
-  <text x="60" y="70" fill="#64748b" font-size="22" letter-spacing="3">MULTI-AGENT CONVERSATIONAL SYSTEM</text>
+  <text x="60" y="70" fill="#64748b" font-size="22" letter-spacing="3">NIMBUS SUPPORT AGENT &#183; MULTI-AGENT SYSTEM</text>
   <rect x="60" y="86" width="160" height="4" rx="2" fill="url(#accent1)"/>
 
-  <!-- User -->
+  <!-- Customer -->
   <g>
     <rect x="60" y="290" width="180" height="95" rx="16" fill="#1e293b" stroke="#334155" stroke-width="2"/>
-    <text x="150" y="330" fill="#e2e8f0" font-size="26" font-weight="600" text-anchor="middle">User</text>
-    <text x="150" y="358" fill="#94a3b8" font-size="18" text-anchor="middle">WebSocket</text>
+    <text x="150" y="330" fill="#e2e8f0" font-size="26" font-weight="600" text-anchor="middle">Customer</text>
+    <text x="150" y="358" fill="#94a3b8" font-size="18" text-anchor="middle">message</text>
   </g>
 
   <line x1="240" y1="337" x2="330" y2="337" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
@@ -37,9 +37,9 @@
   <!-- Triage -->
   <g>
     <rect x="335" y="270" width="230" height="135" rx="16" fill="#132036" stroke="#3b82f6" stroke-width="2.5"/>
-    <text x="450" y="325" fill="#e2e8f0" font-size="27" font-weight="700" text-anchor="middle">Triage Agent</text>
-    <text x="450" y="356" fill="#93c5fd" font-size="18" text-anchor="middle">cancellable, turn-tracked</text>
-    <text x="450" y="380" fill="#93c5fd" font-size="18" text-anchor="middle">LangGraph router</text>
+    <text x="450" y="317" fill="#e2e8f0" font-size="27" font-weight="700" text-anchor="middle">gate + triage</text>
+    <text x="450" y="348" fill="#93c5fd" font-size="17" text-anchor="middle">interrupt() if escalated</text>
+    <text x="450" y="374" fill="#93c5fd" font-size="17" text-anchor="middle">+ sentiment, parallel</text>
   </g>
 
   <line x1="565" y1="300" x2="660" y2="185" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
@@ -49,18 +49,18 @@
   <!-- Subagents -->
   <g>
     <rect x="665" y="130" width="220" height="100" rx="14" fill="#132a1f" stroke="#22c55e" stroke-width="2"/>
-    <text x="775" y="173" fill="#e2e8f0" font-size="23" font-weight="600" text-anchor="middle">Scheduling</text>
-    <text x="775" y="200" fill="#86efac" font-size="16" text-anchor="middle">subagent</text>
+    <text x="775" y="173" fill="#e2e8f0" font-size="23" font-weight="600" text-anchor="middle">faq_rag</text>
+    <text x="775" y="200" fill="#86efac" font-size="16" text-anchor="middle">Chroma, grounded</text>
   </g>
   <g>
     <rect x="665" y="287" width="220" height="100" rx="14" fill="#132a1f" stroke="#22c55e" stroke-width="2"/>
-    <text x="775" y="330" fill="#e2e8f0" font-size="23" font-weight="600" text-anchor="middle">Promotions</text>
-    <text x="775" y="357" fill="#86efac" font-size="16" text-anchor="middle">subagent</text>
+    <text x="775" y="330" fill="#e2e8f0" font-size="23" font-weight="600" text-anchor="middle">refund</text>
+    <text x="775" y="357" fill="#86efac" font-size="16" text-anchor="middle">limit enforced in code</text>
   </g>
   <g>
     <rect x="665" y="444" width="220" height="100" rx="14" fill="#132a1f" stroke="#22c55e" stroke-width="2"/>
-    <text x="775" y="487" fill="#e2e8f0" font-size="23" font-weight="600" text-anchor="middle">Support</text>
-    <text x="775" y="514" fill="#86efac" font-size="16" text-anchor="middle">subagent + RAG</text>
+    <text x="775" y="487" fill="#e2e8f0" font-size="23" font-weight="600" text-anchor="middle">order_status</text>
+    <text x="775" y="514" fill="#86efac" font-size="16" text-anchor="middle">Shopify, read-only</text>
   </g>
 
   <line x1="885" y1="180" x2="960" y2="320" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
@@ -70,10 +70,10 @@
   <!-- Response -->
   <g>
     <rect x="965" y="270" width="180" height="135" rx="16" fill="#1e293b" stroke="#f59e0b" stroke-width="2.5"/>
-    <text x="1055" y="325" fill="#e2e8f0" font-size="24" font-weight="700" text-anchor="middle">Streamed</text>
-    <text x="1055" y="353" fill="#e2e8f0" font-size="24" font-weight="700" text-anchor="middle">Response</text>
-    <text x="1055" y="380" fill="#fbbf24" font-size="16" text-anchor="middle">JWT + signed WS</text>
+    <text x="1055" y="317" fill="#e2e8f0" font-size="21" font-weight="700" text-anchor="middle">escalation check</text>
+    <text x="1055" y="348" fill="#e2e8f0" font-size="21" font-weight="700" text-anchor="middle">→ composer</text>
+    <text x="1055" y="376" fill="#fbbf24" font-size="15" text-anchor="middle">sole writer of reply</text>
   </g>
 
-  <text x="60" y="620" fill="#475569" font-size="17">Async ToolNode &#183; Supabase RLS &#183; parallel tool calls via asyncio.gather</text>
+  <text x="60" y="620" fill="#475569" font-size="17">Guardrails as code &#183; verified against real Stripe / Shopify / Zendesk APIs</text>
 </svg>

@@ -3,29 +3,18 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Multi-Agent Conversational System — AI Engineering Case Study</title>
+<title>Nimbus Support Agent — Multi-Agent Engineering Case Study</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F6F6F4;
-    --surface:#FFFFFF;
-    --ink:#16151A;
-    --ink-soft:#5C5A63;
-    --line:#E6E4E2;
-    --line-strong:#D2CFCB;
-    --purple:#7E22CE;
-    --purple-bright:#9333EA;
-    --purple-tint:#F3EAFB;
-    --danger:#DC2626;
-    --danger-tint:#FDEAEA;
-
-    --display:"DM Sans", system-ui, sans-serif;
-    --serif:"Fraunces", Georgia, serif;
-    --body:"DM Sans", system-ui, sans-serif;
-    --mono:"DM Mono", ui-monospace, monospace;
-
+    --paper:#F6F6F4; --surface:#FFFFFF; --ink:#16151A; --ink-soft:#5C5A63;
+    --line:#E6E4E2; --line-strong:#D2CFCB;
+    --purple:#7E22CE; --purple-bright:#9333EA; --purple-tint:#F3EAFB;
+    --danger:#DC2626; --danger-tint:#FDEAEA;
+    --warn:#B5622A; --warn-tint:#F5E6D8; --warn-ink:#7A4118;
+    --display:"DM Sans", system-ui, sans-serif; --serif:"Fraunces", Georgia, serif; --body:"DM Sans", system-ui, sans-serif; --mono:"DM Mono", ui-monospace, monospace;
     --side-w:250px;
   }
   *{box-sizing:border-box}
@@ -41,7 +30,6 @@
   code{font-family:var(--mono);font-size:.86em;background:var(--purple-tint);color:var(--purple);padding:1px 6px;border-radius:5px}
   :focus-visible{outline:2px solid var(--purple);outline-offset:3px;border-radius:2px}
 
-  /* ---------- shell / sidebar ---------- */
   .shell{display:flex;align-items:flex-start}
   .side{position:fixed;top:0;left:0;bottom:0;width:var(--side-w);padding:34px 26px;border-right:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto;z-index:40}
   .side-top{display:flex;align-items:center;gap:10px;margin-bottom:26px}
@@ -52,7 +40,7 @@
   .back{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--ink-soft);text-decoration:none;margin-bottom:28px}
   .back:hover{color:var(--purple)}
   .side-nav{display:flex;flex-direction:column;gap:2px}
-  .side-nav a{display:flex;gap:10px;align-items:baseline;padding:8px 8px;border-radius:8px;font-size:.82rem;color:var(--ink-soft);text-decoration:none;transition:background .15s,color .15s}
+  .side-nav a{display:flex;gap:10px;align-items:baseline;padding:8px 8px;border-radius:8px;font-size:.8rem;color:var(--ink-soft);text-decoration:none;transition:background .15s,color .15s}
   .side-nav a b{font-family:var(--mono);font-size:.68rem;font-weight:500;color:var(--line-strong);transition:color .15s}
   .side-nav a:hover{color:var(--ink);background:var(--surface)}
   .side-nav a.active{color:var(--ink);background:var(--surface);font-weight:600;box-shadow:0 0 0 1px var(--line)}
@@ -67,28 +55,28 @@
     .main{margin-left:0;max-width:none;padding:0 20px 40px}
   }
 
-  /* ---------- hero ---------- */
   .hero{padding:52px 0 44px;border-bottom:1px solid var(--line)}
   .eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);margin:0 0 14px}
-  .hero h1{font-size:clamp(2rem,4.6vw,3.1rem);letter-spacing:-.03em}
+  .hero h1{font-size:clamp(1.9rem,4.4vw,3rem);letter-spacing:-.03em}
   .hero h1 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--purple)}
-  .hero .sub{max-width:56ch;color:var(--ink-soft);font-size:clamp(1rem,1.5vw,1.15rem);margin-top:.7em}
+  .hero .sub{max-width:58ch;color:var(--ink-soft);font-size:clamp(1rem,1.5vw,1.15rem);margin-top:.7em}
   .tag-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
   .tagchip{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;color:var(--purple);background:var(--purple-tint);border-radius:999px;padding:5px 12px}
+  .fictional-note{margin-top:16px;font-family:var(--mono);font-size:.7rem;color:var(--ink-soft);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 14px;display:inline-block}
 
-  /* ---------- annotated mockup ---------- */
   .mockup-wrap{position:relative;margin:44px 0 8px;padding:0 24px}
   .device{background:var(--surface);border:1px solid var(--line-strong);border-radius:18px;box-shadow:0 24px 60px -32px rgba(20,17,25,.35);overflow:hidden}
   .device-bar{display:flex;align-items:center;gap:6px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--paper)}
   .device-bar i{width:9px;height:9px;border-radius:50%;background:var(--line-strong)}
   .device-body{padding:22px 22px 26px;display:flex;flex-direction:column;gap:10px}
-  .bubble{max-width:76%;padding:10px 14px;border-radius:14px;font-size:.86rem;line-height:1.4}
+  .bubble{max-width:80%;padding:10px 14px;border-radius:14px;font-size:.86rem;line-height:1.4}
   .bubble.user{align-self:flex-end;background:var(--ink);color:#fff;border-bottom-right-radius:4px}
   .bubble.bot{align-self:flex-start;background:var(--purple-tint);color:var(--ink);border-bottom-left-radius:4px}
-  .route-tag{align-self:flex-start;font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--purple);display:flex;align-items:center;gap:6px;margin:2px 0}
+  .route-tag{align-self:flex-start;font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--purple);display:flex;align-items:center;gap:6px;margin:2px 0}
   .route-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--purple)}
+  .route-tag.warn{color:var(--warn-ink)}
+  .route-tag.warn .dot{background:var(--warn)}
   .callout{position:absolute;background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;padding:8px 12px;font-family:var(--mono);font-size:.66rem;letter-spacing:.02em;color:var(--ink);box-shadow:0 10px 24px -14px rgba(20,17,25,.3);white-space:nowrap}
-  .callout .lead-line{position:absolute;border:0;background:none}
   .callout.c1{top:-6px;left:0}
   .callout.c1:after{content:'';position:absolute;left:16px;bottom:-22px;width:1px;height:22px;border-left:1.5px dashed var(--line-strong)}
   .callout.c2{top:64px;right:-4px}
@@ -104,13 +92,11 @@
   .meta-row .v{font-size:.94rem;font-weight:500}
   @media (max-width:720px){.meta-row .cell + .cell{border-left:none;padding-left:0}.meta-row .cell{flex-basis:100%}}
 
-  /* ---------- sections ---------- */
   section.block{padding:56px 0;border-bottom:1px solid var(--line)}
-  .sec-head{max-width:60ch;margin-bottom:34px}
+  .sec-head{max-width:64ch;margin-bottom:34px}
   .sec-head .lead{margin-top:.5em}
   .num{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;color:var(--purple);display:block;margin-bottom:10px}
 
-  /* ---------- problem chips ---------- */
   .chip-row{display:flex;flex-wrap:wrap;gap:12px}
   .chip{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
   .chip .ico{width:20px;height:20px;border-radius:50%;background:var(--danger-tint);color:var(--danger);display:grid;place-items:center;font-size:.7rem;font-weight:700;flex:none}
@@ -121,7 +107,6 @@
   .problem-detail .cell h3{font-size:1rem;margin-bottom:.4em}
   .problem-detail .cell p{font-size:.88rem;color:var(--ink-soft);margin:0}
 
-  /* ---------- flow diagram ---------- */
   .flow{display:flex;align-items:stretch;margin-top:8px}
   .flow .node{flex:1 1 0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
   .flow .node .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);display:block;margin-bottom:8px}
@@ -135,29 +120,50 @@
     .flow .connector{flex-basis:26px}
     .flow .connector:before{left:50%;right:auto;top:0;bottom:0;height:100%;border-top:none;border-left:2px dashed var(--line-strong)}
   }
+  .flow-note{margin-top:10px;font-family:var(--mono);font-size:.72rem;color:var(--ink-soft)}
+  .flow-note b{color:var(--purple)}
 
-  /* ---------- phase tabs ---------- */
   .tabs{margin-top:8px}
   .tab-btns{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
-  .tab-btns button{flex:1 1 auto;background:var(--surface);border:0;border-right:1px solid var(--line);padding:12px 10px;font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);cursor:pointer}
+  .tab-btns button{flex:1 1 auto;background:var(--surface);border:0;border-right:1px solid var(--line);padding:12px 10px;font-family:var(--mono);font-size:.66rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);cursor:pointer}
   .tab-btns button:last-child{border-right:0}
   .tab-btns button.active{background:var(--ink);color:#fff}
   .tab-panel{display:none;margin-top:20px;background:var(--ink);color:var(--paper);border-radius:16px;padding:30px;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center}
   .tab-panel.active{display:grid}
   @media (max-width:760px){.tab-panel{grid-template-columns:1fr}}
   .tab-panel .tag{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--purple-bright);margin-bottom:10px}
-  .tab-panel h3{color:#fff;font-size:1.2rem;margin-bottom:.5em}
-  .tab-panel p{color:rgba(246,246,244,.72);font-size:.9rem;margin:0}
-  .tab-visual{background:rgba(246,246,244,.06);border:1px solid rgba(246,246,244,.14);border-radius:12px;padding:16px;font-family:var(--mono);font-size:.72rem;color:rgba(246,246,244,.85);line-height:1.7}
+  .tab-panel h3{color:#fff;font-size:1.15rem;margin-bottom:.5em}
+  .tab-panel p{color:rgba(246,246,244,.72);font-size:.88rem;margin:0}
+  .tab-visual{background:rgba(246,246,244,.06);border:1px solid rgba(246,246,244,.14);border-radius:12px;padding:16px;font-family:var(--mono);font-size:.7rem;color:rgba(246,246,244,.85);line-height:1.7}
   .tab-visual .l{color:var(--purple-bright)}
 
-  /* ---------- results ---------- */
+  /* ---------- phases ---------- */
+  .phase{border-left:3px solid var(--purple);padding-left:24px;margin-top:30px}
+  .phase:first-child{margin-top:0}
+  .phase.pending{border-left-color:var(--warn)}
+  .phase-tag{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);display:block;margin-bottom:6px}
+  .phase.pending .phase-tag{color:var(--warn)}
+  .phase h3{margin-bottom:.3em}
+  .phase p{font-size:.92rem;color:var(--ink-soft)}
+  .verified{font-size:.84rem;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-top:10px}
+  .verified b{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px}
+  .verified span{color:var(--ink)}
+
+  /* ---------- bugs ---------- */
+  .bug{background:var(--warn-tint);border:1px solid var(--warn);border-left-width:4px;border-radius:10px;padding:18px 20px;margin-top:16px}
+  .bug:first-child{margin-top:0}
+  .bug-head{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.04em;color:var(--warn-ink);text-transform:uppercase;margin-bottom:8px;display:flex;gap:8px;align-items:baseline}
+  .bug-head .n{color:var(--warn)}
+  .bug p{margin-bottom:0;font-size:.88rem;color:var(--ink)}
+  .bug p+p{margin-top:8px}
+  .bug p b{color:var(--warn-ink)}
+
   .impact{position:relative;border-radius:20px;overflow:hidden;background:linear-gradient(180deg,var(--purple-tint),var(--surface) 70%);padding:52px 30px 40px;text-align:center;margin-bottom:28px}
   .impact:before{content:'';position:absolute;left:50%;bottom:-40%;transform:translateX(-50%);width:140%;aspect-ratio:2/1;background:radial-gradient(closest-side,rgba(126,34,206,.28),transparent 72%);pointer-events:none}
   .impact .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);position:relative}
-  .impact h3{position:relative;font-size:clamp(1.1rem,2.2vw,1.5rem);max-width:32ch;margin:.5em auto 0;font-weight:600}
+  .impact h3{position:relative;font-size:clamp(1.05rem,2vw,1.4rem);max-width:36ch;margin:.5em auto 0;font-weight:600}
   .impact .num-frame{position:relative;display:inline-flex;align-items:center;justify-content:center;margin:22px auto 0;padding:6px 4px}
-  .impact .num-frame .big{font-family:var(--display);font-size:clamp(2.4rem,7vw,4.2rem);font-weight:700;color:var(--purple);letter-spacing:-.03em}
+  .impact .num-frame .big{font-family:var(--display);font-size:clamp(2.2rem,6vw,3.6rem);font-weight:700;color:var(--purple);letter-spacing:-.03em}
   .impact .num-frame:before,.impact .num-frame:after,.impact .num-frame .hL,.impact .num-frame .hR{content:'';position:absolute;width:9px;height:9px;border:1.6px solid var(--purple);background:var(--surface)}
   .impact .num-frame:before{top:-6px;left:-6px}
   .impact .num-frame:after{bottom:-6px;right:-6px}
@@ -171,7 +177,9 @@
   .stat-cards .card .big{font-family:var(--display);font-size:1.5rem;font-weight:700;color:var(--ink)}
   .stat-cards .card .desc{font-size:.8rem;color:var(--ink-soft);margin-top:8px;line-height:1.5}
 
-  /* ---------- limits ---------- */
+  .stack-line{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+  .stack-line b{font-family:var(--mono);font-weight:500;font-size:.66rem;letter-spacing:.04em;border:1px solid var(--line-strong);border-radius:6px;padding:6px 10px;color:var(--ink);background:var(--surface)}
+
   .limits{border-left:3px solid var(--purple);padding-left:24px}
   .limits .li{padding:16px 0;border-bottom:1px solid var(--line)}
   .limits .li:first-child{padding-top:0}
@@ -183,7 +191,6 @@
   .next .n .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--purple);display:block;margin-bottom:6px}
   .next .n p{font-size:.86rem;color:var(--ink-soft);margin:0}
 
-  /* ---------- footer ---------- */
   footer.site{padding:60px 0 20px;position:relative;overflow:hidden}
   footer.site .dots{position:absolute;inset:0;background-image:radial-gradient(var(--line-strong) 1px, transparent 1px);background-size:22px 22px;opacity:.5;mask-image:radial-gradient(ellipse at center, black 40%, transparent 75%)}
   footer.site .inner{position:relative;text-align:center}
@@ -208,11 +215,12 @@
     </div>
     <a class="back" href="/#projects">← Back to projects</a>
     <nav class="side-nav">
-      <a href="#problem"><b>01</b> Problem</a>
-      <a href="#approach"><b>02</b> Approach</a>
-      <a href="#tech"><b>03</b> Under the hood</a>
-      <a href="#results"><b>04</b> Results</a>
-      <a href="#limits"><b>05</b> Honesty</a>
+      <a href="#brief"><b>01</b> Brief</a>
+      <a href="#approach"><b>02</b> Architecture</a>
+      <a href="#phases"><b>03</b> Phases</a>
+      <a href="#bugs"><b>04</b> Bugs</a>
+      <a href="#results"><b>05</b> Results</a>
+      <a href="#limits"><b>06</b> Honesty</a>
     </nav>
     <div class="side-spacer"></div>
     <a class="totop" href="#top">Go to top ↑</a>
@@ -220,25 +228,27 @@
 
   <main class="main">
     <header class="hero" id="top">
-      <p class="eyebrow rv">AI Engineering Case Study</p>
-      <h1 class="rv">Support, <em>reasoned</em><br>by agents — not one prompt.</h1>
-      <p class="sub rv">A production customer-support platform that routes every conversation to specialist LangGraph subagents, cancels stale streams the instant a user moves on, and answers only from a grounded, auditable knowledge base.</p>
+      <p class="eyebrow rv">Multi-Agent Engineering Case Study</p>
+      <h1 class="rv">Never <em>fabricate</em><br>an outcome.</h1>
+      <p class="sub rv">Nimbus Support Agent is a LangGraph-orchestrated multi-agent support system, built phase by phase — from a no-persistence RAG bot to a system with real Stripe refunds, real Shopify order lookups, real Zendesk ticketing, and a live ops dashboard, all independently verified against the actual downstream APIs.</p>
       <div class="tag-row rv">
-        <span class="tagchip">Production system</span>
+        <span class="tagchip">4 phases shipped</span>
         <span class="tagchip">LangGraph · FastAPI · Supabase</span>
         <span class="tagchip">2025</span>
       </div>
+      <p class="fictional-note rv">Built for Nimbus, a fictional smart-home brand. Stripe, Shopify, and Zendesk integrations run against real test-mode / sandboxed accounts — not live customer data.</p>
 
       <div class="mockup-wrap rv">
-        <div class="callout c1">generation-tracked turns</div>
-        <div class="callout c2">single-use WS token</div>
-        <div class="callout c3">row-level security</div>
+        <div class="callout c1">gate: interrupt() if escalated</div>
+        <div class="callout c2">escalation check</div>
+        <div class="callout c3">response_composer only</div>
         <div class="device">
           <div class="device-bar"><i></i><i></i><i></i></div>
           <div class="device-body">
-            <div class="bubble user">Actually — can I move my Thursday appointment instead?</div>
-            <div class="route-tag"><span class="dot"></span>routed → scheduling agent (prior turn cancelled)</div>
-            <div class="bubble bot">Sure — I found your Thursday 2:00 PM slot. Want me to move it to Friday at the same time?</div>
+            <div class="bubble user">This is the third time I've asked — I want a refund now.</div>
+            <div class="route-tag"><span class="dot"></span>triage → refund · sentiment: negative (3rd turn)</div>
+            <div class="route-tag warn"><span class="dot"></span>refund $85 ≥ $50 limit → escalation, not auto-approved</div>
+            <div class="bubble bot">I've flagged this for a specialist to review right away — you'll hear back shortly, and I've logged the full context so you won't have to repeat it.</div>
           </div>
         </div>
       </div>
@@ -246,150 +256,216 @@
       <div class="meta-row rv">
         <div class="cell"><span class="k">Role</span><span class="v">Solo AI engineer</span></div>
         <div class="cell"><span class="k">Stack</span><span class="v">LangGraph, FastAPI, Supabase</span></div>
-        <div class="cell"><span class="k">Scope</span><span class="v">4 subagents, REST + WebSocket</span></div>
-        <div class="cell"><span class="k">Type</span><span class="v">Independent production build</span></div>
+        <div class="cell"><span class="k">Scope</span><span class="v">4 phases, 3 real integrations</span></div>
+        <div class="cell"><span class="k">Type</span><span class="v">Verified engineering exercise</span></div>
       </div>
     </header>
 
-    <section class="block" id="problem">
+    <section class="block" id="brief">
       <div class="sec-head rv">
-        <span class="num">01 — The problem</span>
-        <h2>One bot can't hold four different jobs.</h2>
-        <p class="lead">Support conversations drift across intents mid-thread. Three failure modes showed up once the bot handled real, multi-turn conversations instead of scripted demos.</p>
+        <span class="num">01 — The brief</span>
+        <h2>Resolve the boring 80% — or say so honestly.</h2>
+        <p class="lead">Nimbus is a fictional smart-home hardware company with a subscription add-on. The brief: build a support agent that resolves FAQ, order status, refunds, and billing end to end against real systems, while knowing precisely when to stop and hand off to a human.</p>
       </div>
       <div class="chip-row rv">
-        <div class="chip"><span class="ico">✕</span><span>One prompt, four jobs</span></div>
-        <div class="chip"><span class="ico">✕</span><span>Stale replies won races</span></div>
-        <div class="chip"><span class="ico">✕</span><span>Answers without grounding</span></div>
+        <div class="chip"><span class="ico">✕</span><span>Confidently wrong erodes trust</span></div>
+        <div class="chip"><span class="ico">✕</span><span>A prompt is a suggestion, not a guarantee</span></div>
+        <div class="chip"><span class="ico">✕</span><span>Nothing proves the outcome happened</span></div>
       </div>
       <div class="problem-detail rv">
-        <div class="cell"><h3>Routing</h3><p>Triage, scheduling, promotions, and support each need different tools and tone — cramming all four into one prompt slowed and degraded every response.</p></div>
-        <div class="cell"><h3>Concurrency</h3><p>Lock-based turn serialization made a new message wait for the previous LLM/tool call to finish, even after the user had clearly moved on.</p></div>
-        <div class="cell"><h3>Trust</h3><p>An ungrounded LLM will guess rather than say "I don't know" — unacceptable when a wrong answer has a real cost.</p></div>
+        <div class="cell"><h3>The non-negotiable</h3><p>An agent that answers confidently and is sometimes wrong is worse than useless in support. The whole build was organized around one rule: <b>never fabricate an outcome.</b></p></div>
+        <div class="cell"><h3>Enforced in code</h3><p>If the knowledge base doesn't cover a question, say so. If an order can't be found, say so. If a refund needs judgment, don't issue it — enforced in code, not requested in a prompt.</p></div>
+        <div class="cell"><h3>Four phases</h3><p>Reasoning (Phase 1), safety &amp; memory (Phase 2), real-money &amp; real-inventory integrations (Phase 3), observability for humans in the loop (Phase 4).</p></div>
       </div>
     </section>
 
     <section class="block" id="approach">
       <div class="sec-head rv">
-        <span class="num">02 — The approach</span>
-        <h2>How a turn moves through the system.</h2>
-        <p class="lead">Six stages, in the order a message actually travels through them.</p>
+        <span class="num">02 — Architecture</span>
+        <h2>A typed state machine, not a prompt loop.</h2>
+        <p class="lead">The core is a typed LangGraph state graph. Every turn moves through explicit, named nodes with conditional edges — only one node is ever allowed to write the customer-facing reply.</p>
       </div>
       <div class="flow rv">
-        <div class="node"><span class="k">01 Triage</span><h3>Classify &amp; route</h3><p>An agent classifies the message and routes it to the right specialist subagent.</p></div>
+        <div class="node"><span class="k">01 Gate</span><h3>Pause if escalated</h3><p>Pauses via LangGraph's <code>interrupt()</code> if the conversation is already escalated, so the bot can't respond over a human's head.</p></div>
         <div class="connector"><span class="dot"></span></div>
-        <div class="node"><span class="k">02 Specialists</span><h3>Independent subagents</h3><p>Scheduling, promotions, and support each run with their own tools and prompt.</p></div>
+        <div class="node"><span class="k">02 Triage</span><h3>Route by intent</h3><p><code>gpt-4o-mini</code> classifies intent while <code>sentiment</code> scores the same message in parallel, same superstep.</p></div>
         <div class="connector"><span class="dot"></span></div>
-        <div class="node"><span class="k">03 Concurrency</span><h3>Cancellable turns</h3><p>Generation-tracked turns cancel stale streams the instant a new message arrives.</p></div>
+        <div class="node"><span class="k">03 Specialists</span><h3>faq_rag · refund · order_status</h3><p>Four independent nodes, including an honest <code>unsupported_intent</code> placeholder rather than a fake resolution.</p></div>
       </div>
       <div class="flow rv" style="margin-top:14px">
-        <div class="node"><span class="k">04 Tools</span><h3>Parallel calls</h3><p>Async <code>ToolNode</code> + <code>asyncio.gather</code> replace sequential tool loops.</p></div>
+        <div class="node"><span class="k">04 Escalation check</span><h3>The only branch point</h3><p>Every specialist's result passes through one shared check that decides human handoff.</p></div>
         <div class="connector"><span class="dot"></span></div>
-        <div class="node"><span class="k">05 Grounding</span><h3>Cited RAG</h3><p>LangChain + Chroma + OpenAI answer only from the knowledge base, backed by RLS Postgres.</p></div>
-        <div class="connector"><span class="dot"></span></div>
-        <div class="node"><span class="k">06 Security</span><h3>Locked down</h3><p>Supabase JWT, single-use signed WebSocket tokens, and rate limiting on billable endpoints.</p></div>
+        <div class="node"><span class="k">05 response_composer</span><h3>Sole writer of the reply</h3><p>The only node permitted to write the customer-facing message — tone and honesty enforced in exactly one place.</p></div>
       </div>
-    </section>
+      <p class="flow-note rv"><b>Schema written once:</b> every cross-phase field (<code>sentiment_score</code>, <code>escalation_reason</code>...) existed from Phase 1 onward and sat inert until needed — Phases 2–4 never required a breaking migration.</p>
 
-    <section class="block" id="tech">
-      <div class="sec-head rv">
-        <span class="num">03 — Under the hood</span>
-        <h2>Four engineering decisions, up close.</h2>
-      </div>
-      <div class="tabs rv">
+      <div class="tabs rv" style="margin-top:32px">
         <div class="tab-btns">
-          <button class="active" data-tab="t1">01 Concurrency</button>
-          <button data-tab="t2">02 Tool orchestration</button>
-          <button data-tab="t3">03 Data &amp; auth</button>
-          <button data-tab="t4">04 Deployment</button>
+          <button class="active" data-tab="t1">01 Guardrails as code</button>
+          <button data-tab="t2">02 Honest "I don't know"</button>
+          <button data-tab="t3">03 Read-only Shopify</button>
+          <button data-tab="t4">04 Fail-open side systems</button>
         </div>
         <div class="tab-panel active" id="t1">
           <div>
-            <div class="tag">Concurrency model</div>
-            <h3>Cancellable, generation-tracked turns.</h3>
-            <p>Every turn carries a generation id. A new utterance bumps the generation and cancels any in-flight LLM or tool stream tied to the old one — instead of queuing behind a lock — while a constraint like an already-sent SMS is still honored.</p>
+            <div class="tag">Key decision</div>
+            <h3>Guardrails as code, not prompt.</h3>
+            <p>The refund auto-approval limit is an <code>if amount &gt;= limit</code> branch that never reaches the Stripe call — not an instruction the model could be talked out of. Tradeoff: every new policy needs a code change, not a prompt edit.</p>
           </div>
           <div class="tab-visual">
-            <div><span class="l">turn.generation</span> = 14</div>
-            <div><span class="l">await</span> cancel(gen &lt; 14)</div>
-            <div><span class="l">stream.start</span>(gen=14)</div>
-            <div>SMS already sent → <span class="l">preserved</span></div>
+            <div><span class="l">if</span> amount &gt;= limit:</div>
+            <div>&nbsp;&nbsp;escalate() <span class="l"># never reaches Stripe</span></div>
           </div>
         </div>
         <div class="tab-panel" id="t2">
           <div>
-            <div class="tag">Tool orchestration</div>
-            <h3>Async ToolNode over sequential loops.</h3>
-            <p>Multiple tool calls in a single turn now run concurrently via <code>asyncio.gather</code> instead of one after another, cutting the batching latency a sequential loop adds.</p>
+            <div class="tag">Key decision</div>
+            <h3>Honest "I don't know" over confident guessing.</h3>
+            <p>RAG returns a <code>NO_RELEVANT_DOCS</code> sentinel below a similarity threshold instead of answering from a weak match; a missing order number escalates instead of assuming which order is meant.</p>
           </div>
           <div class="tab-visual">
-            <div><span class="l">await</span> gather(</div>
-            <div>&nbsp;&nbsp;check_calendar(),</div>
-            <div>&nbsp;&nbsp;lookup_order(),</div>
-            <div>&nbsp;&nbsp;fetch_promo()</div>
-            <div>)</div>
+            <div>similarity &lt; threshold →</div>
+            <div><span class="l">NO_RELEVANT_DOCS</span></div>
+            <div>composer → "I don't have that"</div>
           </div>
         </div>
         <div class="tab-panel" id="t3">
           <div>
-            <div class="tag">Data &amp; auth</div>
-            <h3>Row-level security, single-use tokens.</h3>
-            <p>Supabase Postgres with row-level security keeps conversation history private and auditable. WebSocket connections authenticate with single-use signed tokens rather than long-lived credentials.</p>
+            <div class="tag">Key decision</div>
+            <h3>Shopify token scoped read-only.</h3>
+            <p>A support bot never needs to write an order. <code>write_orders</code> was deliberately never requested, so an order-mutation bug is architecturally impossible, not just untested.</p>
           </div>
           <div class="tab-visual">
-            <div><span class="l">policy</span> user_id = auth.uid()</div>
-            <div><span class="l">ws_token</span>: single-use, signed</div>
-            <div><span class="l">rate_limit</span>: billable routes</div>
+            <div>scope: <span class="l">read_orders</span>, <span class="l">read_customers</span></div>
+            <div>write_orders: never requested</div>
           </div>
         </div>
         <div class="tab-panel" id="t4">
           <div>
-            <div class="tag">Deployment</div>
-            <h3>Fixed the bug blocking three integrations.</h3>
-            <p>A PgBouncer connection-pooling bug was behind uptime issues blocking Stripe, Shopify, and Zendesk — tracked down and fixed to unblock all three, on FastAPI + AWS with a Postgres-backed LangGraph checkpointer.</p>
+            <div class="tag">Key decision</div>
+            <h3>Best-effort persistence and ticketing.</h3>
+            <p>Supabase writes and Zendesk ticket creation are caught and logged, never raised — an outage in either system degrades to a missing ticket ID, not a broken customer reply.</p>
           </div>
           <div class="tab-visual">
-            <div><span class="l">pgbouncer</span>: pool_mode fixed</div>
-            <div>✓ stripe　✓ shopify　✓ zendesk</div>
-            <div><span class="l">deploy</span>: fastapi + aws</div>
+            <div><span class="l">try:</span> create_ticket()</div>
+            <div><span class="l">except:</span> log_and_continue()</div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="block" id="phases">
+      <div class="sec-head rv">
+        <span class="num">03 — Build, phase by phase</span>
+        <h2>Four shipped phases, one axis of capability each.</h2>
+        <p class="lead">Rather than widening everything at once, each phase added exactly one axis: reasoning, then safety and memory, then real integrations, then observability.</p>
+      </div>
+
+      <div class="phase rv">
+        <span class="phase-tag">Phase 1 — MVP</span>
+        <h3>Triage → grounded RAG → response, no persistence</h3>
+        <p>The smallest end-to-end loop: <code>gpt-4o-mini</code> classifies intent, a Chroma-backed RAG node answers strictly from retrieved knowledge-base docs, and a composer writes the reply. Every non-FAQ intent routed to an honest placeholder rather than pretending a refund or order lookup had happened.</p>
+        <div class="verified"><b>Verified</b><span>In-KB questions answered with real policy numbers; out-of-KB questions got an honest non-answer instead of a hallucination; an angry refund request on an unlooked-up order never fabricated a result.</span></div>
+      </div>
+
+      <div class="phase rv">
+        <span class="phase-tag">Phase 2 — Sentiment, escalation, memory</span>
+        <h3>The safety net and the human-in-the-loop pause</h3>
+        <p>This is where it stopped being a chatbot and became a support system: <code>gate</code> pauses via <code>interrupt()</code> whenever a conversation is already escalated, sentiment tracks in parallel with triage, five escalation triggers, and Supabase persistence with cross-conversation memory.</p>
+        <div class="verified"><b>Verified</b><span>Refunds branch correctly at the $50 limit with matching database rows; three turns of worsening sentiment escalate on exactly the turn that crosses the threshold; an escalated conversation genuinely pauses and resumes only through the resolve action.</span></div>
+      </div>
+
+      <div class="phase rv">
+        <span class="phase-tag">Phase 3 — Real money, real inventory</span>
+        <h3>Live Stripe refunds, live Shopify order status</h3>
+        <p>Phase 2's fake stubs were replaced with real test-mode integrations. The auto-approval limit became a hard branch in the refund node; Shopify order lookups run against a real dev-store Admin API with a deliberately read-only token. <code>order_not_found</code> joined the escalation triggers.</p>
+        <div class="verified"><b>Verified</b><span>A refund under the limit was independently confirmed via the Stripe API as actually issued; a refund at the limit was confirmed as not issued — the guardrail held at the API level, not just in the reply text.</span></div>
+      </div>
+
+      <div class="phase rv">
+        <span class="phase-tag">Phase 4 — Dashboard &amp; real ticketing</span>
+        <h3>A live ops surface for the humans in the loop</h3>
+        <p>A Next.js 16 dashboard behind Supabase Auth: a live conversation viewer on Supabase Realtime, an escalation queue with a working resolve action, and sentiment analytics. Zendesk ticket creation went live via OAuth <code>client_credentials</code>.</p>
+        <div class="verified"><b>Verified</b><span>Real HTTP requests confirmed auth gating, live counts matching actual row counts, and the resolve button correctly clearing escalations for both a genuinely paused conversation and the far more common case of one that was never paused at all.</span></div>
+      </div>
+
+      <div class="phase pending rv">
+        <span class="phase-tag">In progress — Deployment hardening</span>
+        <h3>Postgres-backed checkpointer, Fly.io deploy</h3>
+        <p>Swapping the local SQLite checkpointer for <code>PostgresSaver</code> against Supabase when <code>SUPABASE_DB_URL</code> is set, falling back to SQLite for zero-setup local dev. A <code>Dockerfile</code> and <code>fly.toml</code> target Fly.io with a persistent volume for the Chroma index.</p>
+      </div>
+    </section>
+
+    <section class="block" id="bugs">
+      <div class="sec-head rv">
+        <span class="num">04 — Bugs found in verification</span>
+        <h2>Caught by querying real systems, not green tests.</h2>
+        <p class="lead">Every phase ended with acceptance checks against actual Stripe, Supabase, and Zendesk state — not unit tests confirming the code compiles. Five bugs stood out.</p>
+      </div>
+
+      <div class="bug rv">
+        <div class="bug-head"><span class="n">01</span> Chroma's default distance metric silently broke retrieval</div>
+        <p>Chroma's default L2-distance-to-relevance conversion isn't calibrated for OpenAI embeddings — it produced near-random scores, so the FAQ node found zero relevant docs even for questions squarely in the knowledge base.</p>
+        <p><b>Fix:</b> switched the collection to cosine distance and computed similarity as <code>1 − distance</code>, recalibrating the threshold.</p>
+      </div>
+      <div class="bug rv">
+        <div class="bug-head"><span class="n">02</span> A resume message corrupted the shared transcript</div>
+        <p>The gate node injected a synthetic "[Human agent resolved…]" message after a resume. Every node assumes <code>messages[-1]</code> is the real customer turn — and the injected text matched the escalation-request regex, re-escalating the conversation immediately after it was resolved.</p>
+        <p><b>Fix:</b> the human's note is logged, never written into the shared transcript.</p>
+      </div>
+      <div class="bug rv">
+        <div class="bug-head"><span class="n">03</span> Stripe's SDK object model wasn't actually a dict</div>
+        <p><code>StripeObject</code> implements <code>[]</code> and <code>in</code> but not <code>.get()</code> or <code>.keys()</code> — <code>dict(charge.metadata)</code> also failed, crashing with a <code>KeyError</code> on a numeric index.</p>
+        <p><b>Fix:</b> switched to <code>"order_id" in charge.metadata</code>. Logged as the reason the project later chose plain REST over the Zendesk SDK.</p>
+      </div>
+      <div class="bug rv">
+        <div class="bug-head"><span class="n">04</span> A shared session helper tore down state a caller still needed</div>
+        <p>Shopify's <code>find_order_by_number</code> manages its own session lifecycle — but the seed script called it, and its internal <code>clear_session()</code> tore down the session the seed script needed next, raising <code>ValueError: No shopify session is active</code>.</p>
+        <p><b>Fix:</b> the seed script re-activates its own session immediately after any such lookup.</p>
+      </div>
+      <div class="bug rv">
+        <div class="bug-head"><span class="n">05</span> Resolving an escalation was a silent no-op most of the time</div>
+        <p>The resolve endpoint unconditionally called <code>Command(resume=...)</code> — which only does anything if that conversation is actually paused. Most escalations happen with no follow-up message ever sent, so the call returned a normal-looking response but never touched <code>escalations.resolved_at</code>.</p>
+        <p><b>Fix:</b> check <code>get_state(config).next</code> first; if nothing is paused, clear the escalation directly.</p>
       </div>
     </section>
 
     <section class="block" id="results">
       <div class="sec-head rv">
-        <span class="num">04 — Results</span>
-        <h2>What changed.</h2>
-        <p class="lead">Not every win here is a percentage — some are capabilities that simply didn't exist before.</p>
+        <span class="num">05 — Results</span>
+        <h2>What "verified" actually meant.</h2>
+        <p class="lead">A refund "issued" was confirmed by calling the Stripe API directly and checking <code>charge.refunded</code>. A Zendesk ticket was fetched back and compared against the real escalation reason. A knowledge-base edit was confirmed by re-asking the question — then confirming the old answer returned after a delete.</p>
       </div>
       <div class="impact rv">
         <span class="k">Impact</span>
-        <h3>Multi-tool turns now run</h3>
-        <div class="num-frame"><span class="hL"></span><span class="hR"></span><span class="big">parallel</span></div>
+        <h3>Bugs caught by testing against real systems, not a green test run</h3>
+        <div class="num-frame"><span class="hL"></span><span class="hR"></span><span class="big">5 real bugs</span></div>
       </div>
       <div class="stat-cards rv">
-        <div class="card"><div class="big">Cancellable</div><div class="desc">Turns interrupt stale LLM/tool streams instantly instead of queuing behind a lock.</div></div>
-        <div class="card"><div class="big">Row-level</div><div class="desc">Supabase Postgres RLS keeps every conversation private and auditable.</div></div>
-        <div class="card"><div class="big">Single-use</div><div class="desc">Signed WebSocket tokens replace long-lived credentials.</div></div>
-        <div class="card"><div class="big">3 integrations</div><div class="desc">Stripe, Shopify, and Zendesk unblocked after the PgBouncer fix.</div></div>
+        <div class="card"><div class="big">4 phases</div><div class="desc">Shipped from a no-persistence MVP to a live ops dashboard.</div></div>
+        <div class="card"><div class="big">3 integrations</div><div class="desc">Stripe, Shopify, and Zendesk — real test-mode APIs, not mocks.</div></div>
+        <div class="card"><div class="big">6 triggers</div><div class="desc">Independent escalation triggers, so no single failure mode has to catch everything.</div></div>
+        <div class="card"><div class="big">0 migrations</div><div class="desc">The state schema was written once — no breaking migration across 4 phases.</div></div>
+      </div>
+      <div class="stack-line rv">
+        <b>LangGraph</b><b>gpt-4o / gpt-4o-mini</b><b>LangChain + Chroma</b><b>Python · FastAPI</b><b>Supabase Postgres</b><b>Next.js 16</b><b>Stripe (test mode)</b><b>Shopify Admin API</b><b>Zendesk REST · OAuth</b><b>Fly.io (in progress)</b>
       </div>
     </section>
 
     <section class="block" id="limits" style="border-bottom:none">
       <div class="sec-head rv">
-        <span class="num">05 — Honest scope</span>
-        <h2>What this build doesn't do yet.</h2>
-        <p class="lead">Built and maintained solo — here's the line between finished and pending.</p>
+        <span class="num">06 — Honest scope</span>
+        <h2>What this doesn't do yet — on purpose.</h2>
+        <p class="lead">All four planned phases are complete and independently verified. Two extensions shipped past the original spec: <code>billing_question</code> now shares the <code>faq_rag</code> specialist, and the knowledge base moved from static markdown files to a real dashboard-editable admin surface backed by Postgres.</p>
       </div>
       <div class="limits rv">
-        <div class="li"><h3>No formal load testing</h3><p>The concurrency redesign was validated against real conversation traffic, not a synthetic load benchmark.</p></div>
-        <div class="li"><h3>Single maintainer</h3><p>Built and operated by one engineer — code review and rollout happen without a dedicated second reviewer.</p></div>
-        <div class="li"><h3>Integrations wired directly</h3><p>Stripe, Shopify, and Zendesk connect directly rather than through a generic, swappable integration layer.</p></div>
+        <div class="li"><h3>Deployment hardening in flight</h3><p>The Postgres-backed checkpointer and Fly.io deployment are needed so conversation state survives across machines and deploys, not just process restarts.</p></div>
+        <div class="li"><h3>No voice channel or multi-language support</h3><p>Deliberately out of scope from the original design — each would trade a currently-auditable guardrail for a harder-to-verify one.</p></div>
+        <div class="li"><h3>No learned refund policy</h3><p>The refund limit stays a fixed, auditable branch rather than a model-learned policy, for the same reason.</p></div>
       </div>
       <div class="next rv">
-        <div class="n"><span class="k">Load testing</span><p>Benchmark the cancellable-turn concurrency model under synthetic concurrent load.</p></div>
-        <div class="n"><span class="k">Tracing</span><p>Add end-to-end LLM tracing to observe every subagent call and catch regressions.</p></div>
+        <div class="n"><span class="k">Storefront widget</span><p>A Shopify storefront extension is scaffolded as the likely next customer-facing surface, beyond the current CLI/dashboard access points.</p></div>
+        <div class="n"><span class="k">Multi-machine durability</span><p>Swap the SQLite checkpointer for Postgres so state survives a real multi-machine deploy, not just a restart.</p></div>
       </div>
     </section>
 
@@ -402,7 +478,7 @@
           <a href="https://github.com/yashwanthreddy7178" target="_blank" rel="noopener">GitHub ↗</a>
           <a href="mailto:yashwanthreddy7178@gmail.com">Email ↗</a>
         </div>
-        <div class="by">Multi-Agent Conversational System · Yashwanth Reddy · Independent production build</div>
+        <div class="by">Nimbus Support Agent · Multi-Agent Engineering Case Study · Yashwanth Reddy · Nimbus is a fictional brand; all integrations run against test-mode / sandboxed accounts</div>
       </div>
     </footer>
   </main>

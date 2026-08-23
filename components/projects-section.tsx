@@ -4,7 +4,6 @@ import { DashboardDemo } from "@/components/dashboard-demo"
 import ParticleBackground from "@/components/particle-background"
 import { ProjectCard } from "@/components/project-card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { motion } from "framer-motion"
 
@@ -24,7 +23,7 @@ export default function ProjectsSection() {
             <Badge variant="outline" className="mb-2 border-primary/20 px-3 sm:px-4 py-1 text-sm font-medium text-primary">
               Projects
             </Badge>
-            <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Featured Work</h2>
+            <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Systems I Built</h2>
             <p className="mx-auto max-w-2xl text-sm sm:text-base text-muted-foreground">
               A showcase of my projects spanning production RAG systems, LLM observability, AI applications, and data analytics.
             </p>
@@ -41,18 +40,18 @@ export default function ProjectsSection() {
             <TabsContent value="all" className="space-y-6 sm:space-y-8">
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 <ProjectCard
-                  title="Multi-Agent Conversational System"
-                  description="Production customer support system routing conversations to specialist LangGraph subagents (triage, scheduling, promotions, support). Replaced lock-based turn serialization with cancellable, generation-tracked turns so new utterances cancel stale LLM/tool streams instantly. Async ToolNode with asyncio.gather for parallel tool calls, RAG grounded in Supabase Postgres with row-level security, JWT auth, and single-use signed WebSocket tokens."
-                  tags={["LangGraph", "LangChain", "Chroma", "OpenAI", "FastAPI", "Supabase", "WebSocket", "AWS", "Vercel"]}
+                  title="Nimbus Support Agent"
+                  description="A LangGraph-orchestrated multi-agent support system, built phase by phase — from a no-persistence RAG bot to real Stripe refunds, real Shopify order lookups, real Zendesk ticketing, and a live ops dashboard. Guardrails like refund limits and read-only inventory access are enforced in code, not prompts, and every claimed outcome is independently verified against the real downstream API."
+                  tags={["LangGraph", "FastAPI", "Chroma", "Supabase", "Next.js", "Stripe", "Shopify", "Zendesk"]}
                   image="/architecture-multi-agent.svg"
                   demoUrl="/multi-agent-conversational-system-case-study.html"
                   githubUrl="#"
                   category="ai"
                 />
                 <ProjectCard
-                  title="Production RAG System – Ask My Docs"
-                  description="Domain-specific document Q&A system for financial documents using hybrid BM25 + vector search with Cohere reranking. Pushed answer relevance from ~82% to 94%. Citation enforcement cut hallucinations by 40%. Ragas evaluation pipeline blocks deploys on quality regressions. Handles 500+ page docs in under 2s."
-                  tags={["Python", "LangChain", "FAISS", "Cohere Rerank", "FastAPI", "Ragas", "GitHub Actions"]}
+                  title="Financial RAG Engine"
+                  description="A production-shaped RAG service for 10-K filings, built solo in 5 days and deployed to AWS ECS from day one. Hybrid dense (Pinecone) + sparse (BM25) retrieval fused with RRF, FlashRank reranking, and a Self-RAG grade-and-retry loop before answering with inline citations. Ragas-evaluated: 1.000 faithfulness, 1.000 context recall."
+                  tags={["FastAPI", "Pinecone", "BM25", "FlashRank", "Self-RAG", "Redis", "Langfuse", "Ragas", "AWS ECS"]}
                   image="/architecture-rag.svg"
                   demoUrl="/rag-system-case-study.html"
                   githubUrl="#"
@@ -76,38 +75,24 @@ export default function ProjectsSection() {
                   caseStudyUrl="/ai-interview-assistant-case-study.html"
                   category="ai"
                 />
-                <ProjectCard
-                  title="Zara Web Redesign"
-                  description="A UX + frontend case study rebuilding Zara's storefront as a React SPA. Fixed navigation, readability, and product-discovery problems documented across published UX reviews. 7 routes, 13 components, purple accent system."
-                  tags={["React", "React Router", "Tailwind CSS", "UX Research", "Case Study"]}
-                  image="/zara-redesign.png"
-                  demoUrl="/zara-redesign-case-study.html"
-                  githubUrl="https://github.com/yashwanthreddy7178/zara_web_redesign"
-                  category="uiux"
-                />
-              </div>
-              <div className="flex justify-center">
-                <Button variant="outline" size="lg">
-                  View All Projects
-                </Button>
               </div>
             </TabsContent>
 
             <TabsContent value="ai" className="space-y-8">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <ProjectCard
-                  title="Multi-Agent Conversational System"
-                  description="Production customer support system routing conversations to specialist LangGraph subagents (triage, scheduling, promotions, support). Replaced lock-based turn serialization with cancellable, generation-tracked turns so new utterances cancel stale LLM/tool streams instantly. Async ToolNode with asyncio.gather for parallel tool calls, RAG grounded in Supabase Postgres with row-level security, JWT auth, and single-use signed WebSocket tokens."
-                  tags={["LangGraph", "LangChain", "Chroma", "OpenAI", "FastAPI", "Supabase", "WebSocket", "AWS", "Vercel"]}
+                  title="Nimbus Support Agent"
+                  description="A LangGraph-orchestrated multi-agent support system, built phase by phase — from a no-persistence RAG bot to real Stripe refunds, real Shopify order lookups, real Zendesk ticketing, and a live ops dashboard. Guardrails like refund limits and read-only inventory access are enforced in code, not prompts, and every claimed outcome is independently verified against the real downstream API."
+                  tags={["LangGraph", "FastAPI", "Chroma", "Supabase", "Next.js", "Stripe", "Shopify", "Zendesk"]}
                   image="/architecture-multi-agent.svg"
                   demoUrl="/multi-agent-conversational-system-case-study.html"
                   githubUrl="#"
                   category="ai"
                 />
                 <ProjectCard
-                  title="Production RAG System – Ask My Docs"
-                  description="Domain-specific document Q&A system for financial documents using hybrid BM25 + vector search with Cohere reranking. Pushed answer relevance from ~82% to 94%. Citation enforcement cut hallucinations by 40%. Ragas evaluation pipeline blocks deploys on quality regressions."
-                  tags={["Python", "LangChain", "FAISS", "Cohere Rerank", "FastAPI", "Ragas", "GitHub Actions"]}
+                  title="Financial RAG Engine"
+                  description="A production-shaped RAG service for 10-K filings, built solo in 5 days and deployed to AWS ECS from day one. Hybrid dense (Pinecone) + sparse (BM25) retrieval fused with RRF, FlashRank reranking, and a Self-RAG grade-and-retry loop before answering with inline citations. Ragas-evaluated: 1.000 faithfulness, 1.000 context recall."
+                  tags={["FastAPI", "Pinecone", "BM25", "FlashRank", "Self-RAG", "Redis", "Langfuse", "Ragas", "AWS ECS"]}
                   image="/architecture-rag.svg"
                   demoUrl="/rag-system-case-study.html"
                   githubUrl="#"
